@@ -2,10 +2,7 @@
 
 namespace SecretNest.MessageBus
 {
-    /// <summary>
-    /// Defines the methods of MessageBus. This is an abstract class.
-    /// </summary>
-    public abstract partial class MessageBusBase
+    partial class MessageBusBase
     {
         /// <summary>
         /// Register a publisher with parameter and return value.
