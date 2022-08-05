@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBus.Abstractions", "MessageBus.Abstractions\MessageBus.Abstractions.csproj", "{ACFE5592-A5F4-4DFF-8857-7937DBDE8C39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACFE5592-A5F4-4DFF-8857-7937DBDE8C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACFE5592-A5F4-4DFF-8857-7937DBDE8C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACFE5592-A5F4-4DFF-8857-7937DBDE8C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACFE5592-A5F4-4DFF-8857-7937DBDE8C39}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF26492E-4247-476A-A882-B2CB735CFE58}
+	EndGlobalSection
+EndGlobal
