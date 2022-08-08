@@ -4,11 +4,20 @@ using System.Text;
 
 namespace SecretNest.MessageBus.Options
 {
+
+    /// <summary>
+    /// Stores options that configure the publisher operation of MessageBus. This is an abstract class.
+    /// </summary>
+    public class MessageBusPublisherOptionsBase
+    {
+
+    }
+
     /// <summary>
     /// Stores options that configure the publisher operation of MessageBus.
     /// </summary>
     /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    public class MessageBusPublisherOptions<TParameter> : MessageBusOptionsBase<TParameter>
+    public class MessageBusPublisherOptions<TParameter> : MessageBusPublisherOptionsBase
     {
         /// <summary>
         /// Gets the callback for parameter conversion.

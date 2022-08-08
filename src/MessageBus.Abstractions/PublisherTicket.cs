@@ -1,4 +1,4 @@
-﻿using SecretNest.MessageBus.Behaviors;
+﻿using SecretNest.MessageBus.Options;
 
 namespace SecretNest.MessageBus
 {
@@ -10,7 +10,7 @@ namespace SecretNest.MessageBus
         /// <summary>
         /// Gets the id of this publisher.
         /// </summary>
-        public abstract Guid Id { get; }
+        public Guid Id { get; }
 
         /// <summary>
         /// Gets the type of the parameter.
@@ -23,9 +23,58 @@ namespace SecretNest.MessageBus
         public abstract Type ReturnValueType { get; }
 
         /// <summary>
-        /// Gets the collection of the behaviors provided with publisher registration.
+        /// Gets the generic instance of publisher options provided with publisher registration.
         /// </summary>
-        public abstract PublisherBehaviorCollection Behaviors { get; }
+        public abstract MessageBusPublisherOptionsBase OptionsGeneric { get; }
+
+        /// <summary>
+        /// Initializes an instance of PublisherTicketBase.
+        /// </summary>
+        /// <param name="id"></param>
+        protected PublisherTicketBase(Guid id)
+        {
+            Id = id;
+        }
+    }
+    
+    /// <summary>
+    /// Represents an publisher with the type of parameter specified, without return code.
+    /// </summary>
+    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+    public class PublisherTicket<TParameter> : PublisherTicketBase
+    {
+        /// <summary>
+        /// Initializes an instance of PublisherTicket.
+        /// </summary>
+        /// <param name="id">The id of this publisher.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
+        /// <param name="executor">The instance of <see cref="ExecutorBase{TParameter}"/>.</param>
+        public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter> options,
+            ExecutorBase<TParameter> executor)
+            : base(id)
+        {
+            Options = options;
+            Executor = executor;
+            ParameterType = typeof(TParameter);
+            ReturnValueType = typeof(void);
+        }
+
+        /// <summary>
+        /// Gets the instance of <see cref="ExecutorBase{TParameter}"/>.
+        /// </summary>
+        public ExecutorBase<TParameter> Executor { get; }
+
+        /// <inheritdoc />
+        public override Type ParameterType { get; }
+        /// <inheritdoc />
+        public override Type ReturnValueType { get; }
+        /// <inheritdoc />
+        public override MessageBusPublisherOptionsBase OptionsGeneric => Options;
+
+        /// <summary>
+        /// Gets the instance of publisher options provided with publisher registration.
+        /// </summary>
+        public MessageBusPublisherOptions<TParameter> Options { get; }
     }
 
     /// <summary>
@@ -39,12 +88,13 @@ namespace SecretNest.MessageBus
         /// Initializes an instance of PublisherTicket.
         /// </summary>
         /// <param name="id">The id of this publisher.</param>
-        /// <param name="behaviors">The collection of the behaviors provided with publisher registration.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
         /// <param name="executor">The instance of <see cref="ExecutorBase{TParameter, TReturn}"/>.</param>
-        public PublisherTicket(Guid id, PublisherBehaviorCollection behaviors, ExecutorBase<TParameter, TReturn> executor)
+        public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter, TReturn> options,
+            ExecutorBase<TParameter, TReturn> executor)
+            : base(id)
         {
-            Id = id;
-            Behaviors = behaviors;
+            Options = options;
             Executor = executor;
             ParameterType = typeof(TParameter);
             ReturnValueType = typeof(TReturn);
@@ -56,49 +106,16 @@ namespace SecretNest.MessageBus
         public ExecutorBase<TParameter, TReturn> Executor { get; }
 
         /// <inheritdoc />
-        public override Guid Id { get; }
-        /// <inheritdoc />
         public override Type ParameterType { get; }
         /// <inheritdoc />
         public override Type ReturnValueType { get; }
         /// <inheritdoc />
-        public override PublisherBehaviorCollection Behaviors { get; }
-    }
-
-    /// <summary>
-    /// Represents an publisher with the type of parameter specified, without return code.
-    /// </summary>
-    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    public class PublisherTicket<TParameter> : PublisherTicketBase
-    {
-        /// <summary>
-        /// Initializes an instance of PublisherTicket.
-        /// </summary>
-        /// <param name="id">The id of this publisher.</param>
-        /// <param name="behaviors">The collection of the behaviors provided with publisher registration.</param>
-        /// <param name="executor">The instance of <see cref="ExecutorBase{TParameter}"/>.</param>
-        public PublisherTicket(Guid id, PublisherBehaviorCollection behaviors, ExecutorBase<TParameter> executor)
-        {
-            Id = id;
-            Behaviors = behaviors;
-            Executor = executor;
-            ParameterType = typeof(TParameter);
-            ReturnValueType = typeof(void);
-        }
+        public override MessageBusPublisherOptionsBase OptionsGeneric => Options;
 
         /// <summary>
-        /// Gets the instance of <see cref="ExecutorBase{TParameter}"/>.
+        /// Gets the instance of publisher options provided with publisher registration.
         /// </summary>
-        public ExecutorBase<TParameter> Executor { get; }
-
-        /// <inheritdoc />
-        public override Guid Id { get; }
-        /// <inheritdoc />
-        public override Type ParameterType { get; }
-        /// <inheritdoc />
-        public override Type ReturnValueType { get; }
-        /// <inheritdoc />
-        public override PublisherBehaviorCollection Behaviors { get; }
-
+        public MessageBusPublisherOptions<TParameter, TReturn> Options { get; }
     }
+
 }

@@ -1,4 +1,4 @@
-﻿using SecretNest.MessageBus.Behaviors;
+﻿using SecretNest.MessageBus.Options;
 
 namespace SecretNest.MessageBus
 {
@@ -8,9 +8,9 @@ namespace SecretNest.MessageBus
     public abstract class SubscriberTicketBase
     {
         /// <summary>
-        /// Gets the id of this publisher.
+        /// Gets the id of this subscriber.
         /// </summary>
-        public abstract Guid Id { get; }
+        public Guid Id { get; }
 
         /// <summary>
         /// Gets the type of the parameter.
@@ -23,14 +23,25 @@ namespace SecretNest.MessageBus
         public abstract Type ReturnValueType { get; }
 
         /// <summary>
-        /// Gets the collection of the behaviors provided with subscriber registration.
+        /// Gets the generic instance of subscriber options provided with subscriber registration.
         /// </summary>
-        public abstract SubscriberBehaviorCollection Behaviors { get; }
+        public abstract MessageBusSubscriberOptionsBase OptionsGeneric { get; }
 
         /// <summary>
         /// Gets whether the delegate is async version.
         /// </summary>
-        public abstract bool IsAsync { get; }
+        public bool IsAsync { get; }
+
+        /// <summary>
+        /// Initializes an instance of SubscriberTicketBase.
+        /// </summary>
+        /// <param name="id">The id of this subscriber.</param>
+        /// <param name="isAsync">Whether the delegate is async version.</param>
+        protected SubscriberTicketBase(Guid id, bool isAsync)
+        {
+            Id = id;
+            IsAsync = isAsync;
+        }
     }
 
     /// <summary>
@@ -42,9 +53,19 @@ namespace SecretNest.MessageBus
         /// <summary>
         /// Gets the instance of the delegate.
         /// </summary>
-        public abstract TDelegate Handler { get; }
-    }
+        public TDelegate Handler { get; }
 
+        /// <summary>
+        /// Initializes an instance of SubscriberTicketBase.
+        /// </summary>
+        /// <param name="id">The id of this subscriber.</param>
+        /// <param name="isAsync">Whether the delegate is async version.</param>
+        /// <param name="handler">The instance of the delegate.</param>
+        protected SubscriberTicketBase(Guid id, bool isAsync, TDelegate handler) : base(id, isAsync)
+        {
+            Handler = handler;
+        }
+    }
     
     /// <summary>
     /// Represents an subscriber with the type of parameter and delegate specified.
@@ -58,30 +79,24 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <param name="id">The id of this subscriber.</param>
         /// <param name="isAsync">Whether the delegate is async version.</param>
-        /// <param name="behaviors">The collection of the behaviors provided with subscriber registration.</param>
+        /// <param name="options">The instance of subscriber options. Default is <see langword="none"/>.</param>
         /// <param name="handler">The instance of the delegate.</param>
-        public SubscriberTicket(Guid id, bool isAsync, SubscriberBehaviorCollection behaviors, TDelegate handler)
+        public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter> options, TDelegate handler)
+        : base(id, isAsync, handler)
         {
-            Id = id;
-            IsAsync = isAsync;
-            Behaviors = behaviors;
-            Handler = handler;
+            Options = options;
             ParameterType = typeof(TParameter);
             ReturnValueType = typeof(void);
         }
 
         /// <inheritdoc />
-        public override TDelegate Handler { get; }
-        /// <inheritdoc />
-        public override Guid Id { get; }
-        /// <inheritdoc />
         public override Type ParameterType { get; }
         /// <inheritdoc />
         public override Type ReturnValueType { get; }
         /// <inheritdoc />
-        public override bool IsAsync { get; }
-        /// <inheritdoc />
-        public override SubscriberBehaviorCollection Behaviors { get; }
+        public override MessageBusSubscriberOptionsBase OptionsGeneric => Options;
+
+        public MessageBusSubscriberOptions<TParameter> Options { get; }
     }
 
     /// <summary>
@@ -97,29 +112,23 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <param name="id">The id of this subscriber.</param>
         /// <param name="isAsync">Whether the delegate is async version.</param>
-        /// <param name="behaviors">The collection of the behaviors provided with subscriber registration.</param>
+        /// <param name="options">The instance of subscriber options. Default is <see langword="none"/>.</param>
         /// <param name="handler">The instance of the delegate.</param>
-        public SubscriberTicket(Guid id, bool isAsync, SubscriberBehaviorCollection behaviors, TDelegate handler)
+        public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter, TReturn> options, TDelegate handler)
+            : base(id, isAsync, handler)
         {
-            Id = id;
-            IsAsync = isAsync;
-            Behaviors = behaviors;
-            Handler = handler;
+            Options = options;
             ParameterType = typeof(TParameter);
             ReturnValueType = typeof(TReturn);
         }
 
         /// <inheritdoc />
-        public override TDelegate Handler { get; }
-        /// <inheritdoc />
-        public override Guid Id { get; }
-        /// <inheritdoc />
         public override Type ParameterType { get; }
         /// <inheritdoc />
         public override Type ReturnValueType { get; }
         /// <inheritdoc />
-        public override bool IsAsync { get; }
-        /// <inheritdoc />
-        public override SubscriberBehaviorCollection Behaviors { get; }
+        public override MessageBusSubscriberOptionsBase OptionsGeneric => Options;
+
+        public MessageBusSubscriberOptions<TParameter, TReturn> Options { get; }
     }
 }

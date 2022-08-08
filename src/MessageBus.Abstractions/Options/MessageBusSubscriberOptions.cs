@@ -5,10 +5,9 @@ using System.Text;
 namespace SecretNest.MessageBus.Options
 {
     /// <summary>
-    /// Stores options that configure the subscriber operation of MessageBus.
+    /// Stores options that configure the subscriber operation of MessageBus. This is an abstract class.
     /// </summary>
-    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    public class MessageBusSubscriberOptions<TParameter> : MessageBusOptionsBase<TParameter>
+    public abstract class MessageBusSubscriberOptionsBase
     {
         /// <summary>
         /// Gets the sequence number of this subscriber when executing.
@@ -27,6 +26,29 @@ namespace SecretNest.MessageBus.Options
         public virtual bool IsFinal { get; }
 
         /// <summary>
+        /// Initializes an instance of MessageBusSubscriberOptions.
+        /// </summary>
+        /// <param name="sequence">The sequence number of this subscriber when executing. Default value is 0.</param>
+        /// <param name="isAlwaysExecution">Whether the subscriber should be executed regardless of the result of the subscribers those have been executed by this instance. Default value is <see langword="false"/>.</param>
+        /// <param name="isFinal">Whether message should be returned instead of executing subsequent subscribers. Default value is <see langword="true"/>.</param>
+        protected MessageBusSubscriberOptionsBase(
+            int sequence = 0,
+            bool isAlwaysExecution = false,
+            bool isFinal = true)
+        {
+            Sequence = sequence;
+            IsAlwaysExecution = isAlwaysExecution;
+            IsFinal = isFinal;
+        }
+    }
+
+    /// <summary>
+    /// Stores options that configure the subscriber operation of MessageBus.
+    /// </summary>
+    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+    public class MessageBusSubscriberOptions<TParameter> : MessageBusSubscriberOptionsBase
+    {
+        /// <summary>
         /// Gets the callback for parameter conversion.
         /// </summary>
         /// <remarks>If present, the callback is called to convert the parameter the before subscriber executing. Default value is <see langword="none"/>.</remarks>
@@ -44,10 +66,8 @@ namespace SecretNest.MessageBus.Options
             bool isAlwaysExecution = false,
             bool isFinal = true,
             Func<object, TParameter>? parameterConvertingCallback = null)
+            : base(sequence, isAlwaysExecution, isFinal)
         {
-            Sequence = sequence;
-            IsAlwaysExecution = isAlwaysExecution;
-            IsFinal = isFinal;
             ParameterConvertingCallback = parameterConvertingCallback;
         }
     }
