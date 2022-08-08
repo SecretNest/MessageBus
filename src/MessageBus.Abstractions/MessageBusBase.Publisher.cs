@@ -1,4 +1,4 @@
-﻿using SecretNest.MessageBus.Behaviors;
+﻿using SecretNest.MessageBus.Options;
 
 namespace SecretNest.MessageBus
 {
@@ -10,23 +10,11 @@ namespace SecretNest.MessageBus
         /// <typeparam name="TParameter">The type of the parameter.</typeparam>
         /// <typeparam name="TReturn">The type of the return value.</typeparam>
         /// <param name="messageName">The name of this message.</param>
-        /// <param name="behaviors">The instances of publisher behaviors. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
         /// <returns>Publisher ticket.</returns>
         public abstract PublisherTicket<TParameter, TReturn> RegisterPublisher<TParameter, TReturn>(
             string messageName,
-            PublisherBehaviorCollection? behaviors = default);
-
-        /// <summary>
-        /// Register a publisher with parameter and return value.
-        /// </summary>
-        /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-        /// <typeparam name="TReturn">The type of the return value.</typeparam>
-        /// <param name="messageName">The name of this message.</param>
-        /// <param name="behaviors">The instances of publisher behaviors.</param>
-        /// <returns>Publisher ticket.</returns>
-        public abstract PublisherTicket<TParameter, TReturn> RegisterPublisher<TParameter, TReturn>(
-            string messageName,
-            params PublisherBehaviorBase[] behaviors);
+            MessageBusPublisherOptions<TParameter, TReturn>? options = default);
 
 
         /// <summary>
@@ -34,22 +22,11 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <typeparam name="TParameter">The type of the parameter.</typeparam>
         /// <param name="messageName">The name of this message.</param>
-        /// <param name="behaviors">The instances of publisher behaviors. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
         /// <returns>Publisher ticket.</returns>
         public abstract PublisherTicket<TParameter> RegisterVoidPublisher<TParameter>(
             string messageName,
-            PublisherBehaviorCollection? behaviors = default);
-
-        /// <summary>
-        /// Register a publisher with parameter without return value.
-        /// </summary>
-        /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-        /// <param name="messageName">The name of this message.</param>
-        /// <param name="behaviors">The instances of publisher behaviors.</param>
-        /// <returns>Publisher ticket.</returns>
-        public abstract PublisherTicket<TParameter> RegisterVoidPublisher<TParameter>(
-            string messageName,
-            params PublisherBehaviorBase[] behaviors);
+            MessageBusPublisherOptions<TParameter>? options = default);
 
 
         // ReSharper disable once CommentTypo
@@ -67,7 +44,5 @@ namespace SecretNest.MessageBus
         /// <param name="publisherId">The id of the publisher to be unregistered.</param>
         // ReSharper disable once IdentifierTypo
         public abstract void UnregisterPublisher(Guid publisherId);
-
-
     }
 }
