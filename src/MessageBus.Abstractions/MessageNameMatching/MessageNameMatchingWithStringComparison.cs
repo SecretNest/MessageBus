@@ -7,14 +7,14 @@ namespace SecretNest.MessageBus.MessageNameMatching
     /// <summary>
     /// Indicates the message name should be compared as string.
     /// </summary>
-    public class MatchingWithStringComparison : MessageNameMatcherBase
+    public class MessageNameMatchingWithStringComparison : MessageNameMatcherBase
     {
         /// <summary>
         /// Initializes an instance of MatchingWithStringComparison.
         /// </summary>
         /// <param name="subscriberMessageName">The message name of the subscriber.</param>
         /// <param name="stringComparison">The culture, case, and sort rules to be used by <see cref="IsComplied"/>. Default value is StringComparison.OrdinalIgnoreCase.</param>
-        public MatchingWithStringComparison(string subscriberMessageName, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        public MessageNameMatchingWithStringComparison(string subscriberMessageName, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
             SubscriberMessageName = subscriberMessageName;
             StringComparison = stringComparison;

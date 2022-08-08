@@ -11,15 +11,17 @@ namespace SecretNest.MessageBus
         /// Unregister a subscriber.
         /// </summary>
         /// <param name="subscriberTicket">The ticket of the subscriber to be unregistered.</param>
+        /// <returns><see langword="true"/> when the subscriber is located and removed.</returns>
         // ReSharper disable once IdentifierTypo
-        public abstract void UnregisterSubscriber(SubscriberTicketBase subscriberTicket);
+        public abstract bool UnregisterSubscriber(SubscriberTicketBase subscriberTicket);
 
         // ReSharper disable once CommentTypo
         /// <summary>
         /// Unregister a subscriber.
         /// </summary>
         /// <param name="subscriberId">The id of the subscriber to be unregistered.</param>
+        /// <returns><see langword="true"/> when the subscriber is located and removed.</returns>
         // ReSharper disable once IdentifierTypo
-        public abstract void UnregisterSubscriber(Guid subscriberId);
+        public abstract bool UnregisterSubscriber(Guid subscriberId);
     }
 }

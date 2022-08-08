@@ -3,7 +3,7 @@
     /// <summary>
     /// Handles the executing requests of publisher. This is an abstract class. 
     /// </summary>
-    public abstract class ExecutorBase
+    public abstract class MessageExecutorBase
     {
     }
 
@@ -11,7 +11,7 @@
     /// Handles the executing requests of publisher. This is an abstract class. 
     /// </summary>
     /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    public abstract class ExecutorBase<TParameter> : ExecutorBase
+    public abstract class MessageExecutorBase<TParameter> : MessageExecutorBase
     {
         /// <summary>
         /// Executes with the argument provided.
@@ -48,7 +48,7 @@
     /// </summary>
     /// <typeparam name="TParameter">The type of the parameter.</typeparam>
     /// <typeparam name="TReturn">The type of the return value.</typeparam>
-    public abstract class ExecutorBase<TParameter, TReturn> : ExecutorBase
+    public abstract class MessageExecutorBase<TParameter, TReturn> : MessageExecutorBase
     {
         /// <summary>
         /// Executes with the argument provided and get the return value.

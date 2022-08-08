@@ -7,7 +7,7 @@ namespace SecretNest.MessageBus.MessageNameMatching
     /// <summary>
     /// Indicates the subscriber will match all message names.
     /// </summary>
-    public class MatchingAll : MessageNameMatcherBase
+    public class MessageNameMatchingAll : MessageNameMatcherBase
     {
         /// <summary>
         /// Gets the message name or pattern of the subscriber. Empty string is returned always.

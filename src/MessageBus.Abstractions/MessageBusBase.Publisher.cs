@@ -34,15 +34,17 @@ namespace SecretNest.MessageBus
         /// Unregister a publisher.
         /// </summary>
         /// <param name="publisherTicket">The ticket of the publisher to be unregistered.</param>
+        /// <returns><see langword="true"/> when the publisher is located and removed.</returns>
         // ReSharper disable once IdentifierTypo
-        public abstract void UnregisterPublisher(PublisherTicketBase publisherTicket);
+        public abstract bool UnregisterPublisher(PublisherTicketBase publisherTicket);
 
         // ReSharper disable once CommentTypo
         /// <summary>
         /// Unregister a publisher.
         /// </summary>
         /// <param name="publisherId">The id of the publisher to be unregistered.</param>
+        /// <returns><see langword="true"/> when the publisher is located and removed.</returns>
         // ReSharper disable once IdentifierTypo
-        public abstract void UnregisterPublisher(Guid publisherId);
+        public abstract bool UnregisterPublisher(Guid publisherId);
     }
 }

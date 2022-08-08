@@ -8,7 +8,7 @@ namespace SecretNest.MessageBus.MessageNameMatching
     /// <summary>
     /// Indicates the message name should be compared by regular expression.
     /// </summary>
-    public class MatchingWithRegularExpression : MessageNameMatcherBase
+    public class MessageNameMatchingWithRegularExpression : MessageNameMatcherBase
     {
         private Regex _regex;
 
@@ -16,7 +16,7 @@ namespace SecretNest.MessageBus.MessageNameMatching
         /// Initializes an instance of MatchingWithRegularExpression.
         /// </summary>
         /// <param name="regEx">The regular expression to be used for matching the message name specified by publisher registering process.</param>
-        public MatchingWithRegularExpression(string regEx)
+        public MessageNameMatchingWithRegularExpression(string regEx)
         {
             RegularExpression = regEx;
             _regex = new Regex(regEx, RegexOptions.Compiled);

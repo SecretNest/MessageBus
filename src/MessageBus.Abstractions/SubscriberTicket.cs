@@ -1,4 +1,5 @@
-﻿using SecretNest.MessageBus.Options;
+﻿using SecretNest.MessageBus.MessageNameMatching;
+using SecretNest.MessageBus.Options;
 
 namespace SecretNest.MessageBus
 {
@@ -31,6 +32,11 @@ namespace SecretNest.MessageBus
         /// Gets whether the delegate is async version.
         /// </summary>
         public bool IsAsync { get; }
+
+        /// <summary>
+        /// Gets the instance of message name matcher.
+        /// </summary>
+        public MessageNameMatcherBase MessageNameMatcher { get; }
 
         /// <summary>
         /// Initializes an instance of SubscriberTicketBase.
