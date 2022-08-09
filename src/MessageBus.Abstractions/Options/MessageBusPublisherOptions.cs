@@ -13,15 +13,15 @@ namespace SecretNest.MessageBus.Options
         /// <summary>
         /// Gets whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.
         /// </summary>
-        public bool IsAlwaysExecutionAll { get; }
+        public bool IsAlwaysExecuteAll { get; }
 
         /// <summary>
         /// Initializes an instance of MessageBusPublisherOptionsBase.
         /// </summary>
-        /// <param name="isAlwaysExecutionAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
-        protected MessageBusPublisherOptionsBase(bool isAlwaysExecutionAll)
+        /// <param name="isAlwaysExecuteAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
+        protected MessageBusPublisherOptionsBase(bool isAlwaysExecuteAll)
         {
-            IsAlwaysExecutionAll = isAlwaysExecutionAll;
+            IsAlwaysExecuteAll = isAlwaysExecuteAll;
         }
     }
 
@@ -40,12 +40,12 @@ namespace SecretNest.MessageBus.Options
         /// <summary>
         /// Initializes an instance of MessageBusPublisherOptions.
         /// </summary>
-        /// <param name="isAlwaysExecutionAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
+        /// <param name="isAlwaysExecuteAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
         /// <param name="argumentConvertingCallback">The callback for argument conversion.</param>
         public MessageBusPublisherOptions(
-            bool isAlwaysExecutionAll = false, 
+            bool isAlwaysExecuteAll = false, 
             Func<TParameter?, object?>? argumentConvertingCallback = null) 
-            : base(isAlwaysExecutionAll)
+            : base(isAlwaysExecuteAll)
         {
             ArgumentConvertingCallback = argumentConvertingCallback;
         }
@@ -75,15 +75,15 @@ namespace SecretNest.MessageBus.Options
         /// Initializes an instance of MessageBusPublisherOptions.
         /// </summary>
         /// <param name="defaultReturnValue">The default value for publisher returning.</param>
-        /// <param name="isAlwaysExecutionAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
+        /// <param name="isAlwaysExecuteAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
         /// <param name="argumentConvertingCallback">The callback for argument conversion.</param>
         /// <param name="returnValueConvertingCallback">The callback for return value conversion.</param>
         public MessageBusPublisherOptions(
             TReturn? defaultReturnValue = default,
-            bool isAlwaysExecutionAll = false, 
+            bool isAlwaysExecuteAll = false, 
             Func<TParameter?, object?>? argumentConvertingCallback = null,
             Func<object?, TReturn?>? returnValueConvertingCallback = null)
-            : base(isAlwaysExecutionAll, argumentConvertingCallback)
+            : base(isAlwaysExecuteAll, argumentConvertingCallback)
         {
             DefaultReturnValue = defaultReturnValue;
             ReturnValueConvertingCallback = returnValueConvertingCallback;

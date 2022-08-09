@@ -7,8 +7,8 @@ namespace SecretNest.MessageBus
     internal interface MessageExecutorSequencerSupport
     {
         void OnAddedToSequencer(Func<object?, MessageInstance?, AcceptedReturn?> executeCallback,
-            Func<object?, MessageInstance?, CancellationToken, Task<AcceptedReturn?>> executeAsyncCallback,
-            Func<MessageInstance> getMessageInstanceCallback);
+            Func<object?, MessageInstance?, CancellationToken, Task<AcceptedReturn?>> executeAsyncCallback);
+        void OnAddedToSequencer(Func<MessageInstance> getMessageInstanceCallback);
 
         void OnRemovedFromSequencer();
     }
@@ -30,10 +30,14 @@ namespace SecretNest.MessageBus
         private Func<MessageInstance> _getMessageInstanceCallback = null!;
         private Func<TParameter?, object?>? _argumentConvertingCallback;
 
-        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstance?, AcceptedReturn?> executeCallback, Func<object?, MessageInstance?, CancellationToken, Task<AcceptedReturn?>> executeAsyncCallback, Func<MessageInstance> getMessageInstanceCallback)
+        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstance?, AcceptedReturn?> executeCallback, Func<object?, MessageInstance?, CancellationToken, Task<AcceptedReturn?>> executeAsyncCallback)
         {
             _executeCallback = executeCallback;
             _executeAsyncCallback = executeAsyncCallback;
+        }
+
+        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<MessageInstance> getMessageInstanceCallback)
+        {
             _getMessageInstanceCallback = getMessageInstanceCallback;
         }
 
@@ -119,10 +123,14 @@ namespace SecretNest.MessageBus
         private Func<TParameter?, object?>? _argumentConvertingCallback;
         private Func<object?, TReturn?>? _returnValueConvertingCallback;
 
-        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstance?, AcceptedReturn?> executeCallback, Func<object?, MessageInstance?, CancellationToken, Task<AcceptedReturn?>> executeAsyncCallback, Func<MessageInstance> getMessageInstanceCallback)
+        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstance?, AcceptedReturn?> executeCallback, Func<object?, MessageInstance?, CancellationToken, Task<AcceptedReturn?>> executeAsyncCallback)
         {
             _executeCallback = executeCallback;
             _executeAsyncCallback = executeAsyncCallback;
+        }
+
+        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<MessageInstance> getMessageInstanceCallback)
+        {
             _getMessageInstanceCallback = getMessageInstanceCallback;
         }
 

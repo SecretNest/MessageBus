@@ -20,11 +20,36 @@ namespace SecretNest.MessageBus
             OrderedSubscribers = new(Subscribers.Values.OrderBy(i=>i.Sequence));
         }
 
+        class SequencerEntry
+        {
+            private readonly bool _isAlwaysExecuteAll;
+            private readonly Sequencer _sequencer;
+
+            private AcceptedReturn? Execute(object? argument, MessageInstance? messageInstance)
+            {
+                return _sequencer.Execute(argument, messageInstance, _isAlwaysExecuteAll);
+            }
+
+            private async Task<AcceptedReturn?> ExecuteAsync(object? argument, MessageInstance? messageInstance,
+                CancellationToken cancellationToken)
+            {
+                return await _sequencer.ExecuteAsync(argument, messageInstance, _isAlwaysExecuteAll, cancellationToken);
+            }
+
+            public SequencerEntry(PublisherInfoBase publisher, Sequencer sequencer)
+            {
+                _sequencer = sequencer;
+                _isAlwaysExecuteAll = publisher.IsAlwaysExecuteAll;
+                publisher.MessageExecutorSequencerSupport.OnAddedToSequencer(Execute, ExecuteAsync);
+            }
+        }
+
         public void AddPublisher(Guid key, PublisherInfoBase publisher)
         {
             if (Publishers.TryAdd(key, publisher))
             {
-                publisher.MessageExecutorSequencerSupport.OnAddedToSequencer(Execute, ExecuteAsync, GetMessageInstance);
+                _ = new SequencerEntry(publisher, this);
+                publisher.MessageExecutorSequencerSupport.OnAddedToSequencer(GetMessageInstance);
             }
         }
 
@@ -42,13 +67,12 @@ namespace SecretNest.MessageBus
             }
         }
 
-        private AcceptedReturn? Execute(object? argument, MessageInstance? messageInstance)
+        private AcceptedReturn? Execute(object? argument, MessageInstance? messageInstance, bool isAlwaysExecuteAll)
         {
 
         }
 
-        private async Task<AcceptedReturn?> ExecuteAsync(object? argument, MessageInstance? messageInstance,
-            CancellationToken cancellationToken)
+        private async Task<AcceptedReturn?> ExecuteAsync(object? argument, MessageInstance? messageInstance, bool isAlwaysExecuteAll, CancellationToken cancellationToken)
         {
 
         }
