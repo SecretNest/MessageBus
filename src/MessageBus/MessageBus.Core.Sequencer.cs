@@ -13,12 +13,11 @@ namespace SecretNest.MessageBus
 
         private readonly ConcurrentDictionary<Guid, string> _publisherMessageNames = new ConcurrentDictionary<Guid, string>();
 
-        private Guid AddPublisherToSequencer(PublisherBase publisher)
+        private Guid AddPublisherToSequencer(string messageName, PublisherInfoBase publisher)
         {
-            var messageName = publisher.MessageName;
             var sequencer = _sequencers.GetOrAdd(messageName, _ =>
             {
-                var sequencer = new Sequencer(GetSubscribersFromPool(messageName));
+                var sequencer = new Sequencer(messageName, GetSubscribersFromPool(messageName));
                 return sequencer;
             });
 
@@ -28,7 +27,7 @@ namespace SecretNest.MessageBus
             return key;
         }
 
-        private bool TryRemovePublisherFromSequencer(Guid key, out PublisherBase? publisher)
+        private bool TryRemovePublisherFromSequencer(Guid key, out PublisherInfoBase? publisher)
         {
             if (!_publisherMessageNames.TryGetValue(key, out var messageName)
                 || _sequencers.TryGetValue(messageName, out var sequencer))
@@ -37,34 +36,34 @@ namespace SecretNest.MessageBus
                 return false;
             }
 
-            return sequencer!.TryRemovePublisher(key, out publisher);
+            var result = sequencer!.TryRemovePublisher(key, out publisher);
+            if (AutoShrink)
+            {
+                if (sequencer.Publishers.IsEmpty)
+                {
+                    _sequencers.Remove(messageName, out _);
+                }
+            }
+
+            return result;
         }
 
-        private void AddSubscriberToSequencer(Guid key, SubscriberBase subscriber)
+        private void AddSubscriberToSequencer(Guid subscriberId, SubscriberInfoBase subscriber)
         {
             foreach (var sequencer in _sequencers)
             {
                 if (subscriber.MessageNameMatcher.IsComplied(sequencer.Key))
                 {
-                    sequencer.Value.AddSubscriber(key, subscriber);
+                    sequencer.Value.AddSubscriber(subscriberId, subscriber);
                 }
             }
         }
 
-        private void RemoveSubscriberFromSequencer(Guid key)
+        private void RemoveSubscriberFromSequencer(Guid subscriberId)
         {
             foreach (var sequencer in _sequencers)
             {
-                sequencer.Value.RemoveSubscriber(key);
-            }
-        }
-
-        private void ShrinkSequencers()
-        {
-            var messageNames = _sequencers.Where(i => i.Value.Publishers.IsEmpty).Select(i => i.Key).ToArray();
-            foreach (var messageName in messageNames)
-            {
-                _sequencers.Remove(messageName, out _);
+                sequencer.Value.RemoveSubscriber(subscriberId);
             }
         }
     }

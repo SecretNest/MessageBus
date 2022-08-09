@@ -9,31 +9,31 @@ namespace SecretNest.MessageBus
 {
     partial class MessageBus
     {
-        private readonly ConcurrentDictionary<Guid, SubscriberBase> _subscribersMatchAll = new ConcurrentDictionary<Guid, SubscriberBase>();
+        private readonly ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchAll = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
 
         private readonly ConcurrentDictionary<string, HashSet<Guid>> _subscribersNames = new ConcurrentDictionary<string, HashSet<Guid>>();
         private readonly ConcurrentDictionary<string, HashSet<Guid>> _subscribersNamesIgnoreCase = new ConcurrentDictionary<string, HashSet<Guid>>(StringComparer.OrdinalIgnoreCase);
-        private readonly ConcurrentDictionary<Guid, SubscriberBase> _subscribersMatchName = new ConcurrentDictionary<Guid, SubscriberBase>();
+        private readonly ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchName = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
 
-        private readonly ConcurrentDictionary<Guid, SubscriberBase> _subscribersMatchOther = new ConcurrentDictionary<Guid, SubscriberBase>();
+        private readonly ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchOther = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
 
-        private Guid AddSubscriberToPool(SubscriberBase subscriber)
+        private Guid AddSubscriberToPool(SubscriberInfoBase subscriber)
         {
-            var key = Guid.NewGuid();
+            var subscriberId = Guid.NewGuid();
             Add();
-            return key;
+            return subscriberId;
 
             void Add()
             {
                 var messageNameMatcherType = subscriber.MessageNameMatcher.GetType();
                 if (messageNameMatcherType == typeof(MessageNameMatchingAll))
                 {
-                    _subscribersMatchAll.TryAdd(key, subscriber);
+                    _subscribersMatchAll.TryAdd(subscriberId, subscriber);
                     return;
                 }
                 else if (messageNameMatcherType == typeof(MessageNameMatchingWithStringComparison))
                 {
-                    _subscribersMatchName.TryAdd(key, subscriber);
+                    _subscribersMatchName.TryAdd(subscriberId, subscriber);
                     var matcher = subscriber.MessageNameMatcher as MessageNameMatchingWithStringComparison;
                     if (matcher!.StringComparison == StringComparison.Ordinal)
                     {
@@ -41,7 +41,7 @@ namespace SecretNest.MessageBus
                             _ => new HashSet<Guid>());
                         lock (hashSet)
                         {
-                            hashSet.Add(key);
+                            hashSet.Add(subscriberId);
                             return;
                         }
                     }
@@ -51,26 +51,26 @@ namespace SecretNest.MessageBus
                             _ => new HashSet<Guid>());
                         lock (hashSet)
                         {
-                            hashSet.Add(key);
+                            hashSet.Add(subscriberId);
                             return;
                         }
                     }
                 }
                 else
                 {
-                    _subscribersMatchOther.TryAdd(key, subscriber);
+                    _subscribersMatchOther.TryAdd(subscriberId, subscriber);
                     return;
                 }
             }
         }
 
-        private bool TryRemoveSubscriberFromPool(Guid key, out SubscriberBase subscriber)
+        private bool TryRemoveSubscriberFromPool(Guid subscriberId, out SubscriberInfoBase subscriber)
         {
-            if (_subscribersMatchAll.TryRemove(key, out subscriber))
+            if (_subscribersMatchAll.TryRemove(subscriberId, out subscriber))
             {
                 return true;
             }
-            else if (_subscribersMatchName.TryRemove(key, out subscriber))
+            else if (_subscribersMatchName.TryRemove(subscriberId, out subscriber))
             {
                 var matcher = subscriber.MessageNameMatcher as MessageNameMatchingWithStringComparison;
                 if (matcher!.StringComparison == StringComparison.Ordinal)
@@ -79,14 +79,14 @@ namespace SecretNest.MessageBus
                     {
                         lock (hashSet)
                         {
-                            hashSet.Remove(key);
+                            hashSet.Remove(subscriberId);
                         }
                     }
                     else if (_subscribersNamesIgnoreCase.TryGetValue(matcher.SubscriberMessageName, out hashSet))
                     {
                         lock (hashSet)
                         {
-                            hashSet.Remove(key);
+                            hashSet.Remove(subscriberId);
                         }
                     }
                 }
@@ -94,11 +94,11 @@ namespace SecretNest.MessageBus
             }
             else
             {
-                return _subscribersMatchOther.TryRemove(key, out subscriber);
+                return _subscribersMatchOther.TryRemove(subscriberId, out subscriber);
             }
         }
 
-        private IEnumerable<KeyValuePair<Guid, SubscriberBase>> GetSubscribersFromPool(string messageName)
+        private IEnumerable<KeyValuePair<Guid, SubscriberInfoBase>> GetSubscribersFromPool(string messageName)
         {
             foreach (var item in _subscribersMatchAll)
             {
@@ -111,7 +111,7 @@ namespace SecretNest.MessageBus
                 {
                     if (_subscribersMatchName.TryGetValue(id, out var subscriber))
                     {
-                        yield return new KeyValuePair<Guid, SubscriberBase>(id, subscriber);
+                        yield return new KeyValuePair<Guid, SubscriberInfoBase>(id, subscriber);
                     }
                 }
             }
@@ -122,7 +122,7 @@ namespace SecretNest.MessageBus
                 {
                     if (_subscribersMatchName.TryGetValue(id, out var subscriber))
                     {
-                        yield return new KeyValuePair<Guid, SubscriberBase>(id, subscriber);
+                        yield return new KeyValuePair<Guid, SubscriberInfoBase>(id, subscriber);
                     }
                 }
             }

@@ -6,16 +6,26 @@ namespace SecretNest.MessageBus
 {
     partial class MessageBus
     {
+        /// <inheritdoc />
         // ReSharper disable once IdentifierTypo
         public override bool UnregisterSubscriber(SubscriberTicketBase subscriberTicket)
         {
-            throw new NotImplementedException();
+            return UnregisterSubscriber(subscriberTicket.Id);
         }
 
+        /// <inheritdoc />
         // ReSharper disable once IdentifierTypo
         public override bool UnregisterSubscriber(Guid subscriberId)
         {
-            throw new NotImplementedException();
+            if (TryRemoveSubscriberFromPool(subscriberId, out var subscriber))
+            {
+                RemoveSubscriberFromSequencer(subscriberId);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SecretNest.MessageBus
         /// <summary>
         /// Gets the generic instance of publisher options provided with publisher registration.
         /// </summary>
-        public abstract MessageBusPublisherOptionsBase OptionsGeneric { get; }
+        public abstract MessageBusPublisherOptionsBase? OptionsGeneric { get; }
 
         /// <summary>
         /// Initializes an instance of PublisherTicketBase.
@@ -48,9 +48,9 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <param name="id">The id of this publisher.</param>
         /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
-        /// <param name="executor">The instance of <see cref="ExecutorBase{TParameter}"/>.</param>
-        public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter> options,
-            ExecutorBase<TParameter> executor)
+        /// <param name="executor">The instance of <see cref="MessageExecutorBase{TParameter}"/>.</param>
+        public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter>? options,
+            MessageExecutorBase<TParameter> executor)
             : base(id)
         {
             Options = options;
@@ -60,21 +60,21 @@ namespace SecretNest.MessageBus
         }
 
         /// <summary>
-        /// Gets the instance of <see cref="ExecutorBase{TParameter}"/>.
+        /// Gets the instance of <see cref="MessageExecutorBase{TParameter}"/>.
         /// </summary>
-        public ExecutorBase<TParameter> Executor { get; }
+        public MessageExecutorBase<TParameter> Executor { get; }
 
         /// <inheritdoc />
         public override Type ParameterType { get; }
         /// <inheritdoc />
         public override Type ReturnValueType { get; }
         /// <inheritdoc />
-        public override MessageBusPublisherOptionsBase OptionsGeneric => Options;
+        public override MessageBusPublisherOptionsBase? OptionsGeneric => Options;
 
         /// <summary>
         /// Gets the instance of publisher options provided with publisher registration.
         /// </summary>
-        public MessageBusPublisherOptions<TParameter> Options { get; }
+        public MessageBusPublisherOptions<TParameter>? Options { get; }
     }
 
     /// <summary>
@@ -89,9 +89,9 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <param name="id">The id of this publisher.</param>
         /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
-        /// <param name="executor">The instance of <see cref="ExecutorBase{TParameter, TReturn}"/>.</param>
-        public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter, TReturn> options,
-            ExecutorBase<TParameter, TReturn> executor)
+        /// <param name="executor">The instance of <see cref="MessageExecutorBase{TParameter, TReturn}"/>.</param>
+        public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter, TReturn>? options,
+            MessageExecutorBase<TParameter, TReturn> executor)
             : base(id)
         {
             Options = options;
@@ -101,21 +101,21 @@ namespace SecretNest.MessageBus
         }
 
         /// <summary>
-        /// Gets the instance of <see cref="ExecutorBase{TParameter, TReturn}"/>.
+        /// Gets the instance of <see cref="MessageExecutorBase{TParameter, TReturn}"/>.
         /// </summary>
-        public ExecutorBase<TParameter, TReturn> Executor { get; }
+        public MessageExecutorBase<TParameter, TReturn> Executor { get; }
 
         /// <inheritdoc />
         public override Type ParameterType { get; }
         /// <inheritdoc />
         public override Type ReturnValueType { get; }
         /// <inheritdoc />
-        public override MessageBusPublisherOptionsBase OptionsGeneric => Options;
+        public override MessageBusPublisherOptionsBase? OptionsGeneric => Options;
 
         /// <summary>
         /// Gets the instance of publisher options provided with publisher registration.
         /// </summary>
-        public MessageBusPublisherOptions<TParameter, TReturn> Options { get; }
+        public MessageBusPublisherOptions<TParameter, TReturn>? Options { get; }
     }
 
 }

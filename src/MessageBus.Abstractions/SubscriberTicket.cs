@@ -26,7 +26,7 @@ namespace SecretNest.MessageBus
         /// <summary>
         /// Gets the generic instance of subscriber options provided with subscriber registration.
         /// </summary>
-        public abstract MessageBusSubscriberOptionsBase OptionsGeneric { get; }
+        public abstract MessageBusSubscriberOptionsBase? OptionsGeneric { get; }
 
         /// <summary>
         /// Gets whether the delegate is async version.
@@ -43,10 +43,12 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <param name="id">The id of this subscriber.</param>
         /// <param name="isAsync">Whether the delegate is async version.</param>
-        protected SubscriberTicketBase(Guid id, bool isAsync)
+        /// <param name="messageNameMatcher">The instance of message name matcher.</param>
+        protected SubscriberTicketBase(Guid id, bool isAsync, MessageNameMatcherBase messageNameMatcher)
         {
             Id = id;
             IsAsync = isAsync;
+            MessageNameMatcher = messageNameMatcher;
         }
     }
 
@@ -67,7 +69,8 @@ namespace SecretNest.MessageBus
         /// <param name="id">The id of this subscriber.</param>
         /// <param name="isAsync">Whether the delegate is async version.</param>
         /// <param name="handler">The instance of the delegate.</param>
-        protected SubscriberTicketBase(Guid id, bool isAsync, TDelegate handler) : base(id, isAsync)
+        /// <param name="messageNameMatcher">The instance of message name matcher.</param>
+        protected SubscriberTicketBase(Guid id, bool isAsync, TDelegate handler, MessageNameMatcherBase messageNameMatcher) : base(id, isAsync, messageNameMatcher)
         {
             Handler = handler;
         }
@@ -87,8 +90,9 @@ namespace SecretNest.MessageBus
         /// <param name="isAsync">Whether the delegate is async version.</param>
         /// <param name="options">The instance of subscriber options. Default is <see langword="none"/>.</param>
         /// <param name="handler">The instance of the delegate.</param>
-        public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter> options, TDelegate handler)
-        : base(id, isAsync, handler)
+        /// <param name="messageNameMatcher">The instance of message name matcher.</param>
+        public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter>? options, TDelegate handler, MessageNameMatcherBase messageNameMatcher)
+        : base(id, isAsync, handler, messageNameMatcher)
         {
             Options = options;
             ParameterType = typeof(TParameter);
@@ -100,9 +104,12 @@ namespace SecretNest.MessageBus
         /// <inheritdoc />
         public override Type ReturnValueType { get; }
         /// <inheritdoc />
-        public override MessageBusSubscriberOptionsBase OptionsGeneric => Options;
+        public override MessageBusSubscriberOptionsBase? OptionsGeneric => Options;
 
-        public MessageBusSubscriberOptions<TParameter> Options { get; }
+        /// <summary>
+        /// Gets the instance of subscriber options provided with subscriber registration.
+        /// </summary>
+        public MessageBusSubscriberOptions<TParameter>? Options { get; }
     }
 
     /// <summary>
@@ -120,8 +127,9 @@ namespace SecretNest.MessageBus
         /// <param name="isAsync">Whether the delegate is async version.</param>
         /// <param name="options">The instance of subscriber options. Default is <see langword="none"/>.</param>
         /// <param name="handler">The instance of the delegate.</param>
-        public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter, TReturn> options, TDelegate handler)
-            : base(id, isAsync, handler)
+        /// <param name="messageNameMatcher">The instance of message name matcher.</param>
+        public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter, TReturn>? options, TDelegate handler, MessageNameMatcherBase messageNameMatcher)
+            : base(id, isAsync, handler, messageNameMatcher)
         {
             Options = options;
             ParameterType = typeof(TParameter);
@@ -133,8 +141,11 @@ namespace SecretNest.MessageBus
         /// <inheritdoc />
         public override Type ReturnValueType { get; }
         /// <inheritdoc />
-        public override MessageBusSubscriberOptionsBase OptionsGeneric => Options;
+        public override MessageBusSubscriberOptionsBase? OptionsGeneric => Options;
 
-        public MessageBusSubscriberOptions<TParameter, TReturn> Options { get; }
+        /// <summary>
+        /// Gets the instance of subscriber options provided with subscriber registration.
+        /// </summary>
+        public MessageBusSubscriberOptions<TParameter, TReturn>? Options { get; }
     }
 }

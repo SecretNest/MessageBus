@@ -32,7 +32,7 @@
     /// </summary>
     public abstract class MessageInstanceWithReturnValueBase : MessageInstance
     {
-        protected MessageInstanceWithReturnValueBase(Guid executingId, string messageName) : base(executingId, messageName)
+        protected MessageInstanceWithReturnValueBase(MessageInstance messageInstance) : base(messageInstance.ExecutingId, messageInstance.MessageName)
         {
         }
     }
@@ -46,15 +46,14 @@
         /// <summary>
         /// Gets the return value of this executing.
         /// </summary>
-        public TReturn ReturnValue { get; }
+        public TReturn? ReturnValue { get; }
 
         /// <summary>
         /// Initializes an instance of MessageInstanceWithReturnValue.
         /// </summary>
-        /// <param name="executingId">Id of this executing.</param>
-        /// <param name="messageName">Name of the message.</param>
+        /// <param name="messageInstance">The instance information of this executing.</param>
         /// <param name="returnValue">Return value of this executing.</param>
-        public MessageInstanceWithReturnValue(Guid executingId, string messageName, TReturn returnValue) : base(executingId, messageName)
+        public MessageInstanceWithReturnValue(MessageInstance messageInstance, TReturn? returnValue) : base(messageInstance)
         {
             ReturnValue = returnValue;
         }

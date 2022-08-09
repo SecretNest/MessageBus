@@ -23,7 +23,7 @@ namespace SecretNest.MessageBus.Options
         /// Gets whether message should be returned instead of executing subsequent subscribers.
         /// </summary>
         /// <remarks>Default value is <see langword="true"/>.</remarks>
-        public virtual bool IsFinal { get; }
+        public bool IsFinal { get; }
 
         /// <summary>
         /// Initializes an instance of MessageBusSubscriberOptions.
@@ -49,10 +49,10 @@ namespace SecretNest.MessageBus.Options
     public class MessageBusSubscriberOptions<TParameter> : MessageBusSubscriberOptionsBase
     {
         /// <summary>
-        /// Gets the callback for parameter conversion.
+        /// Gets the callback for argument conversion.
         /// </summary>
-        /// <remarks>If present, the callback is called to convert the parameter the before subscriber executing. Default value is <see langword="none"/>.</remarks>
-        public Func<object, TParameter>? ParameterConvertingCallback { get; }
+        /// <remarks>If present, the callback is called to convert the argument the before subscriber executing. Default value is <see langword="none"/>.</remarks>
+        public Func<object?, TParameter?>? ArgumentConvertingCallback { get; }
 
         /// <summary>
         /// Initializes an instance of MessageBusSubscriberOptions.
@@ -60,15 +60,15 @@ namespace SecretNest.MessageBus.Options
         /// <param name="sequence">The sequence number of this subscriber when executing. Default value is 0.</param>
         /// <param name="isAlwaysExecution">Whether the subscriber should be executed regardless of the result of the subscribers those have been executed by this instance. Default value is <see langword="false"/>.</param>
         /// <param name="isFinal">Whether message should be returned instead of executing subsequent subscribers. Default value is <see langword="true"/>.</param>
-        /// <param name="parameterConvertingCallback">The callback for parameter conversion.</param>
+        /// <param name="argumentConvertingCallback">The callback for argument conversion.</param>
         public MessageBusSubscriberOptions(
             int sequence = 0,
             bool isAlwaysExecution = false,
             bool isFinal = true,
-            Func<object, TParameter>? parameterConvertingCallback = null)
+            Func<object?, TParameter?>? argumentConvertingCallback = null)
             : base(sequence, isAlwaysExecution, isFinal)
         {
-            ParameterConvertingCallback = parameterConvertingCallback;
+            ArgumentConvertingCallback = argumentConvertingCallback;
         }
     }
 
@@ -83,13 +83,13 @@ namespace SecretNest.MessageBus.Options
         /// Gets the callback for checking result.
         /// </summary>
         /// <remarks>If present, the callback is called to check whether message should be returned instead of executing subsequent subscribers. Default value is <see langword="none"/> which returns <see langword="true"/> for all return values.</remarks>
-        public Func<TReturn, bool>? ResultCheckingCallback { get; }
+        public Func<TReturn?, bool>? ResultCheckingCallback { get; }
 
         /// <summary>
         /// Gets the callback for return value conversion.
         /// </summary>
         /// <remarks>If present, the callback is called to convert the return value before returning to publisher. Default value is <see langword="none"/>.</remarks>
-        public Func<TReturn, object>? ReturnValueConvertingCallback { get; }
+        public Func<TReturn?, object?>? ReturnValueConvertingCallback { get; }
 
         /// <summary>
         /// Initializes an instance of MessageBusSubscriberOptions.
@@ -97,15 +97,15 @@ namespace SecretNest.MessageBus.Options
         /// <param name="sequence">The sequence number of this subscriber when executing. Default value is 0.</param>
         /// <param name="isAlwaysExecution">Whether the subscriber should be executed regardless of the result of the subscribers those have been executed by this instance. Default value is <see langword="false"/>.</param>
         /// <param name="resultCheckingCallback">The callback for checking result.</param>
-        /// <param name="parameterConvertingCallback">The callback for parameter conversion.</param>
+        /// <param name="argumentConvertingCallback">The callback for argument conversion.</param>
         /// <param name="returnValueConvertingCallback">The callback for return value conversion.</param>
         public MessageBusSubscriberOptions(
             int sequence = 0,
             bool isAlwaysExecution = false,
-            Func<TReturn, bool>? resultCheckingCallback = null,
-            Func<object, TParameter>? parameterConvertingCallback = null,
-            Func<TReturn, object>? returnValueConvertingCallback = null)
-            : base(sequence, isAlwaysExecution, resultCheckingCallback == null, parameterConvertingCallback)
+            Func<TReturn?, bool>? resultCheckingCallback = null,
+            Func<object?, TParameter?>? argumentConvertingCallback = null,
+            Func<TReturn?, object?>? returnValueConvertingCallback = null)
+            : base(sequence, isAlwaysExecution, resultCheckingCallback == null, argumentConvertingCallback)
         {
             ResultCheckingCallback = resultCheckingCallback;
             ReturnValueConvertingCallback = returnValueConvertingCallback;

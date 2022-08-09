@@ -16,7 +16,6 @@ namespace SecretNest.MessageBus
             string messageName,
             MessageBusPublisherOptions<TParameter, TReturn>? options = default);
 
-
         /// <summary>
         /// Register a publisher with parameter without return value.
         /// </summary>

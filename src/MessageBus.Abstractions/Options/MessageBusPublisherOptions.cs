@@ -8,9 +8,21 @@ namespace SecretNest.MessageBus.Options
     /// <summary>
     /// Stores options that configure the publisher operation of MessageBus. This is an abstract class.
     /// </summary>
-    public class MessageBusPublisherOptionsBase
+    public abstract class MessageBusPublisherOptionsBase
     {
+        /// <summary>
+        /// Gets whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.
+        /// </summary>
+        public bool IsAlwaysExecutionAll { get; }
 
+        /// <summary>
+        /// Initializes an instance of MessageBusPublisherOptionsBase.
+        /// </summary>
+        /// <param name="isAlwaysExecutionAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
+        protected MessageBusPublisherOptionsBase(bool isAlwaysExecutionAll)
+        {
+            IsAlwaysExecutionAll = isAlwaysExecutionAll;
+        }
     }
 
     /// <summary>
@@ -20,19 +32,22 @@ namespace SecretNest.MessageBus.Options
     public class MessageBusPublisherOptions<TParameter> : MessageBusPublisherOptionsBase
     {
         /// <summary>
-        /// Gets the callback for parameter conversion.
+        /// Gets the callback for argument conversion.
         /// </summary>
-        /// <remarks>If present, the callback is called to convert the parameter the when publisher executing. Default value is <see langword="none"/>.</remarks>
-        public Func<TParameter, object>? ParameterConvertingCallback { get; }
+        /// <remarks>If present, the callback is called to convert the argument the when publisher executing. Default value is <see langword="none"/>.</remarks>
+        public Func<TParameter?, object?>? ArgumentConvertingCallback { get; }
 
         /// <summary>
         /// Initializes an instance of MessageBusPublisherOptions.
         /// </summary>
-        /// <param name="parameterConvertingCallback">The callback for parameter conversion.</param>
+        /// <param name="isAlwaysExecutionAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
+        /// <param name="argumentConvertingCallback">The callback for argument conversion.</param>
         public MessageBusPublisherOptions(
-            Func<TParameter, object>? parameterConvertingCallback = null)
+            bool isAlwaysExecutionAll = false, 
+            Func<TParameter?, object?>? argumentConvertingCallback = null) 
+            : base(isAlwaysExecutionAll)
         {
-            ParameterConvertingCallback = parameterConvertingCallback;
+            ArgumentConvertingCallback = argumentConvertingCallback;
         }
     }
 
@@ -47,28 +62,30 @@ namespace SecretNest.MessageBus.Options
         /// Gets the default value for publisher returning.
         /// </summary>
         /// <remarks>The value is returned when no subscriber executed with accepted value returns.</remarks>
-        public TReturn DefaultReturn { get; }
+        public TReturn? DefaultReturnValue { get; }
 
         /// <summary>
         /// Gets the callback for return value conversion.
         /// </summary>
-        /// <remarks>If present, the callback is called to convert the return value before publisher returning. The value provided by <see cref="DefaultReturn"/> is exempted from being converted by this callback. Default value is <see langword="none"/>.</remarks>
-        public Func<object, TReturn>? ReturnValueConvertingCallback { get; }
+        /// <remarks>If present, the callback is called to convert the return value before publisher returning. The value provided by <see cref="DefaultReturnValue"/> is exempted from being converted by this callback. Default value is <see langword="none"/>.</remarks>
+        public Func<object?, TReturn?>? ReturnValueConvertingCallback { get; }
 
 
         /// <summary>
         /// Initializes an instance of MessageBusPublisherOptions.
         /// </summary>
-        /// <param name="defaultReturn">The default value for publisher returning.</param>
-        /// <param name="parameterConvertingCallback">The callback for parameter conversion.</param>
+        /// <param name="defaultReturnValue">The default value for publisher returning.</param>
+        /// <param name="isAlwaysExecutionAll">Whether all subscribers should be executed regardless of the result of the subscribers those have been executed by this instance.</param>
+        /// <param name="argumentConvertingCallback">The callback for argument conversion.</param>
         /// <param name="returnValueConvertingCallback">The callback for return value conversion.</param>
         public MessageBusPublisherOptions(
-            TReturn defaultReturn = default!,
-            Func<TParameter, object>? parameterConvertingCallback = null,
-            Func<object, TReturn>? returnValueConvertingCallback = null)
-            : base(parameterConvertingCallback)
+            TReturn? defaultReturnValue = default,
+            bool isAlwaysExecutionAll = false, 
+            Func<TParameter?, object?>? argumentConvertingCallback = null,
+            Func<object?, TReturn?>? returnValueConvertingCallback = null)
+            : base(isAlwaysExecutionAll, argumentConvertingCallback)
         {
-            DefaultReturn = defaultReturn;
+            DefaultReturnValue = defaultReturnValue;
             ReturnValueConvertingCallback = returnValueConvertingCallback;
         }
     }

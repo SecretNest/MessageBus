@@ -25,22 +25,22 @@
         /// <param name="argument">Argument.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see langword="none"/>.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public abstract Task ExecuteAsync(TParameter argument, CancellationToken cancellationToken = default);
+        public abstract Task ExecuteAsync(TParameter? argument, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes with the argument provided and get the instance information of this executing.
         /// </summary>
         /// <param name="argument">Argument.</param>
         /// <param name="messageInstance">When the method finishes, contains the instance information of this executing.</param>
-        public abstract void ExecuteAndGetMessageInstance(TParameter argument, out MessageInstance messageInstance);
+        public abstract void ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstance messageInstance);
 
         /// <summary>
         /// Asynchronously executes with the argument provided and get the instance information of this executing.
         /// </summary>
         /// <param name="argument">Argument.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see langword="none"/>.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        public abstract Task ExecuteAndGetMessageInstanceAsync(TParameter argument, CancellationToken cancellationToken = default);
+        /// <returns>A task that represents the asynchronous operation, which wraps the instance information of this executing.</returns>
+        public abstract Task<MessageInstance> ExecuteAndGetMessageInstanceAsync(TParameter argument, CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -55,7 +55,7 @@
         /// </summary>
         /// <param name="argument">Argument.</param>
         /// <returns>Return value.</returns>
-        public abstract TReturn Execute(TParameter argument);
+        public abstract TReturn? Execute(TParameter? argument);
 
         /// <summary>
         /// Asynchronously executes with the argument provided and get the return value.
@@ -63,7 +63,7 @@
         /// <param name="argument">Argument.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see langword="none"/>.</param>
         /// <returns>A task that represents the asynchronous operation, which wraps the return value.</returns>
-        public abstract Task<TReturn> ExecuteAsync(TParameter argument, CancellationToken cancellationToken = default);
+        public abstract Task<TReturn?> ExecuteAsync(TParameter? argument, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes with the argument provided and get the return value with the instance information of this executing.
@@ -71,7 +71,7 @@
         /// <param name="argument">Argument.</param>
         /// <param name="messageInstance">When the method returns, contains the instance information of this executing.</param>
         /// <return>Return value.</return>
-        public abstract TReturn ExecuteAndGetMessageInstance(TParameter argument, out MessageInstance messageInstance);
+        public abstract TReturn? ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstance messageInstance);
 
         /// <summary>
         /// Asynchronously executes with the argument provided and get the return value with the instance information of this executing.
@@ -79,6 +79,6 @@
         /// <param name="argument">Argument.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see langword="none"/>.</param>
         /// <return>A task that represents the asynchronous operation, which wraps the return value with the instance information of this executing.</return>
-        public abstract Task<MessageInstanceWithReturnValue<TReturn>> ExecuteAndGetMessageInstanceAsync(TParameter argument, CancellationToken cancellationToken = default);
+        public abstract Task<MessageInstanceWithReturnValue<TReturn>> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken cancellationToken = default);
     }
 }
