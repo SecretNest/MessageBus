@@ -51,7 +51,7 @@ namespace SecretNest.MessageBus.Options
         /// <summary>
         /// Gets the callback for argument conversion.
         /// </summary>
-        /// <remarks>If present, the callback is called to convert the argument the before subscriber executing. Default value is <see langword="none"/>.</remarks>
+        /// <remarks>If present, the callback is called to convert the argument the before subscriber executing. Default value is <see langword="null"/>.</remarks>
         public Func<object?, TParameter?>? ArgumentConvertingCallback { get; }
 
         /// <summary>
@@ -82,13 +82,13 @@ namespace SecretNest.MessageBus.Options
         /// <summary>
         /// Gets the callback for checking result.
         /// </summary>
-        /// <remarks>If present, the callback is called to check whether message should be returned instead of executing subsequent subscribers. Default value is <see langword="none"/> which returns <see langword="true"/> for all return values.</remarks>
+        /// <remarks>If present, the callback is called to check whether message should be returned instead of executing subsequent subscribers. Default value is <see langword="null"/> which returns <see langword="true"/> for all return values.</remarks>
         public Func<TReturn?, bool>? ResultCheckingCallback { get; }
 
         /// <summary>
         /// Gets the callback for return value conversion.
         /// </summary>
-        /// <remarks>If present, the callback is called to convert the return value before returning to publisher. Default value is <see langword="none"/>.</remarks>
+        /// <remarks>If present, the callback is called to convert the return value before returning to publisher. Default value is <see langword="null"/>.</remarks>
         public Func<TReturn?, object?>? ReturnValueConvertingCallback { get; }
 
         /// <summary>

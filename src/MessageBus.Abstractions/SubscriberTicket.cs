@@ -88,7 +88,7 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <param name="id">The id of this subscriber.</param>
         /// <param name="isAsync">Whether the delegate is async version.</param>
-        /// <param name="options">The instance of subscriber options. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of subscriber options. Default is <see langword="null"/>.</param>
         /// <param name="handler">The instance of the delegate.</param>
         /// <param name="messageNameMatcher">The instance of message name matcher.</param>
         public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter>? options, TDelegate handler, MessageNameMatcherBase messageNameMatcher)
@@ -125,7 +125,7 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <param name="id">The id of this subscriber.</param>
         /// <param name="isAsync">Whether the delegate is async version.</param>
-        /// <param name="options">The instance of subscriber options. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of subscriber options. Default is <see langword="null"/>.</param>
         /// <param name="handler">The instance of the delegate.</param>
         /// <param name="messageNameMatcher">The instance of message name matcher.</param>
         public SubscriberTicket(Guid id, bool isAsync, MessageBusSubscriberOptions<TParameter, TReturn>? options, TDelegate handler, MessageNameMatcherBase messageNameMatcher)

@@ -8,13 +8,18 @@ namespace SecretNest.MessageBus
 {
     internal abstract class SubscriberInfoBase
     {
+        public Guid SubscriberId { get; set; } //set by AddSubscriberToPool
+
         public abstract MessageNameMatcherBase MessageNameMatcher { get; }
 
         public abstract int Sequence { get; }
         public abstract bool IsAlwaysExecution { get; }
 
-        public abstract AcceptedReturn? Execute(object? argument, Lazy<MessageInstance> boxedMessageInstance);
-        public abstract Task<AcceptedReturn?> ExecuteAsync(object? argument, Lazy<MessageInstance> boxedMessageInstance, CancellationToken cancellationToken);
+        public abstract void Execute(object? argument, MessageInstanceHelper messageInstanceHelper);
+        public abstract Task ExecuteAsync(object? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken);
+
+        public abstract void ExecuteForce(object? argument, MessageInstanceHelper messageInstanceHelper);
+        public abstract Task ExecuteForceAsync(object? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken);
     }
 
     internal abstract class SubscriberInfoBase<TParameter> : SubscriberInfoBase
@@ -42,56 +47,58 @@ namespace SecretNest.MessageBus
         private bool _isFinal { get; }
         private readonly Func<object?, TParameter?>? _argumentConvertingCallback;
 
-        public abstract void ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance);
-        public abstract Task ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance, CancellationToken cancellationToken);
+        public abstract void ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper);
+        public abstract Task ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken);
 
-        public override AcceptedReturn? Execute(object? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override void Execute(object? argument, MessageInstanceHelper messageInstanceHelper)
         {
-            if (_argumentConvertingCallback != null)
-            {
-                ExecuteInternal(_argumentConvertingCallback(argument), boxedMessageInstance);
-            }
-            else if (argument == null)
-            {
-                ExecuteInternal(default, boxedMessageInstance);
-            }
-            else
-            {
-                ExecuteInternal(__refvalue(__makeref(argument), TParameter), boxedMessageInstance);
-            }
+            ExecuteForce(argument, messageInstanceHelper);
 
             if (_isFinal)
             {
-                return new AcceptedReturn(null);
-            }
-            else
-            {
-                return null;
+                messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
             }
         }
 
-        public override async Task<AcceptedReturn?> ExecuteAsync(object? argument, Lazy<MessageInstance> boxedMessageInstance, CancellationToken cancellationToken)
+        public override async Task ExecuteAsync(object? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken)
         {
-            if (_argumentConvertingCallback != null)
-            {
-                await ExecuteInternalAsync(_argumentConvertingCallback(argument), boxedMessageInstance, cancellationToken);
-            }
-            else if (argument == null)
-            {
-                await ExecuteInternalAsync(default, boxedMessageInstance, cancellationToken);
-            }
-            else
-            {
-                await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), boxedMessageInstance, cancellationToken);
-            }
+            await ExecuteForceAsync(argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
 
             if (_isFinal)
             {
-                return new AcceptedReturn(null);
+                messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
+            }
+        }
+
+        public override void ExecuteForce(object? argument, MessageInstanceHelper messageInstanceHelper)
+        {
+            if (_argumentConvertingCallback != null)
+            {
+                ExecuteInternal(_argumentConvertingCallback(argument), messageInstanceHelper);
+            }
+            else if (argument == null)
+            {
+                ExecuteInternal(default, messageInstanceHelper);
             }
             else
             {
-                return null;
+                ExecuteInternal(__refvalue(__makeref(argument), TParameter), messageInstanceHelper);
+            }
+        }
+
+        public override async Task ExecuteForceAsync(object? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken)
+        {
+            if (_argumentConvertingCallback != null)
+            {
+                await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
+            }
+            else if (argument == null)
+            {
+                await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
+            }
+            else
+            {
+                await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), messageInstanceHelper, cancellationToken);
             }
         }
     }
@@ -125,24 +132,24 @@ namespace SecretNest.MessageBus
         private readonly Func<TReturn?, object?>? _returnValueConvertingCallback;
         private readonly Func<TReturn?, bool>? _resultCheckingCallback;
 
-        public abstract TReturn? ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance);
-        public abstract Task<TReturn?> ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance, CancellationToken cancellationToken);
+        public abstract TReturn? ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper);
+        public abstract Task<TReturn?> ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken);
 
-        public override AcceptedReturn? Execute(object? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override void Execute(object? argument, MessageInstanceHelper messageInstanceHelper)
         {
             TReturn? result;
 
             if (_argumentConvertingCallback != null)
             {
-                result = ExecuteInternal(_argumentConvertingCallback(argument), boxedMessageInstance);
+                result = ExecuteInternal(_argumentConvertingCallback(argument), messageInstanceHelper);
             }
             else if (argument == null)
             {
-                result = ExecuteInternal(default, boxedMessageInstance);
+                result = ExecuteInternal(default, messageInstanceHelper);
             }
             else
             {
-                result = ExecuteInternal(__refvalue(__makeref(argument), TParameter), boxedMessageInstance);
+                result = ExecuteInternal(__refvalue(__makeref(argument), TParameter), messageInstanceHelper);
             }
 
             bool shouldReturn;
@@ -159,38 +166,34 @@ namespace SecretNest.MessageBus
             {
                 if (_returnValueConvertingCallback != null)
                 {
-                    return new AcceptedReturn(_returnValueConvertingCallback(result));
+                    messageInstanceHelper.SetSubscriberResult(_returnValueConvertingCallback(result), SubscriberId);
                 }
                 else if (result == null)
                 {
-                    return new AcceptedReturn(null);
+                    messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
                 }
                 else
                 {
-                    return new AcceptedReturn(__refvalue(__makeref(result), TReturn));
+                    messageInstanceHelper.SetSubscriberResult(__refvalue(__makeref(result), TReturn), SubscriberId);
                 }
-            }
-            else
-            {
-                return null;
             }
         }
 
-        public override async Task<AcceptedReturn?> ExecuteAsync(object? argument, Lazy<MessageInstance> boxedMessageInstance, CancellationToken cancellationToken)
+        public override async Task ExecuteAsync(object? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken)
         {
             TReturn? result;
 
             if (_argumentConvertingCallback != null)
             {
-                result = await ExecuteInternalAsync(_argumentConvertingCallback(argument), boxedMessageInstance, cancellationToken);
+                result = await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
             }
             else if (argument == null)
             {
-                result = await ExecuteInternalAsync(default, boxedMessageInstance, cancellationToken);
+                result = await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
             }
             else
             {
-                result = await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), boxedMessageInstance, cancellationToken);
+                result = await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), messageInstanceHelper, cancellationToken);
             }
 
             bool shouldReturn;
@@ -207,20 +210,48 @@ namespace SecretNest.MessageBus
             {
                 if (_returnValueConvertingCallback != null)
                 {
-                    return new AcceptedReturn(_returnValueConvertingCallback(result));
+                    messageInstanceHelper.SetSubscriberResult(_returnValueConvertingCallback(result), SubscriberId);
                 }
                 else if (result == null)
                 {
-                    return new AcceptedReturn(null);
+                    messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
                 }
                 else
                 {
-                    return new AcceptedReturn(__refvalue(__makeref(result), TReturn));
+                    messageInstanceHelper.SetSubscriberResult(__refvalue(__makeref(result), TReturn), SubscriberId);
                 }
+            }
+        }
+
+        public override void ExecuteForce(object? argument, MessageInstanceHelper messageInstanceHelper)
+        {
+            if (_argumentConvertingCallback != null)
+            {
+                ExecuteInternal(_argumentConvertingCallback(argument), messageInstanceHelper);
+            }
+            else if (argument == null)
+            {
+                ExecuteInternal(default, messageInstanceHelper);
             }
             else
             {
-                return null;
+                ExecuteInternal(__refvalue(__makeref(argument), TParameter), messageInstanceHelper);
+            }
+        }
+
+        public override async Task ExecuteForceAsync(object? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken)
+        {
+            if (_argumentConvertingCallback != null)
+            {
+                await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
+            }
+            else if (argument == null)
+            {
+                await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
+            }
+            else
+            {
+                await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), messageInstanceHelper, cancellationToken);
             }
         }
     }
@@ -239,12 +270,12 @@ namespace SecretNest.MessageBus
 
         private readonly Subscriber<TParameter> _callback;
 
-        public override void ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override void ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
             _callback(argument);
         }
 
-        public override Task ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance,
+        public override Task ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper,
             CancellationToken cancellationToken)
         {
             _callback(argument);
@@ -266,12 +297,12 @@ namespace SecretNest.MessageBus
 
         private readonly Subscriber<TParameter, TReturn> _callback;
 
-       public override TReturn? ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override TReturn? ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
             return _callback(argument);
         }
 
-        public override Task<TReturn?> ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance,
+        public override Task<TReturn?> ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper,
             CancellationToken cancellationToken)
         {
             var result = _callback(argument);
@@ -293,15 +324,15 @@ namespace SecretNest.MessageBus
 
         private readonly SubscriberWithMessageInstance<TParameter> _callback;
 
-        public override void ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override void ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
-            _callback(argument, boxedMessageInstance.Value);
+            _callback(argument, messageInstanceHelper.GetMessageInstance());
         }
 
-        public override Task ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance,
+        public override Task ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper,
             CancellationToken cancellationToken)
         {
-            _callback(argument, boxedMessageInstance.Value);
+            _callback(argument, messageInstanceHelper.GetMessageInstance());
             return Task.CompletedTask;
         }
     }
@@ -320,15 +351,15 @@ namespace SecretNest.MessageBus
 
         private readonly SubscriberWithMessageInstance<TParameter, TReturn> _callback;
 
-        public override TReturn? ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override TReturn? ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
-            return _callback(argument, boxedMessageInstance.Value);
+            return _callback(argument, messageInstanceHelper.GetMessageInstance());
         }
 
         public override Task<TReturn?> ExecuteInternalAsync(TParameter? argument,
-            Lazy<MessageInstance> boxedMessageInstance, CancellationToken cancellationToken)
+            MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken)
         {
-            var result = _callback(argument, boxedMessageInstance.Value);
+            var result = _callback(argument, messageInstanceHelper.GetMessageInstance());
             return Task.FromResult(result);
         }
     }
@@ -347,12 +378,12 @@ namespace SecretNest.MessageBus
 
         private readonly SubscriberAsync<TParameter> _callback;
 
-        public override void ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override void ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
             _callback(argument, CancellationToken.None).Wait();
         }
 
-        public override async Task ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance,
+        public override async Task ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper,
             CancellationToken cancellationToken)
         {
             await _callback(argument, cancellationToken).ConfigureAwait(false);
@@ -373,12 +404,12 @@ namespace SecretNest.MessageBus
 
         private readonly SubscriberAsync<TParameter, TReturn> _callback;
 
-        public override TReturn? ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override TReturn? ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
             return _callback(argument, CancellationToken.None).Result;
         }
 
-        public override async Task<TReturn?> ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance,
+        public override async Task<TReturn?> ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper,
             CancellationToken cancellationToken)
         {
             return await _callback(argument, cancellationToken).ConfigureAwait(false);
@@ -399,15 +430,15 @@ namespace SecretNest.MessageBus
 
         private readonly SubscriberWithMessageInstanceAsync<TParameter> _callback;
 
-        public override void ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override void ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
-            _callback(argument, boxedMessageInstance.Value, CancellationToken.None).Wait();
+            _callback(argument, messageInstanceHelper.GetMessageInstance(), CancellationToken.None).Wait();
         }
 
-        public override async Task ExecuteInternalAsync(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance,
+        public override async Task ExecuteInternalAsync(TParameter? argument, MessageInstanceHelper messageInstanceHelper,
             CancellationToken cancellationToken)
         {
-            await _callback(argument, boxedMessageInstance.Value, cancellationToken).ConfigureAwait(false);
+            await _callback(argument, messageInstanceHelper.GetMessageInstance(), cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -425,15 +456,15 @@ namespace SecretNest.MessageBus
 
         private readonly SubscriberWithMessageInstanceAsync<TParameter, TReturn> _callback;
 
-        public override TReturn? ExecuteInternal(TParameter? argument, Lazy<MessageInstance> boxedMessageInstance)
+        public override TReturn? ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper)
         {
-            return _callback(argument, boxedMessageInstance.Value, CancellationToken.None).Result;
+            return _callback(argument, messageInstanceHelper.GetMessageInstance(), CancellationToken.None).Result;
         }
 
         public override async Task<TReturn?> ExecuteInternalAsync(TParameter? argument,
-            Lazy<MessageInstance> boxedMessageInstance, CancellationToken cancellationToken)
+            MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken)
         {
-            return await _callback(argument, boxedMessageInstance.Value, cancellationToken).ConfigureAwait(false);
+            return await _callback(argument, messageInstanceHelper.GetMessageInstance(), cancellationToken).ConfigureAwait(false);
         }
     }
 }

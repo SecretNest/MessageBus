@@ -34,7 +34,7 @@ namespace SecretNest.MessageBus.Options
         /// <summary>
         /// Gets the callback for argument conversion.
         /// </summary>
-        /// <remarks>If present, the callback is called to convert the argument the when publisher executing. Default value is <see langword="none"/>.</remarks>
+        /// <remarks>If present, the callback is called to convert the argument the when publisher executing. Default value is <see langword="null"/>.</remarks>
         public Func<TParameter?, object?>? ArgumentConvertingCallback { get; }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace SecretNest.MessageBus.Options
         /// <summary>
         /// Gets the callback for return value conversion.
         /// </summary>
-        /// <remarks>If present, the callback is called to convert the return value before publisher returning. The value provided by <see cref="DefaultReturnValue"/> is exempted from being converted by this callback. Default value is <see langword="none"/>.</remarks>
+        /// <remarks>If present, the callback is called to convert the return value before publisher returning. The value provided by <see cref="DefaultReturnValue"/> is exempted from being converted by this callback. Default value is <see langword="null"/>.</remarks>
         public Func<object?, TReturn?>? ReturnValueConvertingCallback { get; }
 
 

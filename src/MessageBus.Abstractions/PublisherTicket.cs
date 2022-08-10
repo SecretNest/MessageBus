@@ -47,7 +47,7 @@ namespace SecretNest.MessageBus
         /// Initializes an instance of PublisherTicket.
         /// </summary>
         /// <param name="id">The id of this publisher.</param>
-        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="null"/>.</param>
         /// <param name="executor">The instance of <see cref="MessageExecutorBase{TParameter}"/>.</param>
         public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter>? options,
             MessageExecutorBase<TParameter> executor)
@@ -88,7 +88,7 @@ namespace SecretNest.MessageBus
         /// Initializes an instance of PublisherTicket.
         /// </summary>
         /// <param name="id">The id of this publisher.</param>
-        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="null"/>.</param>
         /// <param name="executor">The instance of <see cref="MessageExecutorBase{TParameter, TReturn}"/>.</param>
         public PublisherTicket(Guid id, MessageBusPublisherOptions<TParameter, TReturn>? options,
             MessageExecutorBase<TParameter, TReturn> executor)

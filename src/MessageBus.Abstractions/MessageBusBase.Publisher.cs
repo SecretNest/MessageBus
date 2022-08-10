@@ -10,7 +10,7 @@ namespace SecretNest.MessageBus
         /// <typeparam name="TParameter">The type of the parameter.</typeparam>
         /// <typeparam name="TReturn">The type of the return value.</typeparam>
         /// <param name="messageName">The name of this message.</param>
-        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="null"/>.</param>
         /// <returns>Publisher ticket.</returns>
         public abstract PublisherTicket<TParameter, TReturn> RegisterPublisher<TParameter, TReturn>(
             string messageName,
@@ -21,7 +21,7 @@ namespace SecretNest.MessageBus
         /// </summary>
         /// <typeparam name="TParameter">The type of the parameter.</typeparam>
         /// <param name="messageName">The name of this message.</param>
-        /// <param name="options">The instance of publisher options. Default is <see langword="none"/>.</param>
+        /// <param name="options">The instance of publisher options. Default is <see langword="null"/>.</param>
         /// <returns>Publisher ticket.</returns>
         public abstract PublisherTicket<TParameter> RegisterVoidPublisher<TParameter>(
             string messageName,

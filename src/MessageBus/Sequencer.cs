@@ -25,15 +25,14 @@ namespace SecretNest.MessageBus
             private readonly bool _isAlwaysExecuteAll;
             private readonly Sequencer _sequencer;
 
-            private AcceptedReturn? Execute(object? argument, MessageInstance? messageInstance)
+            private MessageInstanceHelper Execute(object? argument)
             {
-                return _sequencer.Execute(argument, messageInstance, _isAlwaysExecuteAll);
+                return _sequencer.Execute(argument, _isAlwaysExecuteAll);
             }
 
-            private async Task<AcceptedReturn?> ExecuteAsync(object? argument, MessageInstance? messageInstance,
-                CancellationToken cancellationToken)
+            private async Task<MessageInstanceHelper> ExecuteAsync(object? argument, CancellationToken cancellationToken)
             {
-                return await _sequencer.ExecuteAsync(argument, messageInstance, _isAlwaysExecuteAll, cancellationToken);
+                return await _sequencer.ExecuteAsync(argument, _isAlwaysExecuteAll, cancellationToken);
             }
 
             public SequencerEntry(PublisherInfoBase publisher, Sequencer sequencer)
@@ -49,7 +48,6 @@ namespace SecretNest.MessageBus
             if (Publishers.TryAdd(key, publisher))
             {
                 _ = new SequencerEntry(publisher, this);
-                publisher.MessageExecutorSequencerSupport.OnAddedToSequencer(GetMessageInstance);
             }
         }
 
@@ -67,19 +65,51 @@ namespace SecretNest.MessageBus
             }
         }
 
-        private AcceptedReturn? Execute(object? argument, MessageInstance? messageInstance, bool isAlwaysExecuteAll)
+        private SubscriberInfoBase[] GetOrderedSubscribers()
         {
-
+            lock (OrderedSubscribers)
+            {
+                return OrderedSubscribers.ToArray();
+            }
         }
 
-        private async Task<AcceptedReturn?> ExecuteAsync(object? argument, MessageInstance? messageInstance, bool isAlwaysExecuteAll, CancellationToken cancellationToken)
+        private MessageInstanceHelper Execute(object? argument, bool isAlwaysExecuteAll)
         {
+            var subscribers = GetOrderedSubscribers();
 
+            var subscribersCount = subscribers.Length;
+
+            var currentSubscriberIndex = 0;
+
+            var messageInstanceHelper = new MessageInstanceHelper(MessageName);
+
+            //get the first result
+            for (; currentSubscriberIndex < subscribersCount; )
+            {
+                subscribers[currentSubscriberIndex].Execute(argument, messageInstanceHelper);
+                currentSubscriberIndex++;
+                if (messageInstanceHelper.IsSubscriberResultSet)
+                {
+                    break;
+                }
+            }
+
+            //others
+            for (; currentSubscriberIndex < subscribersCount; currentSubscriberIndex++)
+            {
+                var subscriber = subscribers[currentSubscriberIndex];
+                if (isAlwaysExecuteAll || subscriber.IsAlwaysExecution)
+                {
+                    subscriber.ExecuteForce(argument, messageInstanceHelper);
+                }
+            }
+
+            return messageInstanceHelper;
         }
 
-        private MessageInstance GetMessageInstance()
+        private async Task<MessageInstanceHelper> ExecuteAsync(object? argument, bool isAlwaysExecuteAll, CancellationToken cancellationToken)
         {
-            return new MessageInstance(Guid.NewGuid(), MessageName);
+
         }
 
         public void AddSubscriber(Guid subscriberId, SubscriberInfoBase subscriber)

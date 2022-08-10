@@ -21,6 +21,7 @@ namespace SecretNest.MessageBus
         {
             var subscriberId = Guid.NewGuid();
             Add();
+            subscriber.SubscriberId = subscriberId;
             return subscriberId;
 
             void Add()

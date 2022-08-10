@@ -32,9 +32,75 @@
     /// </summary>
     public abstract class MessageInstanceWithReturnValueBase : MessageInstance
     {
-        protected MessageInstanceWithReturnValueBase(MessageInstance messageInstance) : base(messageInstance.ExecutingId, messageInstance.MessageName)
+        /// <summary>
+        /// Gets the type of the return value. <see langword="null" /> when the type of return value cannot be determined, from converter for example.
+        /// </summary>
+        public abstract Type? ReturnValueType { get; }
+
+        /// <summary>
+        /// Gets the return value of this executing.
+        /// </summary>
+        public abstract object? ReturnValueGeneric { get; }
+
+        /// <summary>
+        /// Gets the source of the return value. <see langword="null"/> when no return value is received from subscriber.
+        /// </summary>
+        public Guid? ReturnValueSourceSubscriberId { get; }
+
+        protected MessageInstanceWithReturnValueBase(MessageInstance messageInstance, Guid? returnValueSourceSubscriberId) : base(messageInstance.ExecutingId, messageInstance.MessageName)
+        {
+            ReturnValueSourceSubscriberId = returnValueSourceSubscriberId;
+        }
+    }
+
+    /// <summary>
+    /// Contains the the id of this executing and the name of the message. Uses when void returns.
+    /// </summary>
+    public class MessageInstanceWithVoidReturnValue : MessageInstanceWithReturnValueBase
+    {
+        /// <summary>
+        /// Initializes an instance of MessageInstanceWithReturnValue.
+        /// </summary>
+        /// <param name="messageInstance">The instance information of this executing.</param>
+        /// <param name="returnValueSourceSubscriberId">The source of the return value.</param>
+        public MessageInstanceWithVoidReturnValue(MessageInstance messageInstance, Guid? returnValueSourceSubscriberId) : base(messageInstance, returnValueSourceSubscriberId)
         {
         }
+
+        /// <inheritdoc />
+        public override Type? ReturnValueType => typeof(void);
+
+        /// <inheritdoc />
+        public override object? ReturnValueGeneric => null;
+    }
+
+    /// <summary>
+    /// Contains the return value, the id of this executing and the name of the message.
+    /// </summary>
+    /// <typeparam name="TReturn">The type of the return value.</typeparam>
+    public class MessageInstanceWithReturnValue : MessageInstanceWithReturnValueBase
+    {
+        /// <summary>
+        /// Gets the return value of this executing.
+        /// </summary>
+        public object? ReturnValue { get; }
+
+        /// <summary>
+        /// Initializes an instance of MessageInstanceWithReturnValue.
+        /// </summary>
+        /// <param name="messageInstance">The instance information of this executing.</param>
+        /// <param name="returnValue">Return value of this executing.</param>
+        /// <param name="returnValueSourceSubscriberId">The source of the return value.</param>
+        public MessageInstanceWithReturnValue(MessageInstance messageInstance, object? returnValue, Guid? returnValueSourceSubscriberId) : base(messageInstance, returnValueSourceSubscriberId)
+        {
+            ReturnValue = returnValue;
+        }
+
+        /// <inheritdoc />
+        public override Type? ReturnValueType => null;
+
+        /// <inheritdoc />
+        public override object? ReturnValueGeneric => ReturnValue;
     }
 
     /// <summary>
@@ -53,9 +119,16 @@
         /// </summary>
         /// <param name="messageInstance">The instance information of this executing.</param>
         /// <param name="returnValue">Return value of this executing.</param>
-        public MessageInstanceWithReturnValue(MessageInstance messageInstance, TReturn? returnValue) : base(messageInstance)
+        /// <param name="returnValueSourceSubscriberId">The source of the return value.</param>
+        public MessageInstanceWithReturnValue(MessageInstance messageInstance, TReturn? returnValue, Guid? returnValueSourceSubscriberId) : base(messageInstance, returnValueSourceSubscriberId)
         {
             ReturnValue = returnValue;
         }
+
+        /// <inheritdoc />
+        public override Type? ReturnValueType => typeof(TReturn);
+
+        /// <inheritdoc />
+        public override object? ReturnValueGeneric => ReturnValue;
     }
 }
