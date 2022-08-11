@@ -77,16 +77,16 @@ namespace SecretNest.MessageBus
             await ExecuteWrappedAsync(argument, cancellationToken);
         }
 
-        public override void ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstanceWithVoidReturnValue messageInstance)
+        public override void ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstance messageInstance)
         {
             var helper = ExecuteWrapped(argument);
-            messageInstance = helper.GetMessageInstanceWithVoidReturnValue();
+            messageInstance = helper.GetMessageInstance();
         }
 
-        public override async Task<MessageInstanceWithVoidReturnValue> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken? cancellationToken = default)
+        public override async Task<MessageInstance> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken? cancellationToken = default)
         {
             var helper = await ExecuteWrappedAsync(argument, cancellationToken).ConfigureAwait(false);
-            return helper.GetMessageInstanceWithVoidReturnValue();
+            return helper.GetMessageInstance();
         }
 
         public void Dispose()
@@ -139,19 +139,6 @@ namespace SecretNest.MessageBus
                 result = _executeCallback(__refvalue(__makeref(argument), object));
             }
 
-            if (result.ReturnValueSourceSubscriberId == null) //default return required
-            {
-                result.SetFinalResult(_defaultReturnValue);
-            }
-            else if (_returnValueConvertingCallback != null)
-            {
-                result.SetFinalResult(_returnValueConvertingCallback(result.SubscriberResult));
-            }
-            else
-            {
-                result.AcceptFinalResult<TReturn>();
-            }
-
             return result;
         }
 
@@ -172,43 +159,54 @@ namespace SecretNest.MessageBus
                 result = await _executeAsyncCallback(__refvalue(__makeref(argument), object), cancellationToken ??= CancellationToken.None).ConfigureAwait(false);
             }
 
-            if (result.ReturnValueSourceSubscriberId == null) //default return required
+            return result;
+        }
+
+        private TReturn? GetFinalResult(MessageInstanceHelper helper)
+        {
+            if (helper.ReturnValueSourceSubscriberId == null) //default return required
             {
-                result.SetFinalResult(_defaultReturnValue);
-            }
-            else if (_returnValueConvertingCallback != null)
-            {
-                result.SetFinalResult(_returnValueConvertingCallback(result.SubscriberResult));
+                return _defaultReturnValue;
             }
             else
             {
-                result.AcceptFinalResult<TReturn>();
+                var result = helper.SubscriberResult;
+                if (_returnValueConvertingCallback != null)
+                {
+                    return _returnValueConvertingCallback(result);
+                }
+                else if (result == null)
+                {
+                    return default;
+                }
+                else
+                {
+                    return __refvalue(__makeref(result), TReturn);
+                }
             }
-
-            return result;
         }
 
         public override TReturn? Execute(TParameter? argument)
         {
-            return ExecuteWrapped(argument).GetFinalResult<TReturn>();
+            return GetFinalResult(ExecuteWrapped(argument));
         }
 
         public override async Task<TReturn?> ExecuteAsync(TParameter? argument, CancellationToken? cancellationToken = default)
         {
-            return (await ExecuteWrappedAsync(argument, cancellationToken)).GetFinalResult<TReturn>();
+            return GetFinalResult(await ExecuteWrappedAsync(argument, cancellationToken));
         }
 
-        public override TReturn? ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstanceWithReturnValue<TReturn> messageInstance)
+        public override TReturn? ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstance messageInstance)
         {
             var helper = ExecuteWrapped(argument);
-            messageInstance = helper.GetMessageInstanceWithReturnValue<TReturn>();
-            return helper.GetFinalResult<TReturn>();
+            messageInstance = helper.GetMessageInstance();
+            return GetFinalResult(helper);
         }
 
-        public override async Task<MessageInstanceWithReturnValue<TReturn>> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken? cancellationToken = default)
+        public override async Task<MessageInstanceWithExecutorResult<TReturn>> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken? cancellationToken = default)
         {
             var helper = await ExecuteWrappedAsync(argument, cancellationToken).ConfigureAwait(false);
-            return helper.GetMessageInstanceWithReturnValue<TReturn>();
+            return new MessageInstanceWithExecutorResult<TReturn>(helper.GetMessageInstance(), GetFinalResult(helper));
         }
 
         public void Dispose()

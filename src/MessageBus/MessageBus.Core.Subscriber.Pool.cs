@@ -9,13 +9,13 @@ namespace SecretNest.MessageBus
 {
     partial class MessageBus
     {
-        private readonly ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchAll = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
+        private ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchAll = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
 
-        private readonly ConcurrentDictionary<string, HashSet<Guid>> _subscribersNames = new ConcurrentDictionary<string, HashSet<Guid>>();
-        private readonly ConcurrentDictionary<string, HashSet<Guid>> _subscribersNamesIgnoreCase = new ConcurrentDictionary<string, HashSet<Guid>>(StringComparer.OrdinalIgnoreCase);
-        private readonly ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchName = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
+        private ConcurrentDictionary<string, HashSet<Guid>> _subscribersNames = new ConcurrentDictionary<string, HashSet<Guid>>();
+        private ConcurrentDictionary<string, HashSet<Guid>> _subscribersNamesIgnoreCase = new ConcurrentDictionary<string, HashSet<Guid>>(StringComparer.OrdinalIgnoreCase);
+        private ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchName = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
 
-        private readonly ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchOther = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
+        private ConcurrentDictionary<Guid, SubscriberInfoBase> _subscribersMatchOther = new ConcurrentDictionary<Guid, SubscriberInfoBase>();
 
         private Guid AddSubscriberToPool(SubscriberInfoBase subscriber)
         {
@@ -133,6 +133,15 @@ namespace SecretNest.MessageBus
                 if (item.Value.MessageNameMatcher.IsComplied(messageName))
                     yield return item;
             }
+        }
+
+        private void OnShutdownSubscriberPool()
+        {
+            _subscribersMatchAll = null!;
+            _subscribersNames = null!;
+            _subscribersNamesIgnoreCase = null!;
+            _subscribersMatchName = null!;
+            _subscribersMatchOther = null!;
         }
     }
 }

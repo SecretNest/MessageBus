@@ -8,6 +8,7 @@ namespace SecretNest.MessageBus
 {
     internal abstract class SubscriberInfoBase
     {
+
         public Guid SubscriberId { get; set; } //set by AddSubscriberToPool
 
         public abstract MessageNameMatcherBase MessageNameMatcher { get; }
@@ -56,7 +57,7 @@ namespace SecretNest.MessageBus
 
             if (_isFinal)
             {
-                messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
+                messageInstanceHelper.SetSubscriberVoidResult(SubscriberId);
             }
         }
 
@@ -66,7 +67,7 @@ namespace SecretNest.MessageBus
 
             if (_isFinal)
             {
-                messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
+                messageInstanceHelper.SetSubscriberVoidResult(SubscriberId);
             }
         }
 
@@ -174,7 +175,7 @@ namespace SecretNest.MessageBus
                 }
                 else
                 {
-                    messageInstanceHelper.SetSubscriberResult(__refvalue(__makeref(result), TReturn), SubscriberId);
+                    messageInstanceHelper.SetSubscriberResult(result, SubscriberId);
                 }
             }
         }
@@ -218,7 +219,7 @@ namespace SecretNest.MessageBus
                 }
                 else
                 {
-                    messageInstanceHelper.SetSubscriberResult(__refvalue(__makeref(result), TReturn), SubscriberId);
+                    messageInstanceHelper.SetSubscriberResult(result, SubscriberId);
                 }
             }
         }

@@ -43,6 +43,14 @@ namespace SecretNest.MessageBus
             }
         }
 
+        public void OnShutdown()
+        {
+            foreach (var publisher in Publishers.Values)
+            {
+                publisher.MessageExecutorSequencerSupport.OnRemovedFromSequencer();
+            }
+        }
+
         public void AddPublisher(Guid key, PublisherInfoBase publisher)
         {
             if (Publishers.TryAdd(key, publisher))
@@ -109,7 +117,36 @@ namespace SecretNest.MessageBus
 
         private async Task<MessageInstanceHelper> ExecuteAsync(object? argument, bool isAlwaysExecuteAll, CancellationToken cancellationToken)
         {
+            var subscribers = GetOrderedSubscribers();
 
+            var subscribersCount = subscribers.Length;
+
+            var currentSubscriberIndex = 0;
+
+            var messageInstanceHelper = new MessageInstanceHelper(MessageName);
+
+            //get the first result
+            for (; currentSubscriberIndex < subscribersCount; )
+            {
+                await subscribers[currentSubscriberIndex].ExecuteAsync(argument, messageInstanceHelper, cancellationToken);
+                currentSubscriberIndex++;
+                if (messageInstanceHelper.IsSubscriberResultSet)
+                {
+                    break;
+                }
+            }
+
+            //others
+            for (; currentSubscriberIndex < subscribersCount; currentSubscriberIndex++)
+            {
+                var subscriber = subscribers[currentSubscriberIndex];
+                if (isAlwaysExecuteAll || subscriber.IsAlwaysExecution)
+                {
+                    await subscriber.ExecuteForceAsync(argument, messageInstanceHelper, cancellationToken);
+                }
+            }
+
+            return messageInstanceHelper;
         }
 
         public void AddSubscriber(Guid subscriberId, SubscriberInfoBase subscriber)

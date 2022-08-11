@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using SecretNest.MessageBus.MessageNameMatching;
 using SecretNest.MessageBus.Options;
@@ -8,6 +9,8 @@ namespace SecretNest.MessageBus
 {
     public partial class MessageBus : MessageBusBase
     {
+        private bool _disposedValue;
+
         /// <summary>
         /// Gets or sets whether should remove the sequencer when the last related publisher is removed. Default value is <see langword="true"/>.
         /// </summary>
@@ -25,15 +28,26 @@ namespace SecretNest.MessageBus
             }
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    OnShutdownSequencers();
+                    OnShutdownSubscriberPool();
+                }
 
-
-
-
+                _disposedValue = true;
+            }
+        }
 
         /// <inheritdoc />
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

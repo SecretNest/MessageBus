@@ -9,9 +9,9 @@ namespace SecretNest.MessageBus
 {
     partial class MessageBus
     {
-        private readonly ConcurrentDictionary<string, Sequencer> _sequencers = new ConcurrentDictionary<string, Sequencer>();
+        private ConcurrentDictionary<string, Sequencer> _sequencers = new ConcurrentDictionary<string, Sequencer>();
 
-        private readonly ConcurrentDictionary<Guid, string> _publisherMessageNames = new ConcurrentDictionary<Guid, string>();
+        private ConcurrentDictionary<Guid, string> _publisherMessageNames = new ConcurrentDictionary<Guid, string>();
 
         private Guid AddPublisherToSequencer(string messageName, PublisherInfoBase publisher)
         {
@@ -65,6 +65,17 @@ namespace SecretNest.MessageBus
             {
                 sequencer.Value.RemoveSubscriber(subscriberId);
             }
+        }
+
+        private void OnShutdownSequencers()
+        {
+            foreach (var sequencer in _sequencers.Values)
+            {
+                sequencer.OnShutdown();
+            }
+
+            _sequencers = null!;
+            _publisherMessageNames = null!;
         }
     }
 }

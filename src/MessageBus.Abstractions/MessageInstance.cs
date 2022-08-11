@@ -25,6 +25,11 @@
         /// Gets the name of the message.
         /// </summary>
         public string MessageName { get; }
+
+        /// <summary>
+        /// Gets whether the accepted return value of this executing is generated from subscriber.
+        /// </summary>
+        public virtual bool IsSubscriberReturnValueAccepted => false;
     }
 
     /// <summary>
@@ -35,19 +40,24 @@
         /// <summary>
         /// Gets the type of the return value. <see langword="null" /> when the type of return value cannot be determined, from converter for example.
         /// </summary>
-        public abstract Type? ReturnValueType { get; }
+        public abstract Type? SubscriberReturnValueType { get; }
 
         /// <summary>
-        /// Gets the return value of this executing.
+        /// Gets the return value of this executing from subscriber.
         /// </summary>
-        public abstract object? ReturnValueGeneric { get; }
+        public abstract object? SubscriberReturnValueGeneric { get; }
+
+        /// <summary>
+        /// Gets whether the accepted return value of this executing is generated from subscriber. It set to <see langword="true" />.
+        /// </summary>
+        public sealed override bool IsSubscriberReturnValueAccepted => true;
 
         /// <summary>
         /// Gets the source of the return value. <see langword="null"/> when no return value is received from subscriber.
         /// </summary>
         public Guid? ReturnValueSourceSubscriberId { get; }
 
-        protected MessageInstanceWithReturnValueBase(MessageInstance messageInstance, Guid? returnValueSourceSubscriberId) : base(messageInstance.ExecutingId, messageInstance.MessageName)
+        protected MessageInstanceWithReturnValueBase(Guid executingId, string messageName, Guid? returnValueSourceSubscriberId) : base(executingId, messageName)
         {
             ReturnValueSourceSubscriberId = returnValueSourceSubscriberId;
         }
@@ -61,74 +71,76 @@
         /// <summary>
         /// Initializes an instance of MessageInstanceWithReturnValue.
         /// </summary>
-        /// <param name="messageInstance">The instance information of this executing.</param>
+        /// <param name="executingId">Id of this executing.</param>
+        /// <param name="messageName">Name of the message.</param>
         /// <param name="returnValueSourceSubscriberId">The source of the return value.</param>
-        public MessageInstanceWithVoidReturnValue(MessageInstance messageInstance, Guid? returnValueSourceSubscriberId) : base(messageInstance, returnValueSourceSubscriberId)
+        public MessageInstanceWithVoidReturnValue(Guid executingId, string messageName, Guid? returnValueSourceSubscriberId) : base(executingId, messageName, returnValueSourceSubscriberId)
         {
         }
 
         /// <inheritdoc />
-        public override Type? ReturnValueType => typeof(void);
+        public override Type? SubscriberReturnValueType => typeof(void);
 
         /// <inheritdoc />
-        public override object? ReturnValueGeneric => null;
+        public override object? SubscriberReturnValueGeneric => null;
     }
 
     /// <summary>
-    /// Contains the return value, the id of this executing and the name of the message.
+    /// Contains the return value from subscriber, the id of this executing and the name of the message.
     /// </summary>
-    /// <typeparam name="TReturn">The type of the return value.</typeparam>
     public class MessageInstanceWithReturnValue : MessageInstanceWithReturnValueBase
     {
         /// <summary>
-        /// Gets the return value of this executing.
+        /// Gets the return value of this executing from subscriber.
         /// </summary>
-        public object? ReturnValue { get; }
+        public object? SubscriberReturnValue { get; }
 
         /// <summary>
         /// Initializes an instance of MessageInstanceWithReturnValue.
         /// </summary>
-        /// <param name="messageInstance">The instance information of this executing.</param>
+        /// <param name="executingId">Id of this executing.</param>
+        /// <param name="messageName">Name of the message.</param>
         /// <param name="returnValue">Return value of this executing.</param>
         /// <param name="returnValueSourceSubscriberId">The source of the return value.</param>
-        public MessageInstanceWithReturnValue(MessageInstance messageInstance, object? returnValue, Guid? returnValueSourceSubscriberId) : base(messageInstance, returnValueSourceSubscriberId)
+        public MessageInstanceWithReturnValue(Guid executingId, string messageName, object? returnValue, Guid? returnValueSourceSubscriberId) : base(executingId, messageName, returnValueSourceSubscriberId)
         {
-            ReturnValue = returnValue;
+            SubscriberReturnValue = returnValue;
         }
 
         /// <inheritdoc />
-        public override Type? ReturnValueType => null;
+        public override Type? SubscriberReturnValueType => null;
 
         /// <inheritdoc />
-        public override object? ReturnValueGeneric => ReturnValue;
+        public override object? SubscriberReturnValueGeneric => SubscriberReturnValue;
     }
 
     /// <summary>
-    /// Contains the return value, the id of this executing and the name of the message.
+    /// Contains the return value from subscriber, the id of this executing and the name of the message.
     /// </summary>
     /// <typeparam name="TReturn">The type of the return value.</typeparam>
     public class MessageInstanceWithReturnValue<TReturn> : MessageInstanceWithReturnValueBase
     {
         /// <summary>
-        /// Gets the return value of this executing.
+        /// Gets the return value of this executing from subscriber.
         /// </summary>
-        public TReturn? ReturnValue { get; }
+        public TReturn? SubscriberReturnValue { get; }
 
         /// <summary>
         /// Initializes an instance of MessageInstanceWithReturnValue.
         /// </summary>
-        /// <param name="messageInstance">The instance information of this executing.</param>
+        /// <param name="executingId">Id of this executing.</param>
+        /// <param name="messageName">Name of the message.</param>
         /// <param name="returnValue">Return value of this executing.</param>
         /// <param name="returnValueSourceSubscriberId">The source of the return value.</param>
-        public MessageInstanceWithReturnValue(MessageInstance messageInstance, TReturn? returnValue, Guid? returnValueSourceSubscriberId) : base(messageInstance, returnValueSourceSubscriberId)
+        public MessageInstanceWithReturnValue(Guid executingId, string messageName, TReturn? returnValue, Guid? returnValueSourceSubscriberId) : base(executingId, messageName, returnValueSourceSubscriberId)
         {
-            ReturnValue = returnValue;
+            SubscriberReturnValue = returnValue;
         }
 
         /// <inheritdoc />
-        public override Type? ReturnValueType => typeof(TReturn);
+        public override Type? SubscriberReturnValueType => typeof(TReturn);
 
         /// <inheritdoc />
-        public override object? ReturnValueGeneric => ReturnValue;
+        public override object? SubscriberReturnValueGeneric => SubscriberReturnValue;
     }
 }
