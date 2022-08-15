@@ -23,7 +23,7 @@ namespace SecretNest.MessageBus
         /// <param name="messageName">The name of this message.</param>
         /// <param name="options">The instance of publisher options. Default is <see langword="null"/>.</param>
         /// <returns>Publisher ticket.</returns>
-        public abstract PublisherTicket<TParameter> RegisterVoidPublisher<TParameter>(
+        public abstract PublisherTicket<TParameter> RegisterPublisher<TParameter>(
             string messageName,
             MessageBusPublisherOptions<TParameter>? options = default);
 

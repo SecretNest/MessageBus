@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SecretNest.MessageBus
 {
-    internal interface MessageExecutorSequencerSupport
+    internal interface IMessageExecutorSequencerSupport
     {
         void OnAddedToSequencer(Func<object?, MessageInstanceHelper> executeCallback,
             Func<object?, CancellationToken, Task<MessageInstanceHelper>> executeAsyncCallback);
@@ -12,19 +12,19 @@ namespace SecretNest.MessageBus
         void OnRemovedFromSequencer();
     }
 
-    internal class MessageExecutor<TParameter> : MessageExecutorBase<TParameter>, MessageExecutorSequencerSupport, IDisposable
+    internal class MessageExecutor<TParameter> : MessageExecutorBase<TParameter>, IMessageExecutorSequencerSupport, IDisposable
     {
         private Func<object?, MessageInstanceHelper> _executeCallback = null!;
         private Func<object?, CancellationToken, Task<MessageInstanceHelper>> _executeAsyncCallback = null!;
         private Func<TParameter?, object?>? _argumentConvertingCallback;
 
-        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstanceHelper> executeCallback, Func<object?, CancellationToken, Task<MessageInstanceHelper>> executeAsyncCallback)
+        void IMessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstanceHelper> executeCallback, Func<object?, CancellationToken, Task<MessageInstanceHelper>> executeAsyncCallback)
         {
             _executeCallback = executeCallback;
             _executeAsyncCallback = executeAsyncCallback;
         }
 
-        void MessageExecutorSequencerSupport.OnRemovedFromSequencer()
+        void IMessageExecutorSequencerSupport.OnRemovedFromSequencer()
         {
             _executeCallback = null!;
             _executeAsyncCallback = null!;
@@ -41,13 +41,9 @@ namespace SecretNest.MessageBus
             {
                 return _executeCallback(_argumentConvertingCallback(argument));
             }
-            else if (argument == null)
-            {
-                return _executeCallback(null);
-            }
             else
             {
-                return _executeCallback(__refvalue(__makeref(argument), object));
+                return _executeCallback(argument);
             }
         }
 
@@ -57,13 +53,9 @@ namespace SecretNest.MessageBus
             {
                 return (await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken ??= CancellationToken.None));
             }
-            else if (argument == null)
-            {
-                return (await _executeAsyncCallback(null, cancellationToken ??= CancellationToken.None));
-            }
             else
             {
-                return (await _executeAsyncCallback(__refvalue(__makeref(argument), object), cancellationToken ??= CancellationToken.None));
+                return (await _executeAsyncCallback(argument, cancellationToken ??= CancellationToken.None));
             }
         }
 
@@ -95,7 +87,7 @@ namespace SecretNest.MessageBus
         }
     }
 
-    internal class MessageExecutor<TParameter, TReturn> : MessageExecutorBase<TParameter, TReturn>, MessageExecutorSequencerSupport, IDisposable
+    internal class MessageExecutor<TParameter, TReturn> : MessageExecutorBase<TParameter, TReturn>, IMessageExecutorSequencerSupport, IDisposable
     {
         private Func<object?, MessageInstanceHelper> _executeCallback = null!;
         private Func<object?, CancellationToken, Task<MessageInstanceHelper>> _executeAsyncCallback = null!;
@@ -103,13 +95,13 @@ namespace SecretNest.MessageBus
         private Func<TParameter?, object?>? _argumentConvertingCallback;
         private Func<object?, TReturn?>? _returnValueConvertingCallback;
 
-        void MessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstanceHelper> executeCallback, Func<object?, CancellationToken, Task<MessageInstanceHelper>> executeAsyncCallback)
+        void IMessageExecutorSequencerSupport.OnAddedToSequencer(Func<object?, MessageInstanceHelper> executeCallback, Func<object?, CancellationToken, Task<MessageInstanceHelper>> executeAsyncCallback)
         {
             _executeCallback = executeCallback;
             _executeAsyncCallback = executeAsyncCallback;
         }
 
-        void MessageExecutorSequencerSupport.OnRemovedFromSequencer()
+        void IMessageExecutorSequencerSupport.OnRemovedFromSequencer()
         {
             _executeCallback = null!;
             _executeAsyncCallback = null!;
@@ -130,13 +122,9 @@ namespace SecretNest.MessageBus
             {
                 result = _executeCallback(_argumentConvertingCallback(argument));
             }
-            else if (argument == null)
-            {
-                result = _executeCallback(null);
-            }
             else
             {
-                result = _executeCallback(__refvalue(__makeref(argument), object));
+                result = _executeCallback(argument);
             }
 
             return result;
@@ -150,13 +138,9 @@ namespace SecretNest.MessageBus
             {
                 result = await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken ??= CancellationToken.None).ConfigureAwait(false);
             }
-            else if (argument == null)
-            {
-                result = await _executeAsyncCallback(null, cancellationToken ??= CancellationToken.None).ConfigureAwait(false);
-            }
             else
             {
-                result = await _executeAsyncCallback(__refvalue(__makeref(argument), object), cancellationToken ??= CancellationToken.None).ConfigureAwait(false);
+                result = await _executeAsyncCallback(argument, cancellationToken ??= CancellationToken.None).ConfigureAwait(false);
             }
 
             return result;
@@ -181,7 +165,7 @@ namespace SecretNest.MessageBus
                 }
                 else
                 {
-                    return __refvalue(__makeref(result), TReturn);
+                    return (TReturn?)result;
                 }
             }
         }

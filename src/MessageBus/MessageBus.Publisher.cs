@@ -18,7 +18,7 @@ namespace SecretNest.MessageBus
         }
 
         /// <inheritdoc />
-        public override PublisherTicket<TParameter> RegisterVoidPublisher<TParameter>(string messageName, MessageBusPublisherOptions<TParameter>? options = default)
+        public override PublisherTicket<TParameter> RegisterPublisher<TParameter>(string messageName, MessageBusPublisherOptions<TParameter>? options = default)
         {
             var publisherInfo = new PublisherInfo<TParameter>(options);
             var id = AddPublisherToSequencer(messageName, publisherInfo);

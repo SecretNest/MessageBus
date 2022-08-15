@@ -77,13 +77,13 @@ namespace SecretNest.MessageBus
             {
                 ExecuteInternal(_argumentConvertingCallback(argument), messageInstanceHelper);
             }
-            else if (argument == null)
-            {
-                ExecuteInternal(default, messageInstanceHelper);
-            }
+            //else if (argument == null)
+            //{
+            //    ExecuteInternal(default, messageInstanceHelper);
+            //}
             else
             {
-                ExecuteInternal(__refvalue(__makeref(argument), TParameter), messageInstanceHelper);
+                ExecuteInternal((TParameter?)argument, messageInstanceHelper);
             }
         }
 
@@ -93,13 +93,13 @@ namespace SecretNest.MessageBus
             {
                 await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
             }
-            else if (argument == null)
-            {
-                await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
-            }
+            //else if (argument == null)
+            //{
+            //    await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
+            //}
             else
             {
-                await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), messageInstanceHelper, cancellationToken);
+                await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken);
             }
         }
     }
@@ -144,13 +144,13 @@ namespace SecretNest.MessageBus
             {
                 result = ExecuteInternal(_argumentConvertingCallback(argument), messageInstanceHelper);
             }
-            else if (argument == null)
-            {
-                result = ExecuteInternal(default, messageInstanceHelper);
-            }
+            //else if (argument == null)
+            //{
+            //    result = ExecuteInternal(default, messageInstanceHelper);
+            //}
             else
             {
-                result = ExecuteInternal(__refvalue(__makeref(argument), TParameter), messageInstanceHelper);
+                result = ExecuteInternal((TParameter?)argument, messageInstanceHelper);
             }
 
             bool shouldReturn;
@@ -169,10 +169,10 @@ namespace SecretNest.MessageBus
                 {
                     messageInstanceHelper.SetSubscriberResult(_returnValueConvertingCallback(result), SubscriberId);
                 }
-                else if (result == null)
-                {
-                    messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
-                }
+                //else if (result == null)
+                //{
+                //    messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
+                //}
                 else
                 {
                     messageInstanceHelper.SetSubscriberResult(result, SubscriberId);
@@ -188,13 +188,13 @@ namespace SecretNest.MessageBus
             {
                 result = await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
             }
-            else if (argument == null)
-            {
-                result = await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
-            }
+            //else if (argument == null)
+            //{
+            //    result = await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
+            //}
             else
             {
-                result = await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), messageInstanceHelper, cancellationToken);
+                result = await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken);
             }
 
             bool shouldReturn;
@@ -213,10 +213,10 @@ namespace SecretNest.MessageBus
                 {
                     messageInstanceHelper.SetSubscriberResult(_returnValueConvertingCallback(result), SubscriberId);
                 }
-                else if (result == null)
-                {
-                    messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
-                }
+                //else if (result == null)
+                //{
+                //    messageInstanceHelper.SetSubscriberResult(null, SubscriberId);
+                //}
                 else
                 {
                     messageInstanceHelper.SetSubscriberResult(result, SubscriberId);
@@ -230,13 +230,13 @@ namespace SecretNest.MessageBus
             {
                 ExecuteInternal(_argumentConvertingCallback(argument), messageInstanceHelper);
             }
-            else if (argument == null)
-            {
-                ExecuteInternal(default, messageInstanceHelper);
-            }
+            //else if (argument == null)
+            //{
+            //    ExecuteInternal(default, messageInstanceHelper);
+            //}
             else
             {
-                ExecuteInternal(__refvalue(__makeref(argument), TParameter), messageInstanceHelper);
+                ExecuteInternal((TParameter?)argument, messageInstanceHelper);
             }
         }
 
@@ -246,13 +246,13 @@ namespace SecretNest.MessageBus
             {
                 await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
             }
-            else if (argument == null)
-            {
-                await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
-            }
+            //else if (argument == null)
+            //{
+            //    await ExecuteInternalAsync(default, messageInstanceHelper, cancellationToken);
+            //}
             else
             {
-                await ExecuteInternalAsync(__refvalue(__makeref(argument), TParameter), messageInstanceHelper, cancellationToken);
+                await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken);
             }
         }
     }

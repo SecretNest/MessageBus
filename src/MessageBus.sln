@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBus.Abstractions", "MessageBus.Abstractions\MessageBus.Abstractions.csproj", "{ACFE5592-A5F4-4DFF-8857-7937DBDE8C39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBus.Abstractions", "MessageBus.Abstractions\MessageBus.Abstractions.csproj", "{ACFE5592-A5F4-4DFF-8857-7937DBDE8C39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBus", "MessageBus\MessageBus.csproj", "{1A634207-7DB5-42C1-A306-DCC321D3F33E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBus", "MessageBus\MessageBus.csproj", "{1A634207-7DB5-42C1-A306-DCC321D3F33E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1A634207-7DB5-42C1-A306-DCC321D3F33E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A634207-7DB5-42C1-A306-DCC321D3F33E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A634207-7DB5-42C1-A306-DCC321D3F33E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

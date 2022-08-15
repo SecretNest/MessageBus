@@ -7,7 +7,7 @@ namespace SecretNest.MessageBus
 {
     internal abstract class PublisherInfoBase
     {
-        public abstract MessageExecutorSequencerSupport MessageExecutorSequencerSupport { get; }
+        public abstract IMessageExecutorSequencerSupport MessageExecutorSequencerSupport { get; }
         public abstract bool IsAlwaysExecuteAll { get; }
         public abstract MessageExecutorBase MessageExecutorGeneric { get; }
     }
@@ -31,7 +31,7 @@ namespace SecretNest.MessageBus
             MessageExecutor = executor;
         }
 
-        public override MessageExecutorSequencerSupport MessageExecutorSequencerSupport => MessageExecutor;
+        public override IMessageExecutorSequencerSupport MessageExecutorSequencerSupport => MessageExecutor;
         public override bool IsAlwaysExecuteAll { get; }
         public override MessageExecutorBase MessageExecutorGeneric => MessageExecutor;
         public MessageExecutor<TParameter> MessageExecutor { get; }
@@ -56,7 +56,7 @@ namespace SecretNest.MessageBus
             MessageExecutor = executor;
         }
 
-        public override MessageExecutorSequencerSupport MessageExecutorSequencerSupport => MessageExecutor;
+        public override IMessageExecutorSequencerSupport MessageExecutorSequencerSupport => MessageExecutor;
         public override bool IsAlwaysExecuteAll { get; }
         public override MessageExecutorBase MessageExecutorGeneric => MessageExecutor;
         public MessageExecutor<TParameter, TReturn> MessageExecutor { get; }
