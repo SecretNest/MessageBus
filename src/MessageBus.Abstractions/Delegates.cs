@@ -1,4 +1,7 @@
-﻿namespace SecretNest.MessageBus
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace SecretNest.MessageBus
 {
     // ReSharper disable TypeParameterCanBeVariant
     

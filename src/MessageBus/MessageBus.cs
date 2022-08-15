@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using SecretNest.MessageBus.MessageNameMatching;
 using SecretNest.MessageBus.Options;
@@ -24,7 +25,7 @@ namespace SecretNest.MessageBus
             var messageNames = _sequencers.Where(i => i.Value.Publishers.IsEmpty).Select(i => i.Key).ToArray();
             foreach (var messageName in messageNames)
             {
-                _sequencers.Remove(messageName, out _);
+                _sequencers.TryRemove(messageName, out _);
             }
         }
 

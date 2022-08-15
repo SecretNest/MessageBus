@@ -1,4 +1,6 @@
-﻿namespace SecretNest.MessageBus
+﻿using System;
+
+namespace SecretNest.MessageBus
 {
     /// <summary>
     /// Contains the id of this executing and the name of the message.

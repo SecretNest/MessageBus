@@ -1,4 +1,5 @@
-﻿using SecretNest.MessageBus.MessageNameMatching;
+﻿using System;
+using SecretNest.MessageBus.MessageNameMatching;
 using SecretNest.MessageBus.Options;
 
 namespace SecretNest.MessageBus

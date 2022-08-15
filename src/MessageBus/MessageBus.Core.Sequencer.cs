@@ -41,7 +41,7 @@ namespace SecretNest.MessageBus
             {
                 if (sequencer.Publishers.IsEmpty)
                 {
-                    _sequencers.Remove(messageName, out _);
+                    _sequencers.TryRemove(messageName, out _);
                 }
             }
 
