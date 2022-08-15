@@ -93,7 +93,7 @@ namespace SecretNest.MessageBus
         {
             if (_argumentConvertingCallback != null)
             {
-                await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
+                await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken).ConfigureAwait(false);
             }
             //else if (argument == null)
             //{
@@ -101,7 +101,7 @@ namespace SecretNest.MessageBus
             //}
             else
             {
-                await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken);
+                await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
             }
         }
     }
@@ -188,7 +188,7 @@ namespace SecretNest.MessageBus
 
             if (_argumentConvertingCallback != null)
             {
-                result = await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
+                result = await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken).ConfigureAwait(false);
             }
             //else if (argument == null)
             //{
@@ -196,7 +196,7 @@ namespace SecretNest.MessageBus
             //}
             else
             {
-                result = await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken);
+                result = await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
             }
 
             bool shouldReturn;
@@ -246,7 +246,7 @@ namespace SecretNest.MessageBus
         {
             if (_argumentConvertingCallback != null)
             {
-                await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken);
+                await ExecuteInternalAsync(_argumentConvertingCallback(argument), messageInstanceHelper, cancellationToken).ConfigureAwait(false);
             }
             //else if (argument == null)
             //{
@@ -254,7 +254,7 @@ namespace SecretNest.MessageBus
             //}
             else
             {
-                await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken);
+                await ExecuteInternalAsync((TParameter?)argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
             }
         }
     }

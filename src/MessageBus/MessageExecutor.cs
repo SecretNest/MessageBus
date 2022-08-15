@@ -53,11 +53,11 @@ namespace SecretNest.MessageBus
         {
             if (_argumentConvertingCallback != null)
             {
-                return (await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken));
+                return (await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken).ConfigureAwait(false));
             }
             else
             {
-                return (await _executeAsyncCallback(argument, cancellationToken));
+                return (await _executeAsyncCallback(argument, cancellationToken).ConfigureAwait(false));
             }
         }
 
@@ -70,7 +70,7 @@ namespace SecretNest.MessageBus
         {
             var cancellationTokenValue = cancellationToken ?? CancellationToken.None;
             cancellationTokenValue.ThrowIfCancellationRequested();
-            await ExecuteWrappedAsync(argument, cancellationTokenValue);
+            await ExecuteWrappedAsync(argument, cancellationTokenValue).ConfigureAwait(false);
         }
 
         public override void ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstance messageInstance)
@@ -186,7 +186,7 @@ namespace SecretNest.MessageBus
         {
             var cancellationTokenValue = cancellationToken ?? CancellationToken.None;
             cancellationTokenValue.ThrowIfCancellationRequested();
-            var helper = await ExecuteWrappedAsync(argument, cancellationTokenValue);
+            var helper = await ExecuteWrappedAsync(argument, cancellationTokenValue).ConfigureAwait(false);
             cancellationTokenValue.ThrowIfCancellationRequested();
             return GetFinalResult(helper);
         }

@@ -35,7 +35,7 @@ namespace SecretNest.MessageBus
 
             private async Task<MessageInstanceHelper> ExecuteAsync(object? argument, CancellationToken cancellationToken)
             {
-                return await _sequencer.ExecuteAsync(argument, _isAlwaysExecuteAll, cancellationToken);
+                return await _sequencer.ExecuteAsync(argument, _isAlwaysExecuteAll, cancellationToken).ConfigureAwait(false);
             }
 
             public SequencerEntry(PublisherInfoBase publisher, Sequencer sequencer)
@@ -132,7 +132,7 @@ namespace SecretNest.MessageBus
             for (; currentSubscriberIndex < subscribersCount; )
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await subscribers[currentSubscriberIndex].ExecuteAsync(argument, messageInstanceHelper, cancellationToken);
+                await subscribers[currentSubscriberIndex].ExecuteAsync(argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
                 currentSubscriberIndex++;
                 if (messageInstanceHelper.IsSubscriberResultSet)
                 {
@@ -147,7 +147,7 @@ namespace SecretNest.MessageBus
                 var subscriber = subscribers[currentSubscriberIndex];
                 if (isAlwaysExecuteAll || subscriber.IsAlwaysExecution)
                 {
-                    await subscriber.ExecuteForceAsync(argument, messageInstanceHelper, cancellationToken);
+                    await subscriber.ExecuteForceAsync(argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
                 }
             }
 
