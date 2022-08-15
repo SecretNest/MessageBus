@@ -47,15 +47,15 @@ namespace SecretNest.MessageBus
             }
         }
 
-        private async Task<MessageInstanceHelper> ExecuteWrappedAsync(TParameter? argument, CancellationToken? cancellationToken)
+        private async Task<MessageInstanceHelper> ExecuteWrappedAsync(TParameter? argument, CancellationToken cancellationToken)
         {
             if (_argumentConvertingCallback != null)
             {
-                return (await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken ??= CancellationToken.None));
+                return (await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken));
             }
             else
             {
-                return (await _executeAsyncCallback(argument, cancellationToken ??= CancellationToken.None));
+                return (await _executeAsyncCallback(argument, cancellationToken));
             }
         }
 
@@ -66,7 +66,9 @@ namespace SecretNest.MessageBus
 
         public override async Task ExecuteAsync(TParameter? argument, CancellationToken? cancellationToken = default)
         {
-            await ExecuteWrappedAsync(argument, cancellationToken);
+            var cancellationTokenValue = cancellationToken ?? CancellationToken.None;
+            cancellationTokenValue.ThrowIfCancellationRequested();
+            await ExecuteWrappedAsync(argument, cancellationTokenValue);
         }
 
         public override void ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstance messageInstance)
@@ -77,7 +79,10 @@ namespace SecretNest.MessageBus
 
         public override async Task<MessageInstance> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken? cancellationToken = default)
         {
-            var helper = await ExecuteWrappedAsync(argument, cancellationToken).ConfigureAwait(false);
+            var cancellationTokenValue = cancellationToken ?? CancellationToken.None;
+            cancellationTokenValue.ThrowIfCancellationRequested();
+            var helper = await ExecuteWrappedAsync(argument, cancellationTokenValue).ConfigureAwait(false);
+            cancellationTokenValue.ThrowIfCancellationRequested();
             return helper.GetMessageInstance();
         }
 
@@ -130,17 +135,17 @@ namespace SecretNest.MessageBus
             return result;
         }
 
-        private async Task<MessageInstanceHelper> ExecuteWrappedAsync(TParameter? argument, CancellationToken? cancellationToken)
+        private async Task<MessageInstanceHelper> ExecuteWrappedAsync(TParameter? argument, CancellationToken cancellationToken)
         {
             MessageInstanceHelper result;
 
             if (_argumentConvertingCallback != null)
             {
-                result = await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken ??= CancellationToken.None).ConfigureAwait(false);
+                result = await _executeAsyncCallback(_argumentConvertingCallback(argument), cancellationToken).ConfigureAwait(false);
             }
             else
             {
-                result = await _executeAsyncCallback(argument, cancellationToken ??= CancellationToken.None).ConfigureAwait(false);
+                result = await _executeAsyncCallback(argument, cancellationToken).ConfigureAwait(false);
             }
 
             return result;
@@ -177,7 +182,11 @@ namespace SecretNest.MessageBus
 
         public override async Task<TReturn?> ExecuteAsync(TParameter? argument, CancellationToken? cancellationToken = default)
         {
-            return GetFinalResult(await ExecuteWrappedAsync(argument, cancellationToken));
+            var cancellationTokenValue = cancellationToken ?? CancellationToken.None;
+            cancellationTokenValue.ThrowIfCancellationRequested();
+            var helper = await ExecuteWrappedAsync(argument, cancellationTokenValue);
+            cancellationTokenValue.ThrowIfCancellationRequested();
+            return GetFinalResult(helper);
         }
 
         public override TReturn? ExecuteAndGetMessageInstance(TParameter? argument, out MessageInstance messageInstance)
@@ -189,7 +198,10 @@ namespace SecretNest.MessageBus
 
         public override async Task<MessageInstanceWithExecutorResult<TReturn>> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken? cancellationToken = default)
         {
-            var helper = await ExecuteWrappedAsync(argument, cancellationToken).ConfigureAwait(false);
+            var cancellationTokenValue = cancellationToken ?? CancellationToken.None;
+            cancellationTokenValue.ThrowIfCancellationRequested();
+            var helper = await ExecuteWrappedAsync(argument, cancellationTokenValue).ConfigureAwait(false);
+            cancellationTokenValue.ThrowIfCancellationRequested();
             return new MessageInstanceWithExecutorResult<TReturn>(helper.GetMessageInstance(), GetFinalResult(helper));
         }
 

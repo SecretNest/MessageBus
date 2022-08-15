@@ -128,6 +128,7 @@ namespace SecretNest.MessageBus
             //get the first result
             for (; currentSubscriberIndex < subscribersCount; )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 await subscribers[currentSubscriberIndex].ExecuteAsync(argument, messageInstanceHelper, cancellationToken);
                 currentSubscriberIndex++;
                 if (messageInstanceHelper.IsSubscriberResultSet)
@@ -139,6 +140,7 @@ namespace SecretNest.MessageBus
             //others
             for (; currentSubscriberIndex < subscribersCount; currentSubscriberIndex++)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var subscriber = subscribers[currentSubscriberIndex];
                 if (isAlwaysExecuteAll || subscriber.IsAlwaysExecution)
                 {
