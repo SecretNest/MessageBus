@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>SecretNest.MessageBus</RootNamespace>
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+    <LangVersion>10</LangVersion>
+    <AssemblyName>SecretNest.MessageBus.DirectRelease</AssemblyName>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <Import Project="..\Code.MessageBus\Code.MessageBus.projitems" Label="Shared" />
+  <Import Project="..\Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems" Label="Shared" />
+
+</Project>

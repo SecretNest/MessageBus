@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>48fb4f1e-77f6-4791-b40e-e572cf8ce89f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SecretNest.MessageBus</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Delegates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Publisher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Subscriber.Async.NoReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Subscriber.Async.Return.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Subscriber.Sync.NoReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Subscriber.Sync.Return.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Subscriber.Unregister.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageExecutorBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageInstance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageNameMatching\MessageNameMatcherBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageNameMatching\MessageNameMatchingAll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageNameMatching\MessageNameMatchingWithRegularExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageNameMatching\MessageNameMatchingWithStringComparison.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\MessageBusPublisherOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\MessageBusSubscriberOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PublisherTicket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReturnWithInstanceServiceProviderBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SubscriberTicket.cs" />
+  </ItemGroup>
+</Project>

@@ -7,7 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBus.Abstractions", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBus", "MessageBus\MessageBus.csproj", "{1A634207-7DB5-42C1-A306-DCC321D3F33E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}"
+EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Documentation", "Documentation\Documentation.shfbproj", "{270B3D71-2B59-46C8-8673-34E909A21944}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Code.MessageBus.Abstractions", "Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.shproj", "{48FB4F1E-77F6-4791-B40E-E572CF8CE89F}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Code.MessageBus", "Code.MessageBus\Code.MessageBus.shproj", "{040F3D0E-F805-4CBE-89AF-9C1050625FBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectRelease", "DirectRelease\DirectRelease.csproj", "{4D378068-2564-4D01-8378-0C8B250B9AD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,11 +35,27 @@ Global
 		{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{380B5C5C-B16A-4F23-8DE1-C065C2F7BD16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{270B3D71-2B59-46C8-8673-34E909A21944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{270B3D71-2B59-46C8-8673-34E909A21944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{270B3D71-2B59-46C8-8673-34E909A21944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{270B3D71-2B59-46C8-8673-34E909A21944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D378068-2564-4D01-8378-0C8B250B9AD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D378068-2564-4D01-8378-0C8B250B9AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D378068-2564-4D01-8378-0C8B250B9AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D378068-2564-4D01-8378-0C8B250B9AD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF26492E-4247-476A-A882-B2CB735CFE58}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Code.MessageBus\Code.MessageBus.projitems*{040f3d0e-f805-4cbe-89af-9c1050625fbf}*SharedItemsImports = 13
+		Code.MessageBus\Code.MessageBus.projitems*{1a634207-7db5-42c1-a306-dcc321d3f33e}*SharedItemsImports = 5
+		Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems*{48fb4f1e-77f6-4791-b40e-e572cf8ce89f}*SharedItemsImports = 13
+		Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems*{4d378068-2564-4d01-8378-0c8b250b9ad0}*SharedItemsImports = 5
+		Code.MessageBus\Code.MessageBus.projitems*{4d378068-2564-4d01-8378-0c8b250b9ad0}*SharedItemsImports = 5
+		Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems*{acfe5592-a5f4-4dff-8857-7937dbde8c39}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

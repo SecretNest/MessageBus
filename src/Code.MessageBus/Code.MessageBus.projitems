@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>040f3d0e-f805-4cbe-89af-9c1050625fbf</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SecretNest.MessageBus</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Core.Sequencer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Core.Subscriber.Pool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Publisher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Subscriber.Async.NoReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Subscriber.Async.Return.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Subscriber.Sync.NoReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Subscriber.Sync.Return.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Subscriber.Unregister.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageExecutor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageInstanceHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PublisherInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sequencer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SubscriberInfo.cs" />
+  </ItemGroup>
+</Project>

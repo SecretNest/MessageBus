@@ -7,10 +7,13 @@
     <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
     <LangVersion>10</LangVersion>
     <AssemblyName>SecretNest.MessageBus</AssemblyName>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MessageBus.Abstractions\MessageBus.Abstractions.csproj" />
   </ItemGroup>
+
+  <Import Project="..\Code.MessageBus\Code.MessageBus.projitems" Label="Shared" />
 
 </Project>
