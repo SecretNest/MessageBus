@@ -8,6 +8,13 @@
     <LangVersion>10</LangVersion>
     <AssemblyName>SecretNest.MessageBus.Abstractions</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>SecretNest.MessageBus.Abstractions</Title>
+    <Authors>Allen Cui</Authors>
+    <Company>SecretNest.info</Company>
+    <Product>SecretNest.MessageBus</Product>
+    <Description>Abstractions for Message Bus from SecretNest.info.</Description>
+    <Copyright>SecretNest.info / Allen Cui</Copyright>
   </PropertyGroup>
 
   <Import Project="..\Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems" Label="Shared" />

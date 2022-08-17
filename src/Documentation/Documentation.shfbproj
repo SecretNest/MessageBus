@@ -18,7 +18,7 @@
     <Name>Documentation</Name>
     <!-- SHFB properties -->
     <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
-    <OutputPath>.\Help\</OutputPath>
+    <OutputPath>..\..\docs\</OutputPath>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <TransformComponentArguments>
@@ -54,8 +54,11 @@
     <ProjectSummary>Message bus components released from SecretNest.info.</ProjectSummary>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="SecretNest.MessageBus" isDocumented="True" xmlns="">Contains components of message bus from SecretNest.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SecretNest.MessageBus.MessageNameMatching" isDocumented="True" xmlns="">Contains components for subscriber message name matching.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SecretNest.MessageBus.Options" isDocumented="True" xmlns="">Contains options to control message bus behavior.</NamespaceSummaryItem></NamespaceSummaries>
+      <NamespaceSummaryItem name="SecretNest.MessageBus.MessageNameMatching" isDocumented="True" xmlns="">Contains components for subscriber message name matching.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SecretNest.MessageBus.Options" isDocumented="True" xmlns="">Contains options to control message bus behavior.</NamespaceSummaryItem>
+    </NamespaceSummaries>
+    <SourceCodeBasePath>..\DirectRelease\</SourceCodeBasePath>
+    <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
