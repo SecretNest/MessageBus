@@ -34,7 +34,7 @@
       <DocumentationSource sourceFile="..\DirectRelease\DirectRelease.csproj" xmlns="" />
     </DocumentationSources>
     <HelpFileFormat>Website</HelpFileFormat>
-    <SyntaxFilters>Standard</SyntaxFilters>
+    <SyntaxFilters>C#</SyntaxFilters>
     <PresentationStyle>Default2022</PresentationStyle>
     <CleanIntermediates>True</CleanIntermediates>
     <KeepLogFile>True</KeepLogFile>
@@ -85,7 +85,11 @@
     <Folder Include="media" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\VersionHistory\v1.0.0.0.aml" />
+    <None Include="Content\Executing.aml" />
+    <None Include="Content\Subscriber.aml" />
+    <None Include="Content\VersionHistory\MessageBus.aml" />
+    <None Include="Content\VersionHistory\Naming.aml" />
+    <None Include="Content\VersionHistory\Publisher.aml" />
     <None Include="Content\VersionHistory\VersionHistory.aml" />
     <None Include="Content\Welcome.aml" />
   </ItemGroup>

@@ -47,7 +47,7 @@ namespace SecretNest.MessageBus
         public override MessageNameMatcherBase MessageNameMatcher { get; }
         public override int Sequence { get; }
         public override bool IsAlwaysExecution { get; }
-        private bool _isFinal { get; }
+        private readonly bool _isFinal;
         private readonly Func<object?, TParameter?>? _argumentConvertingCallback;
 
         public abstract void ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper);
