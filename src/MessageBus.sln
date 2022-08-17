@@ -15,7 +15,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Code.MessageBus.Abstraction
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Code.MessageBus", "Code.MessageBus\Code.MessageBus.shproj", "{040F3D0E-F805-4CBE-89AF-9C1050625FBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectRelease", "DirectRelease\DirectRelease.csproj", "{4D378068-2564-4D01-8378-0C8B250B9AD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectRelease", "DirectRelease\DirectRelease.csproj", "{4D378068-2564-4D01-8378-0C8B250B9AD0}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NugetShared", "NugetShared\NugetShared.shproj", "{D4EE2ED6-62FF-4E39-ABE5-422A25AA1496}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,9 +55,12 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Code.MessageBus\Code.MessageBus.projitems*{040f3d0e-f805-4cbe-89af-9c1050625fbf}*SharedItemsImports = 13
 		Code.MessageBus\Code.MessageBus.projitems*{1a634207-7db5-42c1-a306-dcc321d3f33e}*SharedItemsImports = 5
+		NugetShared\NugetShared.projitems*{1a634207-7db5-42c1-a306-dcc321d3f33e}*SharedItemsImports = 5
 		Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems*{48fb4f1e-77f6-4791-b40e-e572cf8ce89f}*SharedItemsImports = 13
 		Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems*{4d378068-2564-4d01-8378-0c8b250b9ad0}*SharedItemsImports = 5
 		Code.MessageBus\Code.MessageBus.projitems*{4d378068-2564-4d01-8378-0c8b250b9ad0}*SharedItemsImports = 5
 		Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems*{acfe5592-a5f4-4dff-8857-7937dbde8c39}*SharedItemsImports = 5
+		NugetShared\NugetShared.projitems*{acfe5592-a5f4-4dff-8857-7937dbde8c39}*SharedItemsImports = 5
+		NugetShared\NugetShared.projitems*{d4ee2ed6-62ff-4e39-abe5-422a25aa1496}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

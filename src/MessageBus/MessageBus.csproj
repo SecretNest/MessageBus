@@ -8,12 +8,40 @@
     <LangVersion>10</LangVersion>
     <AssemblyName>SecretNest.MessageBus</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>6.0-all</AnalysisLevel>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>SecretNest.MessageBus</Title>
+    <Authors>Allen Cui</Authors>
+    <Company>SecretNest.info</Company>
+    <Product>SecretNest.MessageBus</Product>
+    <Copyright>SecretNest.info / Allen Cui</Copyright>
+    <Description>Provides publishing subscription model support within one app. Supports one parameter and optional return value. Supports sync and async.</Description>
+    <PackageProjectUrl>https://secretnest.info/MessageBus</PackageProjectUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/SecretNest/MessageBus</RepositoryUrl>
+    <PackageTags>MessageBus; Subscriber; Publisher; Subscription</PackageTags>
+    <PackageReleaseNotes>Intial release.</PackageReleaseNotes>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MessageBus.Abstractions\MessageBus.Abstractions.csproj" />
+    <PackageReference Include="SecretNest.MessageBus.Abstractions" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <Import Project="..\Code.MessageBus\Code.MessageBus.projitems" Label="Shared" />
+
+  <Import Project="..\NugetShared\NugetShared.projitems" Label="Shared" />
 
 </Project>

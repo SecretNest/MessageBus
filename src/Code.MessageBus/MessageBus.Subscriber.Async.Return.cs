@@ -16,7 +16,7 @@ namespace SecretNest.MessageBus
             var id = AddSubscriberToPool(subscriberInfo);
             AddSubscriberToSequencer(id, subscriberInfo);
 
-            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberAsync<TParameter, TReturn>>(id, false, options, handler, subscriberInfo.MessageNameMatcher);
+            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberAsync<TParameter, TReturn>>(id, true, options, handler, subscriberInfo.MessageNameMatcher);
             return ticket;
         }
 
@@ -28,7 +28,7 @@ namespace SecretNest.MessageBus
             var id = AddSubscriberToPool(subscriberInfo);
             AddSubscriberToSequencer(id, subscriberInfo);
 
-            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberAsync<TParameter, TReturn>>(id, false, options, handler, subscriberInfo.MessageNameMatcher);
+            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberAsync<TParameter, TReturn>>(id, true, options, handler, subscriberInfo.MessageNameMatcher);
             return ticket;
         }
 
@@ -40,7 +40,7 @@ namespace SecretNest.MessageBus
             var id = AddSubscriberToPool(subscriberInfo);
             AddSubscriberToSequencer(id, subscriberInfo);
 
-            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberWithMessageInstanceAsync<TParameter, TReturn>>(id, false, options, handler, subscriberInfo.MessageNameMatcher);
+            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberWithMessageInstanceAsync<TParameter, TReturn>>(id, true, options, handler, subscriberInfo.MessageNameMatcher);
             return ticket;
         }
 
@@ -52,7 +52,7 @@ namespace SecretNest.MessageBus
             var id = AddSubscriberToPool(subscriberInfo);
             AddSubscriberToSequencer(id, subscriberInfo);
 
-            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberWithMessageInstanceAsync<TParameter, TReturn>>(id, false, options, handler, subscriberInfo.MessageNameMatcher);
+            var ticket = new SubscriberTicket<TParameter, TReturn, SubscriberWithMessageInstanceAsync<TParameter, TReturn>>(id, true, options, handler, subscriberInfo.MessageNameMatcher);
             return ticket;
         }
     }

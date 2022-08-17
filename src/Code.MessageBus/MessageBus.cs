@@ -13,8 +13,6 @@ namespace SecretNest.MessageBus
     /// </summary>
     public sealed partial class MessageBus : MessageBusBase
     {
-        private bool _disposedValue;
-
         /// <summary>
         /// Gets or sets whether should remove the sequencer when the last related publisher is removed. Default value is <see langword="true"/>.
         /// </summary>
@@ -32,26 +30,12 @@ namespace SecretNest.MessageBus
             }
         }
 
-        private void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    OnShutdownSequencers();
-                    OnShutdownSubscriberPool();
-                }
-
-                _disposedValue = true;
-            }
-        }
-
         /// <inheritdoc />
-        public override void Dispose()
+        protected override void DisposeManagedState()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            OnShutdownSequencers();
+            OnShutdownSubscriberPool();
         }
+
     }
 }

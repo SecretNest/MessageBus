@@ -15,8 +15,29 @@
     <Product>SecretNest.MessageBus</Product>
     <Description>Abstractions for Message Bus from SecretNest.info.</Description>
     <Copyright>SecretNest.info / Allen Cui</Copyright>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageProjectUrl>https://secretnest.info/MessageBus</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SecretNest/MessageBus</RepositoryUrl>
+    <PackageTags>MessageBus; Subscriber; Publisher; Subscription</PackageTags>
+    <PackageReleaseNotes>Intial release.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>6.0-all</AnalysisLevel>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <Import Project="..\Code.MessageBus.Abstractions\Code.MessageBus.Abstractions.projitems" Label="Shared" />
+
+  <Import Project="..\NugetShared\NugetShared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

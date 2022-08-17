@@ -10,7 +10,8 @@ namespace SecretNest.MessageBus
         // ReSharper disable once IdentifierTypo
         public override bool UnregisterSubscriber(SubscriberTicketBase subscriberTicket)
         {
-            return UnregisterSubscriber(subscriberTicket.Id);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            return subscriberTicket != null && UnregisterSubscriber(subscriberTicket.Id);
         }
 
         /// <inheritdoc />

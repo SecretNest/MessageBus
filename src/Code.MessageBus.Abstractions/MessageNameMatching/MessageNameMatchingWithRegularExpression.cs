@@ -10,7 +10,7 @@ namespace SecretNest.MessageBus.MessageNameMatching
     /// </summary>
     public class MessageNameMatchingWithRegularExpression : MessageNameMatcherBase
     {
-        private Regex _regex;
+        private readonly Regex _regex;
 
         /// <summary>
         /// Initializes an instance of MatchingWithRegularExpression.

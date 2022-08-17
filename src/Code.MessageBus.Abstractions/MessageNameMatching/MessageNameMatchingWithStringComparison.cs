@@ -38,7 +38,9 @@ namespace SecretNest.MessageBus.MessageNameMatching
         /// <inheritdoc />
         public override bool IsComplied(string publisherMessageName)
         {
+#pragma warning disable CA1062 // Validate arguments of public methods
             return publisherMessageName.Equals(SubscriberMessageNamePattern, StringComparison);
+#pragma warning restore CA1062 // Validate arguments of public methods
         }
     }
 }

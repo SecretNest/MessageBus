@@ -31,7 +31,8 @@ namespace SecretNest.MessageBus
         // ReSharper disable once IdentifierTypo
         public override bool UnregisterPublisher(PublisherTicketBase publisherTicket)
         {
-            return UnregisterPublisher(publisherTicket.Id);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            return publisherTicket != null && UnregisterPublisher(publisherTicket.Id);
         }
 
         /// <inheritdoc />
