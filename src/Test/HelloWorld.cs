@@ -7,14 +7,14 @@ namespace Test
         public void TestMethod()
         {
             using var bus = new MessageBus();
-            var subscriber = bus.RegisterSubscriber<string>("Hello", SubscriberMethod);
+            var subscriberTicket = bus.RegisterSubscriber<string>("Hello", SubscriberMethod);
             var text = "Hello World";
 
-            var publisher = bus.RegisterPublisher<string>("Hello");
-            publisher.Executor.Execute(text);
+            var publisherTicket = bus.RegisterPublisher<string>("Hello");
+            publisherTicket.Executor.Execute(text);
 
-            bus.UnregisterPublisher(publisher);
-            bus.UnregisterSubscriber(subscriber);
+            bus.UnregisterPublisher(publisherTicket);
+            bus.UnregisterSubscriber(subscriberTicket);
 
             Assert.AreEqual(text, _received);
         }

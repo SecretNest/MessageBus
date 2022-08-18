@@ -10,26 +10,26 @@ namespace Test
         public void TestMethod()
         {
             using var bus = new MessageBus();
-            var subscriberExact1 = bus.RegisterSubscriber<string>("Hello", SubscriberExact1);
-            var subscriberExact2 = bus.RegisterSubscriber<string>("hello", SubscriberExact2);
-            var subscriberIgnoreCase = bus.RegisterSubscriber<string>(new MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), SubscriberIgnoreCase);
-            var subscriberAll = bus.RegisterSubscriber<string>(new MessageNameMatchingAll(), SubscriberAll);
+            var subscriberExact1Ticket = bus.RegisterSubscriber<string>("Hello", SubscriberExact1);
+            var subscriberExact2Ticket = bus.RegisterSubscriber<string>("hello", SubscriberExact2);
+            var subscriberIgnoreCaseTicket = bus.RegisterSubscriber<string>(new MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), SubscriberIgnoreCase);
+            var subscriberAllTicket = bus.RegisterSubscriber<string>(new MessageNameMatchingAll(), SubscriberAll);
             // ReSharper disable once StringLiteralTypo
-            var subscriberRegEx1 = bus.RegisterSubscriber<string>(new MessageNameMatchingWithRegularExpression("[Hh]ello"), SubscriberRegEx1);
-            var subscriberRegEx2 = bus.RegisterSubscriber<string>(new MessageNameMatchingWithRegularExpression("hello"), SubscriberRegEx2);
+            var subscriberRegEx1Ticket = bus.RegisterSubscriber<string>(new MessageNameMatchingWithRegularExpression("[Hh]ello"), SubscriberRegEx1);
+            var subscriberRegEx2Ticket = bus.RegisterSubscriber<string>(new MessageNameMatchingWithRegularExpression("hello"), SubscriberRegEx2);
 
             var text = "Hello World";
 
-            var publisher = bus.RegisterPublisher<string>("Hello", new MessageBusPublisherOptions<string>(true));
-            publisher.Executor.Execute(text);
+            var publisherTicket = bus.RegisterPublisher<string>("Hello", new MessageBusPublisherOptions<string>(true));
+            publisherTicket.Executor.Execute(text);
 
-            bus.UnregisterPublisher(publisher);
-            bus.UnregisterSubscriber(subscriberExact1);
-            bus.UnregisterSubscriber(subscriberExact2);
-            bus.UnregisterSubscriber(subscriberIgnoreCase);
-            bus.UnregisterSubscriber(subscriberAll);
-            bus.UnregisterSubscriber(subscriberRegEx1);
-            bus.UnregisterSubscriber(subscriberRegEx2);
+            bus.UnregisterPublisher(publisherTicket);
+            bus.UnregisterSubscriber(subscriberExact1Ticket);
+            bus.UnregisterSubscriber(subscriberExact2Ticket);
+            bus.UnregisterSubscriber(subscriberIgnoreCaseTicket);
+            bus.UnregisterSubscriber(subscriberAllTicket);
+            bus.UnregisterSubscriber(subscriberRegEx1Ticket);
+            bus.UnregisterSubscriber(subscriberRegEx2Ticket);
 
             Assert.AreEqual(text, _exact1);
             Assert.AreNotEqual(text, _exact2);

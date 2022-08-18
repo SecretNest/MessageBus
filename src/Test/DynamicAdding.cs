@@ -10,30 +10,30 @@ namespace Test
         public void TestMethod()
         {
             using var bus = new MessageBus();
-            var subscriber1000 = bus.RegisterSubscriber<int, int>("DynamicAdding", Subscriber1000,
+            var subscriber1000Ticket = bus.RegisterSubscriber<int, int>("DynamicAdding", Subscriber1000,
                 new MessageBusSubscriberOptions<int, int>(sequence: 0, resultCheckingCallback: i => i > 0));
-            var subscriber100 = bus.RegisterSubscriber<int, int>("DynamicAdding", Subscriber10,
+            var subscriber100Ticket = bus.RegisterSubscriber<int, int>("DynamicAdding", Subscriber10,
                 new MessageBusSubscriberOptions<int, int>(sequence: 2, resultCheckingCallback: i => i > 0));
             
-            var publisher = bus.RegisterPublisher<int, int>("DynamicAdding", new MessageBusPublisherOptions<int, int>(defaultReturnValue: 5));
+            var publisherTicket = bus.RegisterPublisher<int, int>("DynamicAdding", new MessageBusPublisherOptions<int, int>(defaultReturnValue: 5));
 
-            var result1000 = publisher.Executor.Execute(1500);
-            var result10 = publisher.Executor.Execute(300);
-            var result5 = publisher.Executor.Execute(8);
+            var result1000 = publisherTicket.Executor.Execute(1500);
+            var result10 = publisherTicket.Executor.Execute(300);
+            var result5 = publisherTicket.Executor.Execute(8);
 
             //adding
-            var subscriber10 = bus.RegisterSubscriber<int, int>("DynamicAdding", Subscriber100,
+            var subscriber10Ticket = bus.RegisterSubscriber<int, int>("DynamicAdding", Subscriber100,
                 new MessageBusSubscriberOptions<int, int>(sequence: 1, resultCheckingCallback: i => i > 0));
-            var result100 = publisher.Executor.Execute(300);
-            var result5B = publisher.Executor.Execute(8);
+            var result100 = publisherTicket.Executor.Execute(300);
+            var result5B = publisherTicket.Executor.Execute(8);
 
             //removing
-            bus.UnregisterSubscriber(subscriber1000);
-            var result100B = publisher.Executor.Execute(1500);
+            bus.UnregisterSubscriber(subscriber1000Ticket);
+            var result100B = publisherTicket.Executor.Execute(1500);
 
-            bus.UnregisterPublisher(publisher);
-            bus.UnregisterSubscriber(subscriber100);
-            bus.UnregisterSubscriber(subscriber10);
+            bus.UnregisterPublisher(publisherTicket);
+            bus.UnregisterSubscriber(subscriber100Ticket);
+            bus.UnregisterSubscriber(subscriber10Ticket);
 
             Assert.AreEqual(1000, result1000);
             Assert.AreEqual(10, result10);

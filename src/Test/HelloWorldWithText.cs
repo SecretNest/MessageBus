@@ -1,21 +1,21 @@
 namespace Test
 {
     [TestClass]
-    public class HelloWorldWithTest
+    public class HelloWorldWithText
     {
         [TestMethod]
         public void TestMethod()
         {
             using var bus = new MessageBus();
-            var subscriber = bus.RegisterSubscriber<string, int>("Hello", SubscriberMethod);
+            var subscriberTicket = bus.RegisterSubscriber<string, int>("Hello", SubscriberMethod);
             var text = "Hello World";
             var result = 100;
 
-            var publisher = bus.RegisterPublisher<string, int>("Hello"); 
-            var returnValue = publisher.Executor.Execute(text);
+            var publisherTicket = bus.RegisterPublisher<string, int>("Hello"); 
+            var returnValue = publisherTicket.Executor.Execute(text);
 
-            bus.UnregisterPublisher(publisher);
-            bus.UnregisterSubscriber(subscriber);
+            bus.UnregisterPublisher(publisherTicket);
+            bus.UnregisterSubscriber(subscriberTicket);
 
             Assert.AreEqual(text, _received);
             Assert.AreEqual(result, returnValue);
