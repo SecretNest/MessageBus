@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example code snippets file -->
+<!-- ReSharper disable MarkupTextTypo -->
+<examples>
+  <item id="DefaultReturn#All">
+    <sampleCode language="CSharp">
+      public void TestMethod()
+      {
+          using var bus = new MessageBus();
+
+          var subscriberHaveReturnTicket = bus.RegisterSubscriber&lt;int, int&gt;("Return", HaveReturn,
+              new MessageBusSubscriberOptions&lt;int, int&gt;(sequence: 0));
+          var subscriberNoReturnNoFinalTicket = bus.RegisterSubscriber&lt;int&gt;(new MessageNameMatchingAll(), NoReturn,
+              new MessageBusSubscriberOptions&lt;int&gt;(sequence: 1, isFinal: false));
+          var subscriberNoReturnTicket = bus.RegisterSubscriber&lt;int&gt;("NoReturnButFinal", NoReturn,
+              new MessageBusSubscriberOptions&lt;int&gt;(sequence: 2));
+
+          var publisher1Ticket = bus.RegisterPublisher&lt;int, int&gt;("Return", new MessageBusPublisherOptions&lt;int, int&gt;(defaultReturnValue: 100));
+          var publisher2Ticket = bus.RegisterPublisher&lt;int, int&gt;("SomethingElse", new MessageBusPublisherOptions&lt;int, int&gt;(defaultReturnValue: 100));
+          var publisher3Ticket = bus.RegisterPublisher&lt;int, int&gt;("NoReturnButFinal", new MessageBusPublisherOptions&lt;int, int&gt;(defaultReturnValue: 100));
+
+          _haveReturnExecuted = false;
+          _noReturnExecuted = false;
+          var result11 = publisher1Ticket.Executor.Execute(10);
+          //after execute: _haveReturnExecuted == true; _noReturnExecuted == false;
+      
+          _haveReturnExecuted = false;
+          _noReturnExecuted = false;
+          var result100 = publisher2Ticket.Executor.ExecuteAndGetMessageInstance(0, out var messageInstance1);
+          //after execute: _haveReturnExecuted == false; _noReturnExecuted == true;
+
+          _haveReturnExecuted = false;
+          _noReturnExecuted = false;
+          var resultDefault = publisher3Ticket.Executor.ExecuteAndGetMessageInstance(0, out var messageInstance2);
+          //after execute: _haveReturnExecuted == false; _noReturnExecuted == true;
+
+          bus.UnregisterSubscriber(subscriberHaveReturnTicket);
+          bus.UnregisterSubscriber(subscriberNoReturnNoFinalTicket);
+          bus.UnregisterSubscriber(subscriberNoReturnTicket);
+          bus.UnregisterPublisher(publisher1Ticket);
+          bus.UnregisterPublisher(publisher2Ticket);
+          bus.UnregisterPublisher(publisher3Ticket);
+      }
+
+      private bool _haveReturnExecuted, _noReturnExecuted;
+      public int HaveReturn(int something)
+      {
+          _haveReturnExecuted = true;
+          return something + 1;
+      }
+
+      public void NoReturn(int something)
+      {
+          _noReturnExecuted = true;
+      }
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+    Sub TestMethod()
+      Using bus As New MessageBus
+        Dim subscriberHaveReturnTicket = bus.RegisterSubscriber(Of Integer, Integer)("Return", AddressOf HaveReturn, New MessageBusSubscriberOptions(Of Integer, Integer)(sequence:=0))
+        Dim subscriberNoReturnNoFinalTicket = bus.RegisterSubscriber(Of Integer)(New MessageNameMatchingAll(), AddressOf NoReturn, New MessageBusSubscriberOptions(Of Integer)(sequence:=1, isFinal:=False))
+        Dim subscriberNoReturnTicket = bus.RegisterSubscriber(Of Integer)("NoReturnButFinal", AddressOf NoReturn, New MessageBusSubscriberOptions(Of Integer)(sequence:=2))
+
+        Dim publisher1Ticket = bus.RegisterPublisher(Of Integer, Integer)("Return", New MessageBusPublisherOptions(Of Integer, Integer)(defaultReturnValue:=100))
+        Dim publisher2Ticket = bus.RegisterPublisher(Of Integer, Integer)("SomethingElse", New MessageBusPublisherOptions(Of Integer, Integer)(defaultReturnValue:=100))
+        Dim publisher3Ticket = bus.RegisterPublisher(Of Integer, Integer)("NoReturnButFinal", New MessageBusPublisherOptions(Of Integer, Integer)(defaultReturnValue:=100))
+
+        _haveReturnExecuted = False
+        _noReturnExecuted = False
+        Dim result11 = publisher1Ticket.Executor.Execute(10)
+        'after execute: _haveReturnExecuted = True, _noReturnExecuted = False
+
+        _haveReturnExecuted = False
+        _noReturnExecuted = False
+        Dim messageInstance1 As MessageInstance = Nothing
+        Dim result100 = publisher2Ticket.Executor.ExecuteAndGetMessageInstance(0, messageInstance1)
+        'after execute: _haveReturnExecuted = False, _noReturnExecuted = True
+
+        _haveReturnExecuted = False
+        _noReturnExecuted = False
+        Dim messageInstance2 As MessageInstance = Nothing
+        Dim resultDefault = publisher3Ticket.Executor.ExecuteAndGetMessageInstance(0, messageInstance2)
+        'after execute: _haveReturnExecuted = False, _noReturnExecuted = True
+
+        bus.UnregisterSubscriber(subscriberHaveReturnTicket)
+        bus.UnregisterSubscriber(subscriberNoReturnNoFinalTicket)
+        bus.UnregisterSubscriber(subscriberNoReturnTicket)
+        bus.UnregisterPublisher(publisher1Ticket)
+        bus.UnregisterPublisher(publisher2Ticket)
+        bus.UnregisterPublisher(publisher3Ticket)
+      End Using
+    End Sub
+
+    Private _haveReturnExecuted, _noReturnExecuted As Boolean
+    Public Function HaveReturn(something As Integer) As Integer
+      _haveReturnExecuted = True
+      Return something + 1
+    End Function
+
+    Public Sub NoReturn(something As Integer)
+      _noReturnExecuted = True
+    End Sub
+    </sampleCode>
+  </item>
+</examples>
+

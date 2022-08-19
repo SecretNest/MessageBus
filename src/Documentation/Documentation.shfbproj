@@ -100,7 +100,16 @@
     <Content Include="icons\Help.png" />
   </ItemGroup>
   <ItemGroup>
+    <CodeSnippets Include="Code\ArgumentMatching.snippets" />
+    <CodeSnippets Include="Code\ArgumentMatchingWithPublisherConverter.snippets" />
+    <CodeSnippets Include="Code\ArgumentMatchingWithSubscriberConverter.snippets" />
+    <CodeSnippets Include="Code\AsyncCall.snippets" />
     <CodeSnippets Include="Code\Bus.snippets" />
+    <CodeSnippets Include="Code\DefaultReturn.snippets" />
+    <CodeSnippets Include="Code\Hello.snippets" />
+    <CodeSnippets Include="Code\HelloWithReturn.snippets" />
+    <CodeSnippets Include="Code\Naming.snippets" />
+    <CodeSnippets Include="Code\SubscriberForceExecuting.snippets" />
   </ItemGroup>
   <!-- Import the common build targets during NuGet restore because before the packages are being installed, $(SHFBROOT) is not set yet -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="'$(MSBuildRestoreSessionId)' != ''" />

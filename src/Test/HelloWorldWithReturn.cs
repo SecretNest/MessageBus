@@ -1,7 +1,7 @@
 namespace Test
 {
     [TestClass]
-    public class HelloWorldWithText
+    public class HelloWorldWithReturn
     {
         [TestMethod]
         public void TestMethod()

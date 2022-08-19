@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example code snippets file -->
+<!-- ReSharper disable MarkupTextTypo -->
+<examples>
+  <item id="HelloWithReturn#All">
+    <sampleCode language="CSharp">
+      public void TestMethod()
+      {
+          using var bus = new MessageBus();
+          var subscriberTicket = bus.RegisterSubscriber&lt;string, int&gt;("Hello", SubscriberMethod);
+          var text = "Hello World";
+
+          var publisherTicket = bus.RegisterPublisher&lt;string, int&gt;("Hello"); 
+          var returnValue = publisherTicket.Executor.Execute(text);
+
+          bus.UnregisterPublisher(publisherTicket);
+          bus.UnregisterSubscriber(subscriberTicket);
+      }
+
+      private string? _received;
+      public int SubscriberMethod(string? argument)
+      {
+          _received = argument;
+          return 100;
+      }
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Sub TestMethod()
+        Using bus As New MessageBus
+          Dim subscriberTicket = bus.RegisterSubscriber(Of String, Integer)("Hello", AddressOf SubscriberMethod)
+          Dim text = "Hello World"
+
+          Dim publisherTicket = bus.RegisterPublisher(Of String, Integer)("Hello")
+          Dim returnValue = publisherTicket.Executor.Execute(text)
+
+          bus.UnregisterPublisher(publisherTicket)
+          bus.UnregisterSubscriber(subscriberTicket)
+        End Using
+      End Sub
+
+      Private _received As String
+      Public Function SubscriberMethod(argument As String) As Integer
+        _received = argument
+        Return 100
+      End Function
+    </sampleCode>
+  </item>
+
+  <item id="HelloWithReturn#Subscriber">
+    <sampleCode language="CSharp">
+      var subscriberTicket = bus.RegisterSubscriber&lt;string, int&gt;("Hello", SubscriberMethod);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim subscriberTicket = bus.RegisterSubscriber(Of String, Integer)("Hello", AddressOf SubscriberMethod)
+    </sampleCode>
+  </item>
+
+  <item id="HelloWithReturn#Subscriber">
+    <sampleCode language="CSharp">
+      var publisherTicket = bus.RegisterPublisher&lt;string, int&gt;("Hello"); 
+      var returnValue = publisherTicket.Executor.Execute(text);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim publisherTicket = bus.RegisterPublisher(Of String, Integer)("Hello")
+      Dim returnValue = publisherTicket.Executor.Execute(text)
+    </sampleCode>
+  </item>
+</examples>
+

@@ -2,7 +2,7 @@
 Imports SecretNest.MessageBus
 
 <TestClass>
-Public Class HelloWorldWithText
+Public Class HelloWorldWithReturn
     <TestMethod>
     Sub TestMethod()
         Using bus As New MessageBus

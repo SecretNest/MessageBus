@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example code snippets file -->
+<!-- ReSharper disable MarkupTextTypo -->
+<examples>
+  <item id="SubscriberForceExecuting#All">
+    <sampleCode language="CSharp">
+        public void TestMethod()
+      {
+          using var bus = new MessageBus();
+          var subscriber1000Ticket = bus.RegisterSubscriber&lt;int, int&gt;("ArgumentMatching", Subscriber1000,
+              new MessageBusSubscriberOptions&lt;int, int&gt;(sequence: 0, resultCheckingCallback: i => i > 0));
+          var subscriber100Ticket = bus.RegisterSubscriber&lt;int, int&gt;("ArgumentMatching", Subscriber100,
+              new MessageBusSubscriberOptions&lt;int, int&gt;(sequence: 2, resultCheckingCallback: i => i > 0));
+          var subscriberForceTicket = bus.RegisterSubscriber&lt;int&gt;("ArgumentMatching", SubscriberForce,
+              new MessageBusSubscriberOptions&lt;int&gt;(sequence: 1, isAlwaysExecution: true, isFinal: false));
+     
+          var publisherTicket = bus.RegisterPublisher&lt;int, int&gt;("ArgumentMatching", new MessageBusPublisherOptions&lt;int, int&gt;(defaultReturnValue: 5));
+
+          _forceExecuted = false;
+          var result1000 = publisherTicket.Executor.Execute(1500);
+
+          _forceExecuted = false;
+          var result100 = publisherTicket.Executor.Execute(300);
+
+          _forceExecuted = false;
+          var result5 = publisherTicket.Executor.Execute(80);
+
+          bus.UnregisterPublisher(publisherTicket);
+          bus.UnregisterSubscriber(subscriber1000Ticket);
+          bus.UnregisterSubscriber(subscriber100Ticket);
+          bus.UnregisterSubscriber(subscriberForceTicket);
+      }
+
+      public int Subscriber1000(int argument)
+      {
+          if (argument > 1000)
+              return 1000;
+          else
+              return 0;
+      }
+
+      public int Subscriber100(int argument)
+      {
+          if (argument > 100)
+              return 100;
+          else
+              return 0;
+      }
+
+      private bool _forceExecuted;
+      public void SubscriberForce(int argument)
+      {
+          _forceExecuted = true;
+      }
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+    Sub TestMethod()
+      Using bus As New MessageBus
+        Dim subscriber1000Ticket = bus.RegisterSubscriber(Of Integer, Integer)("ArgumentMatching", AddressOf Subscriber1000, New MessageBusSubscriberOptions(Of Integer, Integer)(sequence:=0, resultCheckingCallback:=Function(i) i > 0))
+        Dim subscriber100Ticket = bus.RegisterSubscriber(Of Integer, Integer)("ArgumentMatching", AddressOf Subscriber100, New MessageBusSubscriberOptions(Of Integer, Integer)(sequence:=2, resultCheckingCallback:=Function(i) i > 0))
+        Dim subscriberForceTicket = bus.RegisterSubscriber(Of Integer)("ArgumentMatching", AddressOf SubscriberForce, New MessageBusSubscriberOptions(Of Integer)(sequence:=1, isAlwaysExecution:=True, isFinal:=False))
+
+        Dim publisherTicket = bus.RegisterPublisher(Of Integer, Integer)("ArgumentMatching", New MessageBusPublisherOptions(Of Integer, Integer)(defaultReturnValue:=5))
+
+        _forceExecuted = False
+        Dim result1000 = publisherTicket.Executor.Execute(1500)
+        Assert.IsTrue(_forceExecuted)
+        _forceExecuted = False
+        Dim result100 = publisherTicket.Executor.Execute(300)
+        Assert.IsTrue(_forceExecuted)
+        _forceExecuted = False
+        Dim result5 = publisherTicket.Executor.Execute(80)
+        Assert.IsTrue(_forceExecuted)
+
+        bus.UnregisterPublisher(publisherTicket)
+        bus.UnregisterSubscriber(subscriber1000Ticket)
+        bus.UnregisterSubscriber(subscriber100Ticket)
+        bus.UnregisterSubscriber(subscriberForceTicket)
+      End Using
+    End Sub
+
+    Public Function Subscriber1000(argument As Integer) As Integer
+      If argument > 1000 Then
+        Return 1000
+      Else
+        Return 0
+      End If
+    End Function
+
+    Public Function Subscriber100(argument As Integer) As Integer
+      If argument > 100 Then
+        Return 100
+      Else
+        Return 0
+      End If
+    End Function
+
+    Private _forceExecuted As Boolean
+
+    Public Sub SubscriberForce(argument As Integer)
+      _forceExecuted = True
+    End Sub
+    </sampleCode>
+  </item>
+
+  <item id="SubscriberForceExecuting#Subscriber">
+    <sampleCode language="CSharp">
+      var subscriberForceTicket = bus.RegisterSubscriber&lt;int&gt;("ArgumentMatching", SubscriberForce,
+          new MessageBusSubscriberOptions&lt;int&gt;(sequence: 1, isAlwaysExecution: true, isFinal: false));
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim subscriberForceTicket = bus.RegisterSubscriber(Of Integer)("ArgumentMatching", AddressOf SubscriberForce, New MessageBusSubscriberOptions(Of Integer)(sequence:=1, isAlwaysExecution:=True, isFinal:=False))
+    </sampleCode>
+  </item>
+</examples>
+

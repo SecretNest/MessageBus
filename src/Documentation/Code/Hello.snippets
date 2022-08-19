@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example code snippets file -->
+<!-- ReSharper disable MarkupTextTypo -->
+<examples>
+  <item id="Hello#All">
+    <sampleCode language="CSharp">
+      public void TestMethod()
+      {
+          using var bus = new MessageBus();
+          var subscriberTicket = bus.RegisterSubscriber&lt;string&gt;("Hello", SubscriberMethod);
+          var text = "Hello World";
+
+          var publisherTicket = bus.RegisterPublisher&lt;string&gt;("Hello");
+          publisherTicket.Executor.Execute(text);
+
+          bus.UnregisterPublisher(publisherTicket);
+          bus.UnregisterSubscriber(subscriberTicket);
+      }
+
+      private string? _received;
+      public void SubscriberMethod(string? argument)
+      {
+        _received = argument;
+      }
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Sub TestMethod()
+        Using bus As New MessageBus
+          Dim subscriberTicket = bus.RegisterSubscriber(Of String)("Hello", AddressOf SubscriberMethod)
+          Dim text = "Hello World"
+
+          Dim publisherTicket = bus.RegisterPublisher(Of String)("Hello")
+          publisherTicket.Executor.Execute(text)
+
+          bus.UnregisterPublisher(publisherTicket)
+          bus.UnregisterSubscriber(subscriberTicket)
+        End Using
+      End Sub
+
+      Private _received As String
+      Public Sub SubscriberMethod(argument As String)
+        _received = argument
+      End Sub
+    </sampleCode>
+  </item>
+
+  <item id="Hello#Subscriber">
+    <sampleCode language="CSharp">
+      var subscriberTicket = bus.RegisterSubscriber&lt;string&gt;("Hello", SubscriberMethod);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim subscriberTicket = bus.RegisterSubscriber(Of String)("Hello", AddressOf SubscriberMethod)
+    </sampleCode>
+  </item>
+
+  <item id="Hello#Subscriber">
+    <sampleCode language="CSharp">
+      var publisherTicket = bus.RegisterPublisher&lt;string&gt;("Hello");
+      publisherTicket.Executor.Execute(text);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim publisherTicket = bus.RegisterPublisher(Of String)("Hello")
+      publisherTicket.Executor.Execute(text)
+    </sampleCode>
+  </item>
+
+</examples>
+

@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example code snippets file -->
+<!-- ReSharper disable MarkupTextTypo -->
+<examples>
+  <item id="Naming#All">
+    <sampleCode language="CSharp">
+      public void TestMethod()
+      {
+          using var bus = new MessageBus();
+          var subscriberExact1Ticket = bus.RegisterSubscriber&lt;string&gt;("Hello", SubscriberExact1);
+          var subscriberExact2Ticket = bus.RegisterSubscriber&lt;string&gt;("hello", SubscriberExact2);
+          var subscriberIgnoreCaseTicket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), SubscriberIgnoreCase);
+          var subscriberAllTicket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingAll(), SubscriberAll);
+          // ReSharper disable once StringLiteralTypo
+          var subscriberRegEx1Ticket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithRegularExpression("[Hh]ello"), SubscriberRegEx1);
+          var subscriberRegEx2Ticket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithRegularExpression("hello"), SubscriberRegEx2);
+
+          var text = "Hello World";
+
+          var publisherTicket = bus.RegisterPublisher&lt;string&gt;("Hello", new MessageBusPublisherOptions&lt;string&gt;(true));
+          publisherTicket.Executor.Execute(text);
+
+          bus.UnregisterPublisher(publisherTicket);
+          bus.UnregisterSubscriber(subscriberExact1Ticket);
+          bus.UnregisterSubscriber(subscriberExact2Ticket);
+          bus.UnregisterSubscriber(subscriberIgnoreCaseTicket);
+          bus.UnregisterSubscriber(subscriberAllTicket);
+          bus.UnregisterSubscriber(subscriberRegEx1Ticket);
+          bus.UnregisterSubscriber(subscriberRegEx2Ticket);
+          
+          //after execute: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.
+      }
+
+      private string? _exact1, _exact2, _ignoreCase, _all, _regex1 , _regex2;
+
+      public void SubscriberExact1(string? argument)
+      {
+          _exact1 = argument;
+      }
+
+      public void SubscriberExact2(string? argument)
+      {
+          _exact2 = argument;
+      }
+
+      public void SubscriberIgnoreCase(string? argument)
+      {
+          _ignoreCase = argument;
+      }
+
+      public void SubscriberAll(string? argument)
+      {
+          _all = argument;
+      }
+
+      public void SubscriberRegEx1(string? argument)
+      {
+          _regex1 = argument;
+      }
+
+      public void SubscriberRegEx2(string? argument)
+      {
+          _regex2 = argument;
+      }
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+    Sub TestMethod()
+        Using bus As New MessageBus
+            Dim subscriberExact1Ticket = bus.RegisterSubscriber(Of String)("Hello", AddressOf subscriberExact1)
+            Dim subscriberExact2Ticket = bus.RegisterSubscriber(Of String)("hello", AddressOf SubscriberExact2)
+            Dim subscriberIgnoreCaseTicket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), AddressOf SubscriberIgnoreCase)
+            Dim subscriberAllTicket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingAll, AddressOf SubscriberAll)
+            ' ReSharper disable once StringLiteralTypo
+            Dim subscriberRegEx1Ticket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithRegularExpression("[Hh]ello"), AddressOf SubscriberRegEx1)
+            Dim subscriberRegEx2Ticket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithRegularExpression("hello"), AddressOf SubscriberRegEx2)
+
+            Dim text = "Hello World"
+
+            Dim publisherTicket = bus.RegisterPublisher(Of String)("Hello", New MessageBusPublisherOptions(Of String)(True))
+            publisherTicket.Executor.Execute(text)
+
+            bus.UnregisterPublisher(publisherTicket)
+            bus.UnregisterSubscriber(subscriberExact1Ticket)
+            bus.UnregisterSubscriber(subscriberExact2Ticket)
+            bus.UnregisterSubscriber(subscriberIgnoreCaseTicket)
+            bus.UnregisterSubscriber(subscriberAllTicket)
+            bus.UnregisterSubscriber(subscriberRegEx1Ticket)
+            bus.UnregisterSubscriber(subscriberRegEx2Ticket)
+
+            'after execute: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.
+        End Using
+    End Sub
+
+    Private _exact1, _exact2, _ignoreCase, _all, _regex1, _regex2 As String
+
+    Public Sub SubscriberExact1(argument As String)
+        _exact1 = argument
+    End Sub
+
+    Public Sub SubscriberExact2(argument As String)
+        _exact2 = argument
+    End Sub
+
+    Public Sub SubscriberIgnoreCase(argument As String)
+        _ignoreCase = argument
+    End Sub
+
+    Public Sub SubscriberAll(argument As String)
+        _all = argument
+    End Sub
+
+    Public Sub SubscriberRegEx1(argument As String)
+        _regex1 = argument
+    End Sub
+
+    Public Sub SubscriberRegEx2(argument As String)
+        _regex2 = argument
+    End Sub
+    </sampleCode>
+  </item>
+
+  <item id="Naming#Exact">
+    <sampleCode language="CSharp">
+      var subscriberExact1Ticket = bus.RegisterSubscriber&lt;string&gt;("Hello", SubscriberExact1);
+      var subscriberExact2Ticket = bus.RegisterSubscriber&lt;string&gt;("hello", SubscriberExact2);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim subscriberExact1Ticket = bus.RegisterSubscriber(Of String)("Hello", AddressOf subscriberExact1)
+      Dim subscriberExact2Ticket = bus.RegisterSubscriber(Of String)("hello", AddressOf SubscriberExact2)
+    </sampleCode>
+  </item>
+
+  <item id="Naming#IgnoreCase">
+    <sampleCode language="CSharp">
+      var subscriberIgnoreCaseTicket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), SubscriberIgnoreCase);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim subscriberIgnoreCaseTicket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), AddressOf SubscriberIgnoreCase)
+    </sampleCode>
+  </item>
+
+  <item id="Naming#All">
+    <sampleCode language="CSharp">
+      var subscriberAllTicket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingAll(), SubscriberAll);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim subscriberAllTicket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingAll, AddressOf SubscriberAll)
+    </sampleCode>
+  </item>
+
+  <item id="Naming#RegEx">
+    <sampleCode language="CSharp">
+      var subscriberRegEx1Ticket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithRegularExpression("[Hh]ello"), SubscriberRegEx1);
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim subscriberRegEx1Ticket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithRegularExpression("[Hh]ello"), AddressOf SubscriberRegEx1)
+    </sampleCode>
+  </item>
+
+</examples>
+

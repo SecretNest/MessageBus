@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example code snippets file -->
+<!-- ReSharper disable MarkupTextTypo -->
+<examples>
+  <item id="ArgumentMatchingWithPublisherConverter#All">
+    <sampleCode language="CSharp">
+      public void TestMethod()
+      {
+          using var bus = new MessageBus();
+          var subscriber1000Ticket = bus.RegisterSubscriber&lt;int, int&gt;("ArgumentMatching", Subscriber1000,
+              new MessageBusSubscriberOptions&lt;int, int&gt;(sequence: 0, resultCheckingCallback: i =&gt; i &gt; 0));
+          var subscriber100Ticket = bus.RegisterSubscriber&lt;int, int&gt;("ArgumentMatching", Subscriber100,
+              new MessageBusSubscriberOptions&lt;int, int&gt;(sequence: 1, resultCheckingCallback: i =&gt; i &gt; 0));
+
+          var publisherTicket = bus.RegisterPublisher&lt;string, string&gt;("ArgumentMatching",
+              new MessageBusPublisherOptions&lt;string, string&gt;(
+                  defaultReturnValue: "5", 
+                  argumentConvertingCallback: s =&gt; int.Parse(s!),
+                  returnValueConvertingCallback: i =&gt; i?.ToString()));
+
+          var result1000 = publisherTicket.Executor.Execute("1500");
+          var result100 = publisherTicket.Executor.Execute("300");
+          var result5 = publisherTicket.Executor.Execute("80");
+
+          bus.UnregisterPublisher(publisherTicket);
+          bus.UnregisterSubscriber(subscriber1000Ticket);
+          bus.UnregisterSubscriber(subscriber100Ticket);
+
+          Assert.AreEqual("1000", result1000);
+          Assert.AreEqual("100", result100);
+          Assert.AreEqual("5", result5);
+      }
+
+      public int Subscriber1000(int argument)
+      {
+          if (argument &gt; 1000)
+              return 1000;
+          else
+              return 0;
+      }
+
+      public int Subscriber100(int argument)
+      {
+          if (argument &gt; 100)
+              return 100;
+          else
+              return 0;
+      }
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Public Sub TestMethod()
+        Using bus As New MessageBus
+          Dim subscriber1000Ticket= bus.RegisterSubscriber(Of Integer, Integer)("ArgumentMatching", AddressOf Subscriber1000, New MessageBusSubscriberOptions(Of Integer, Integer)(sequence:=0, resultCheckingCallback:=Function(i) i &gt; 0))
+          Dim subscriber100Ticket = bus.RegisterSubscriber(Of Integer, Integer)("ArgumentMatching", AddressOf Subscriber100, New MessageBusSubscriberOptions(Of Integer, Integer)(sequence:=1, resultCheckingCallback:=Function(i) i &gt; 0))
+
+          Dim publisherTicket = bus.RegisterPublisher(Of String, String)("ArgumentMatching", New MessageBusPublisherOptions(Of String, String)(defaultReturnValue:="5", argumentConvertingCallback:=Function(s) Integer.Parse(s), returnValueConvertingCallback:=Function(i) i.ToString()))
+
+          Dim result1000 = publisherTicket.Executor.Execute("1500")
+          Dim result100 = publisherTicket.Executor.Execute("300")
+          Dim result5 = publisherTicket.Executor.Execute("80")
+
+          bus.UnregisterPublisher(publisherTicket)
+          bus.UnregisterSubscriber(subscriber1000Ticket)
+          bus.UnregisterSubscriber(subscriber100Ticket)
+
+          Assert.AreEqual("1000", result1000)
+          Assert.AreEqual("100", result100)
+          Assert.AreEqual("5", result5)
+        End Using
+      End Sub
+
+      Public Function Subscriber1000(argument As Integer) As Integer
+        If argument &gt; 1000 Then
+          Return 1000
+        Else
+          Return 0
+        End If
+      End Function
+
+      Public Function Subscriber100(argument As Integer) As Integer
+        If argument &gt; 100 Then
+          Return 100
+        Else
+          Return 0
+        End If
+      End Function
+    </sampleCode>
+  </item>
+
+  <item id="ArgumentMatchingWithPublisherConverter#Publisher">
+    <sampleCode language="CSharp">
+      var publisherTicket = bus.RegisterPublisher&lt;string, string&gt;("ArgumentMatching",
+          new MessageBusPublisherOptions&lt;string, string&gt;(
+              defaultReturnValue: "5", 
+              argumentConvertingCallback: s =&gt; int.Parse(s!),
+              returnValueConvertingCallback: i =&gt; i?.ToString()));
+    </sampleCode>
+    <sampleCode language="VisualBasic">
+      Dim publisherTicket = bus.RegisterPublisher(Of String, String)("ArgumentMatching", New MessageBusPublisherOptions(Of String, String)(defaultReturnValue:="5", argumentConvertingCallback:=Function(s) Integer.Parse(s), returnValueConvertingCallback:=Function(i) i.ToString()))
+    </sampleCode>
+  </item>
+</examples>
+
