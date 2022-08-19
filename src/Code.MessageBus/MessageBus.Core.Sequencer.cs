@@ -30,7 +30,7 @@ namespace SecretNest.MessageBus
         private bool TryRemovePublisherFromSequencer(Guid key, out PublisherInfoBase? publisher)
         {
             if (!_publisherMessageNames.TryGetValue(key, out var messageName)
-                || _sequencers.TryGetValue(messageName, out var sequencer))
+                || !_sequencers.TryGetValue(messageName, out var sequencer))
             {
                 publisher = default;
                 return false;

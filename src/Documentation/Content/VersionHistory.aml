@@ -10,7 +10,11 @@ life of the project.</para>
 			<title>Version History</title>
 			<content>
 				<list class="bullet">
-					<listItem>
+          <listItem>
+            <!-- ReSharper disable once MarkupTextTypo -->
+            <para>1.0.2: Fix publisher unregister checking.</para>
+          </listItem>
+          <listItem>
             <para>1.0.1: Initial release.</para>
 					</listItem>
 				</list>
