@@ -20,7 +20,7 @@
       private string? _received;
       public void SubscriberMethod(string? argument)
       {
-        _received = argument;
+          _received = argument;
       }
     </sampleCode>
     <sampleCode language="VisualBasic">
@@ -53,7 +53,7 @@
     </sampleCode>
   </item>
 
-  <item id="Hello#Subscriber">
+  <item id="Hello#Publisher">
     <sampleCode language="CSharp">
       var publisherTicket = bus.RegisterPublisher&lt;string&gt;("Hello");
       publisherTicket.Executor.Execute(text);

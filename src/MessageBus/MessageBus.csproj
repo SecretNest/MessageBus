@@ -23,7 +23,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/SecretNest/MessageBus</RepositoryUrl>
     <PackageTags>MessageBus; Subscriber; Publisher; Subscription</PackageTags>
-    <PackageReleaseNotes>Intial release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fix publisher unregister checking.</PackageReleaseNotes>
     <Version>1.0.2</Version>
     <AssemblyVersion>1.0.2</AssemblyVersion>
     <FileVersion>1.0.2</FileVersion>

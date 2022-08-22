@@ -9,7 +9,7 @@ using SecretNest.MessageBus.Options;
 namespace SecretNest.MessageBus
 {
     /// <summary>
-    /// Relays the messages from publishers to subscribers.
+    /// Relays the messages from publishers to subscribers. MessageBus instance handles publishers and subscribers registering and unregistering, hosts sequences for each message name and executes message when publisher requests.
     /// </summary>
     public sealed partial class MessageBus : MessageBusBase
     {

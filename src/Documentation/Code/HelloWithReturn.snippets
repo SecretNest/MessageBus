@@ -55,7 +55,7 @@
     </sampleCode>
   </item>
 
-  <item id="HelloWithReturn#Subscriber">
+  <item id="HelloWithReturn#Publisher">
     <sampleCode language="CSharp">
       var publisherTicket = bus.RegisterPublisher&lt;string, int&gt;("Hello"); 
       var returnValue = publisherTicket.Executor.Execute(text);

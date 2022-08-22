@@ -4,48 +4,67 @@
     xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-
     <introduction>
-      <!-- Uncomment this to generate an outline of the section and sub-section
-           titles.  Specify a numeric value as the inner text to limit it to
-           a specific number of sub-topics when creating the outline.  Specify
-           zero (0) to limit it to top-level sections only.  -->
-      <!-- <autoOutline /> -->
-
-      <para>Required introduction</para>
+      <para>Message name is the only condition to match subscribers to publishers.</para>
     </introduction>
 
-    <!-- Add one or more top-level section elements.  These are collapsible.
-         If using <autoOutline />, add an address attribute to identify it
-         and specify a title so that it can be jumped to with a hyperlink. -->
-    <section address="Section1">
-      <title>Optional section title</title>
+    <section address="Sequence">
+      <title>Name Matching</title>
       <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
+        <para>MessageBus uses only name to match subscribers to publishers.</para>
+        <para>When publisher registering, each existing subscriber is checked to see whether the name matches the publisher. When subscriber registering, it is checked against each existing publisher for name matching and saved in pool for further publisher registering.</para>
       </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
+    </section>
+
+    <section address="Matching">
+      <title>Matching Method</title>
+      <content>
+        <para>MessageBus supports multiple ways to check the message name.</para>
+        <para>Each publisher has one name specified exactly when registering. Each subscriber is supported to use multiple way to match one or more publishers by name. This demo presents multiple ways for name matching.</para>
+        <codeReference>Naming#All</codeReference>
+        <alert class="note"><para>In the code above, the publisher is registered with <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptionsBase.IsAlwaysExecuteAll</codeEntityReference> is on. This forces MessageBus to run through all matched subscribers. Check <link xlink:href="5df5be11-e1c0-4f83-9607-134a06f727ec#OptionIsAlwaysExecuteAll">this topic</link> for details.</para></alert>
+      </content>
       <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-      </sections> -->
+        <section address="MatchingExact">
+          <title>Exact Matching</title>
+          <content>
+            <para>Matches base on the message name comparison exactly. This is the default behaviour.</para>
+            <para>When subscriber is registered with a message name specified, the string is used to compare with each publisher exactly.</para>
+            <codeReference>Naming#Exact</codeReference>
+            <para>The comparison is case sensitive. The first subscriber matches "Hello", which is equal to the name provided by publisher, allowing to be executed when publisher requests. The second one matching "hello", which is not equal to "Hello", will not be executed by the publisher in this demo.</para>
+          </content>
+        </section>
+        <section address="MatchingString">
+          <title>String Matching</title>
+          <content>
+            <para>When subscriber is registered with an instance of<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithStringComparison</codeEntityReference>, <codeEntityReference qualifyHint="false">T:System.StringComparison</codeEntityReference> can be specified to be used in comparison. The default value is <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>.</para>
+            <para>In this case, "HELLO" is matched with "Hello", which is indicated with publisher registering, based on <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>. This subscriber will be executed.</para>
+            <codeReference>Naming#IgnoreCase</codeReference>
+          </content>
+        </section>
+        <section address="MatchingAll">
+          <title>All Matching</title>
+          <content>
+            <para>When an instance of <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingAll</codeEntityReference> is provided, the subscriber hooks all publishers, including existing and to be registered later.</para>
+            <codeReference>Naming#All</codeReference>
+          </content>
+        </section>
+        <section address="MatchingRegEx">
+          <title>Regular Expression Matching</title>
+          <content>
+            <para>A regular expression wrapped by <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithRegularExpression</codeEntityReference> declares to use expression specified in name matching.</para>
+            <codeReference>Naming#RegEx</codeReference>
+            <!-- ReSharper disable once MarkupTextTypo -->
+            <para>Expression "[Hh]ello" matches the value provided with publisher "Hello" while expression "hello" does not.</para>
+          </content>
+        </section>
+        <section address="MatchingBase">
+          <title>User Defined</title>
+          <content>
+            <para>When complex model is required, uses your own class derived from <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatcherBase</codeEntityReference>. <codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageNameMatching.MessageNameMatcherBase.IsComplied(System.String)</codeEntityReference> is called for each message name to be checked.</para>
+          </content>
+        </section>
+      </sections>
     </section>
 
     <relatedTopics>

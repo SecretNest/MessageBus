@@ -4,48 +4,60 @@
     xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-
     <introduction>
-      <!-- Uncomment this to generate an outline of the section and sub-section
-           titles.  Specify a numeric value as the inner text to limit it to
-           a specific number of sub-topics when creating the outline.  Specify
-           zero (0) to limit it to top-level sections only.  -->
-      <!-- <autoOutline /> -->
-
-      <para>Required introduction</para>
+      <para><codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageBus</codeEntityReference> instance handles publishers and subscribers registering and unregistering, hosts sequences for each message name and executes message when publisher requests.</para>
     </introduction>
 
-    <!-- Add one or more top-level section elements.  These are collapsible.
-         If using <autoOutline />, add an address attribute to identify it
-         and specify a title so that it can be jumped to with a hyperlink. -->
-    <section address="Section1">
-      <title>Optional section title</title>
+    <section address="Instance">
+      <title>Instance</title>
       <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
+        <para>To use <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageBus</codeEntityReference>, an instance of MessageBus need to be created for registering publishers and subscribers, hosting sequences for each message name and executing message when publisher requests.</para>
+        <codeReference>BusInstance#Define</codeReference>
+        <para>MessageBus implements <codeEntityReference qualifyHint="false">T:System.IDisposable</codeEntityReference>. When disposing, all publishers and subscribers are unregistered. No unmanaged resource is used.</para>
       </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
+    </section>
+
+    <section address="Shrink">
+      <title>Shrink</title>
+      <content>
+        <para>By default, <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageBus.AutoShrink</codeEntityReference> is on. When a publisher is unregistered, MessageBus checks to see if there are still publishers associated with the same message name. If not, related resources will be released. When the publishers are frequently unregistered and registered, the related checking and recycling work may affect the efficiency. In this case, turn off <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageBus.AutoShrink</codeEntityReference> and call <codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ShrinkSequencers</codeEntityReference> manually when required.</para>
+      </content>
+    </section>
+
+    <section address="HelloWorld">
+      <title>Hello, World!</title>
+      <content>
+        <para>Uses MessageBus to execute subscriber with parameter when publisher requests.</para>
+        <para>In code below, one publisher and one subscriber is registered with the name "Hello". The method of subscriber is called when publisher requests.</para>
+      </content>
       <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-      </sections> -->
+        <section address="HelloWorldWithoutReturn">
+          <title>Uses MessageBus to Relay Messages.</title>
+          <content>
+            <para>Subscribers have a parameter to receive data from Publisher as argument.</para>
+            <para>Here is the full code.</para>
+            <codeReference>Hello#All</codeReference>
+            <para>To register a subscriber, uses the code below. Check <link xlink:href="ffa0c276-7f2a-4a36-8689-656502d5a9b4" /> for details.</para>
+            <codeReference>Hello#Subscriber</codeReference>
+            <para>To register a publisher, uses the code below. Check <link xlink:href="5df5be11-e1c0-4f83-9607-134a06f727ec" /> for details.</para>
+            <codeReference>Hello#Publisher</codeReference>
+            <para>When <codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`1.Execute(`0)</codeEntityReference> calling, SubscriberMethod is executed.</para>
+          </content>
+        </section>
+        <section address="HelloWorldWithReturn">
+          <title>Uses MessageBus to Relay Messages and Get Return Data.</title>
+          <content>
+            <para>Unlike many publisher subscribe model, MessageBus supports return data from subscriber to publisher.</para>
+            <para>Here is the full code.</para>
+            <codeReference>HelloWithReturn#All</codeReference>
+            <para>To register a subscriber, uses the code below. Check <link xlink:href="ffa0c276-7f2a-4a36-8689-656502d5a9b4" /> for details.</para>
+            <codeReference>HelloWithReturn#Subscriber</codeReference>
+            <para>To register a publisher, uses the code below. Check <link xlink:href="5df5be11-e1c0-4f83-9607-134a06f727ec" /> for details.</para>
+            <codeReference>HelloWithReturn#Publisher</codeReference>
+            <para>When <codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`2.Execute(`0)</codeEntityReference> calling, SubscriberMethod is executed and the return value is sent back to the caller.</para>
+          </content>
+        </section>
+      </sections>
     </section>
 
     <relatedTopics>

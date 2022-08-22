@@ -4,26 +4,53 @@
     xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-
     <introduction>
-      <!-- Uncomment this to generate an outline of the section and sub-section
-           titles.  Specify a numeric value as the inner text to limit it to
-           a specific number of sub-topics when creating the outline.  Specify
-           zero (0) to limit it to top-level sections only.  -->
-      <!-- <autoOutline /> -->
-
-      <para>Required introduction</para>
+      <para>Publisher is the component which publish message to all subscribers.</para>
     </introduction>
 
-    <!-- Add one or more top-level section elements.  These are collapsible.
-         If using <autoOutline />, add an address attribute to identify it
-         and specify a title so that it can be jumped to with a hyperlink. -->
-    <section address="Section1">
+    <section address="Register">
+      <title>Register</title>
+      <content>
+        <para>Uses <codeInline>RegisterPublisher</codeInline> method of the <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageBus</codeEntityReference> instance to register a publisher.</para>
+        <list class="bullet">
+          <listItem><para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.RegisterPublisher``1(System.String,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0})</codeEntityReference>: Register a publisher without return value. No return value is collected while this publisher executing.</para></listItem>
+          <listItem><para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.RegisterPublisher``2(System.String,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0,``1})</codeEntityReference>: Register a publisher with return value supported. Return value is transferred back to the publisher after executed.</para></listItem>
+        </list>
+        <para>Message name is required when registering publisher. The name is used for matching subscribers.</para>
+        <para>To modify the behaviour of the publisher, an instance of <codeInline>MessageBusPublisherOptions</codeInline>(<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2</codeEntityReference>) can be specified. Default behavior is used when no option supplied. See <link xlink:href="Option">Option</link> block for details.</para>
+        <para>An instance of <codeInline>PublisherTicket</codeInline> (<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.PublisherTicket`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.PublisherTicket`2</codeEntityReference>) is returned after <codeInline>RegisterPublisher</codeInline> called, containing an id for identifying, an <link xlink:href="Executor">executor</link> for running publisher and the instance of the option provided with registering if presents.</para>
+        <!-- ReSharper disable MarkupTextTypo -->
+        <para>Publisher can be unregistered when no longer needed. Calls <codeInline>UnregisterPublisher</codeInline> method to unregister the publisher by the ticket or id specified.</para>
+        <!-- ReSharper enable MarkupTextTypo -->
+      </content>
+    </section>
+
+    <section address="Executor">
+      <title>Executor</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>Add one or more sections with content</para>
+      </content>
+      <!-- If a section contains a sections element, its content creates
+           sub-sections.  These are not collapsible.
+      <sections>
+          <section address="SubSection1">
+              <title>Sub-section 1</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+          <section address="SubSection2">
+              <title>Sub-section 2</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+      </sections> -->
+    </section>
+
+    <section address="Option">
       <title>Optional section title</title>
       <content>
         <!-- Uncomment this to create a sub-section outline
@@ -46,6 +73,15 @@
               </content>
           </section>
       </sections> -->
+    </section>
+
+    <section address="OptionIsAlwaysExecuteAll">
+      <title>Optional section title</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>Add one or more sections with content</para>
+      </content>
     </section>
 
     <relatedTopics>
