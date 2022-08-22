@@ -17,8 +17,8 @@
           <listItem><para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.RegisterPublisher``2(System.String,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0,``1})</codeEntityReference>: Register a publisher with return value supported. Return value is transferred back to the publisher after executed.</para></listItem>
         </list>
         <para>Message name is required when registering publisher. The name is used for matching subscribers.</para>
-        <para>To modify the behaviour of the publisher, an instance of <codeInline>MessageBusPublisherOptions</codeInline>(<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2</codeEntityReference>) can be specified. Default behavior is used when no option supplied. See <link xlink:href="Option">Option</link> block for details.</para>
-        <para>An instance of <codeInline>PublisherTicket</codeInline> (<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.PublisherTicket`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.PublisherTicket`2</codeEntityReference>) is returned after <codeInline>RegisterPublisher</codeInline> called, containing an id for identifying, an <link xlink:href="Executor">executor</link> for running publisher and the instance of the option provided with registering if presents.</para>
+        <para>To modify the behaviour of the publisher, an instance of <codeInline>MessageBusPublisherOptions</codeInline>(<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2</codeEntityReference>) can be specified. Default behavior is used when no option supplied. See <link xlink:href="#Option">Option</link> block for details.</para>
+        <para>An instance of <codeInline>PublisherTicket</codeInline> (<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.PublisherTicket`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.PublisherTicket`2</codeEntityReference>) is returned after <codeInline>RegisterPublisher</codeInline> called, containing an id for identifying, an <link xlink:href="#Executor">executor</link> for running publisher and the instance of the option provided with registering if presents.</para>
         <!-- ReSharper disable MarkupTextTypo -->
         <para>Publisher can be unregistered when no longer needed. Calls <codeInline>UnregisterPublisher</codeInline> method to unregister the publisher by the ticket or id specified.</para>
         <!-- ReSharper enable MarkupTextTypo -->
@@ -28,60 +28,108 @@
     <section address="Executor">
       <title>Executor</title>
       <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
+        <para>There is a property named <codeInline>Executor</codeInline> in <codeInline>PublisherTicket</codeInline> which contains 4 methods to execute the sequence. For detailed executing sequence, refer to <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105" />.</para>
       </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
       <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-      </sections> -->
+        <section>
+          <title>With Return Value</title>
+          <content>
+            <para>For the publisher registered with return value, property <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.PublisherTicket`2.Executor</codeEntityReference> contains 4 methods:</para>
+            <list class="bullet">
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`2.Execute(`0)</codeEntityReference>: Executes the sequence and get the return value.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`2.ExecuteAndGetMessageInstance(`0,SecretNest.MessageBus.MessageInstance@)</codeEntityReference>: Executes the sequence and get the return value with the <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#MessageInstance">instance information</link>.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`2.ExecuteAsync(`0,System.Nullable{System.Threading.CancellationToken})</codeEntityReference>: Asynchronously executes the sequence and get the return value.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`2.ExecuteAndGetMessageInstanceAsync(`0,System.Nullable{System.Threading.CancellationToken})</codeEntityReference>: Asynchronously executes the sequence and get the return value with the <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#MessageInstance">instance information</link>.</para>
+              </listItem>
+            </list>
+            <para>When no <link xlink:href="ffa0c276-7f2a-4a36-8689-656502d5a9b4#AcceptedResult">acceptable return value</link> is generated from any subscriber, the <link xlink:href="#OptionDefaultReturnValue">default value</link> is returned if presents.</para>
+          </content>
+        </section>
+        <section>
+          <title>Without Return Value</title>
+          <content>
+            <para>For the publisher registered without return value, property <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.PublisherTicket`1.Executor</codeEntityReference> contains 4 methods:</para>
+            <list class="bullet">
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`1.Execute(`0)</codeEntityReference>: Executes the sequence.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`1.ExecuteAndGetMessageInstance(`0,SecretNest.MessageBus.MessageInstance@)</codeEntityReference>: Executes the sequence and get the <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#MessageInstance">instance information</link>.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`1.ExecuteAndGetMessageInstanceAsync(`0,System.Nullable{System.Threading.CancellationToken})</codeEntityReference>: Asynchronously executes the sequence.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`1.ExecuteAsync(`0,System.Nullable{System.Threading.CancellationToken})</codeEntityReference>: Asynchronously executes the sequence and get the <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#MessageInstance">instance information</link>.</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
+        <section address="SyncAsync">
+          <title>Sync / Async</title>
+          <content>
+            <para>When executes by synchronous methods: Synchronous methods are run directly. Each asynchronous method is called with <codeInline>Task.Wait()</codeInline>.</para>
+            <para>When executes by asynchronous methods: Synchronous methods are run directly. Each asynchronous method is called with <codeInline>await</codeInline> keyword.</para>
+            <codeReference>AsyncCall#All</codeReference>
+          </content>
+        </section>
+      </sections>
     </section>
 
     <section address="Option">
-      <title>Optional section title</title>
+      <title>Option</title>
       <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
+        <para>To modify the behaviour of the publisher, specifies an instance of <codeInline>MessageBusPublisherOptions</codeInline>(<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2</codeEntityReference>) while <link xlink:href="#Register">registering</link>.</para>
       </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
       <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-      </sections> -->
-    </section>
-
-    <section address="OptionIsAlwaysExecuteAll">
-      <title>Optional section title</title>
-      <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
-      </content>
+        <section address="OptionIsAlwaysExecuteAll">
+          <title>IsAlwaysExecuteAll</title>
+          <content>
+            <para>When <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptionsBase.IsAlwaysExecuteAll</codeEntityReference> is set, all subscribers linked with this message name should be executed regardless of the result of the subscribers those have been executed by this instance.</para>
+            <codeReference>Naming#All</codeReference>
+            <para>In the demo above, the publisher is registered with <codeInline>IsAlwaysExecuteAll</codeInline>.</para>
+          </content>
+        </section>
+        <section address="OptionArgumentConvertingCallback">
+          <title>ArgumentConvertingCallback</title>
+          <content>
+            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1.ArgumentConvertingCallback</codeEntityReference> is specified, the callback is called to convert the argument the when publisher executing. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#ExecutingSequence">executing sequence</link> for details.</para>
+            <codeReference>ArgumentMatchingWithPublisherConverter#All</codeReference>
+            <para>In the demo above, the publisher is registered with <codeInline>ArgumentConvertingCallback</codeInline> specified.</para>
+            <codeReference>ArgumentMatchingWithPublisherConverter#Publisher</codeReference>
+          </content>
+        </section>
+        <section address="OptionReturnValueConvertingCallback">
+          <title>ReturnValueConvertingCallback</title>
+          <content>
+            <alert class="note"><para>This option is available only for the publisher with return value.</para></alert>
+            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2.ReturnValueConvertingCallback</codeEntityReference> is specified, the callback is called to convert the return value before publisher returning. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#ExecutingSequence">executing sequence</link> for details.</para>
+            <codeReference>ArgumentMatchingWithPublisherConverter#All</codeReference>
+            <para>In the demo above, the publisher is registered with <codeInline>ReturnValueConvertingCallback</codeInline> specified.</para>
+            <codeReference>ArgumentMatchingWithPublisherConverter#Publisher</codeReference>
+          </content>
+        </section>
+        <section address="OptionDefaultReturnValue">
+          <title>DefaultReturnValue</title>
+          <content>
+            <alert class="note"><para>This option is available only for the publisher with return value.</para></alert>
+            <para>When <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2.DefaultReturnValue</codeEntityReference> is set, the value is returned when no subscriber executed with accepted value returns.</para>
+            <codeReference>DefaultReturn#All</codeReference>
+            <para>In the demo above, the executing of <codeInline>publisher2Ticket</codeInline> gets the default return value specified.</para>
+            <alert class="important">
+              <para>If any subscriber returned with <link xlink:href="ffa0c276-7f2a-4a36-8689-656502d5a9b4#AcceptedResult">accepted result</link>, no matter the value is <codeInline>null / Nothing / default value</codeInline> or not, the <codeInline>DefaultReturnValue</codeInline> is not used.</para>
+              <para>In the demo above, the executing of <codeInline>publisher3Ticket</codeInline> gets <codeInline>0</codeInline> as result, which is the default value of the type <codeInline>int / Integer</codeInline>.</para>
+            </alert>
+          </content>
+        </section>
+      </sections>
     </section>
 
     <relatedTopics>

@@ -31,14 +31,14 @@
             <para>Matches base on the message name comparison exactly. This is the default behaviour.</para>
             <para>When subscriber is registered with a message name specified, the string is used to compare with each publisher exactly.</para>
             <codeReference>Naming#Exact</codeReference>
-            <para>The comparison is case sensitive. The first subscriber matches "Hello", which is equal to the name provided by publisher, allowing to be executed when publisher requests. The second one matching "hello", which is not equal to "Hello", will not be executed by the publisher in this demo.</para>
+            <para>The comparison is case sensitive. The first subscriber matches <quoteInline>Hello</quoteInline>, which is equal to the name provided by publisher, allowing to be executed when publisher requests. The second one matching <quoteInline>hello</quoteInline>, which is not equal to <quoteInline>Hello</quoteInline>, will not be executed by the publisher in this demo.</para>
           </content>
         </section>
         <section address="MatchingString">
           <title>String Matching</title>
           <content>
             <para>When subscriber is registered with an instance of<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithStringComparison</codeEntityReference>, <codeEntityReference qualifyHint="false">T:System.StringComparison</codeEntityReference> can be specified to be used in comparison. The default value is <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>.</para>
-            <para>In this case, "HELLO" is matched with "Hello", which is indicated with publisher registering, based on <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>. This subscriber will be executed.</para>
+            <para>In this case, <quoteInline>HELLO</quoteInline> is matched with <quoteInline>Hello</quoteInline>, which is indicated with publisher registering, based on <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>. This subscriber will be executed.</para>
             <codeReference>Naming#IgnoreCase</codeReference>
           </content>
         </section>
@@ -55,7 +55,7 @@
             <para>A regular expression wrapped by <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithRegularExpression</codeEntityReference> declares to use expression specified in name matching.</para>
             <codeReference>Naming#RegEx</codeReference>
             <!-- ReSharper disable once MarkupTextTypo -->
-            <para>Expression "[Hh]ello" matches the value provided with publisher "Hello" while expression "hello" does not.</para>
+            <para>Expression <quoteInline>[Hh]ello</quoteInline> matches the value provided with publisher <quoteInline>Hello</quoteInline> while expression <quoteInline>hello</quoteInline> does not.</para>
           </content>
         </section>
         <section address="MatchingBase">

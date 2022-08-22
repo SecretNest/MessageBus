@@ -28,7 +28,7 @@
       <title>Hello, World!</title>
       <content>
         <para>Uses MessageBus to execute subscriber with parameter when publisher requests.</para>
-        <para>In code below, one publisher and one subscriber is registered with the name "Hello". The method of subscriber is called when publisher requests.</para>
+        <para>In code below, one publisher and one subscriber is registered with the name <quoteInline>Hello</quoteInline>. The method of subscriber is called when publisher requests.</para>
       </content>
       <sections>
         <section address="HelloWorldWithoutReturn">

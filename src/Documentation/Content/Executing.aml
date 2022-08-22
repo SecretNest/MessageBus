@@ -48,6 +48,38 @@
       </sections> -->
     </section>
 
+    <section address="ExecutingSequence">
+      <title>Optional section title</title>
+      <content>
+        <para>Add one or more sections with content</para>
+      </content>
+    </section>
+
+    <section address="MessageInstance">
+      <title>Optional section title</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>Add one or more sections with content</para>
+      </content>
+      <!-- If a section contains a sections element, its content creates
+           sub-sections.  These are not collapsible.
+      <sections>
+          <section address="SubSection1">
+              <title>Sub-section 1</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+          <section address="SubSection2">
+              <title>Sub-section 2</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+      </sections> -->
+    </section>
+
     <relatedTopics>
       <link xlink:href="4c02af66-f784-4908-8806-39f16ea0591e" />
     </relatedTopics>

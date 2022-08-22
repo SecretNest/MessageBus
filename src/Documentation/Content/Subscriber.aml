@@ -48,6 +48,13 @@
       </sections> -->
     </section>
 
+    <section address="AcceptedResult">
+      <title>Optional section title</title>
+      <content>
+        <para>Add one or more sections with content</para>
+      </content>
+    </section>
+
     <relatedTopics>
       <link xlink:href="4c02af66-f784-4908-8806-39f16ea0591e" />
     </relatedTopics>
