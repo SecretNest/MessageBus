@@ -4,80 +4,148 @@
     xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-
     <introduction>
-      <!-- Uncomment this to generate an outline of the section and sub-section
-           titles.  Specify a numeric value as the inner text to limit it to
-           a specific number of sub-topics when creating the outline.  Specify
-           zero (0) to limit it to top-level sections only.  -->
-      <!-- <autoOutline /> -->
-
-      <para>Required introduction</para>
+      <para>A sequence of subscribers is executing upon publisher requests.</para>
     </introduction>
 
-    <!-- Add one or more top-level section elements.  These are collapsible.
-         If using <autoOutline />, add an address attribute to identify it
-         and specify a title so that it can be jumped to with a hyperlink. -->
-    <section address="Section1">
-      <title>Optional section title</title>
-      <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
-      </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
-      <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-      </sections> -->
-    </section>
-
     <section address="ExecutingSequence">
-      <title>Optional section title</title>
+      <title>Executing Sequence</title>
       <content>
-        <para>Add one or more sections with content</para>
+        <para>When a request from publisher is received, a sequence of jobs is processing one by one.</para>
+        <list class="ordered">
+          <listItem>
+            <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1.ArgumentConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusPublisherOptions</codeInline>.</para>
+          </listItem>
+          <listItem>
+            <para>Clones the sequence of the current linked subscribers.</para>
+            <!-- ReSharper disable once MarkupTextTypo -->
+            <alert class="note"><para>The cloning process is taken before processing each subscriber. Therefore, registering or unregistering subscriber does never interfere the sequences that are executing.</para></alert>
+          </listItem>
+          <listItem>
+            <para>For each sequence:</para>
+            <list class="ordered">
+              <listItem>
+                <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`1.ArgumentConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
+              </listItem>
+              <listItem>
+                <para>Runs the callback of the subscriber.</para>
+              </listItem>
+              <listItem>
+                <list class="bullet">
+                  <listItem>
+                    <para>If the subscriber has return value:</para>
+                    <list class="ordered">
+                      <listItem>
+                        <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`2.ResultCheckingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
+                      </listItem>
+                      <listItem>
+                        <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`2.ReturnValueConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
+                      </listItem>
+                    </list>
+                  </listItem>
+                  <listItem>
+                    <para>If the subscriber do NOT have return value: Checks <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.IsFinal</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
+                  </listItem>
+                </list>
+              </listItem>
+              <listItem>
+                <para>Determines whether the result is accepted.</para>
+              </listItem>
+            </list>
+          </listItem>
+          <listItem>
+            <para>For each left sequence which need to be execute (<codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptionsBase.IsAlwaysExecuteAll</codeEntityReference> in <codeInline>MessageBusPublisherOptions</codeInline> or <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.IsAlwaysExecution</codeEntityReference> in <codeInline>MessageBusSubscriberOptions</codeInline>):</para>
+            <list class="ordered">
+              <listItem>
+                <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`1.ArgumentConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
+              </listItem>
+              <listItem>
+                <para>Runs the callback of the subscriber.</para>
+              </listItem>
+            </list>
+          </listItem>
+          <listItem>
+            <list class="bullet">
+              <listItem>
+                <para>If the executor need return value:</para>
+                <list class="ordered">
+                  <listItem>
+                    <list class="bullet">
+                      <listItem>
+                        <para>If accepted result is generated from one subscriber: Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2.ReturnValueConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusPublisherOptions</codeInline>.</para>
+                      </listItem>
+                      <listItem>
+                        <para>If accepted result is NOT generated from one subscriber: Takes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2.DefaultReturnValue</codeEntityReference> defined in <codeInline>MessageBusPublisherOptions</codeInline>.</para>
+                      </listItem>
+                    </list>
+                  </listItem>
+                  <listItem>
+                    <para>Returns the value.</para>
+                  </listItem>
+                </list>
+              </listItem>
+              <listItem>
+                <para>If the executor do NOT need return value: Returns.</para>
+              </listItem>
+            </list>
+          </listItem>
+        </list>
+        <alert class="note">
+          <para>Synchronous and Asynchronous callings are both supported. Check <link xlink:href="5df5be11-e1c0-4f83-9607-134a06f727ec#SyncAsync">Sync / Async</link> for details.</para>
+        </alert>
       </content>
     </section>
 
     <section address="MessageInstance">
-      <title>Optional section title</title>
+      <title>Message Instance</title>
       <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
+        <para>An instance of <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageInstance</codeEntityReference> is creates every time the publisher requests.</para>
+        <para>The instance of <codeInline>MessageInstance</codeInline> contains an unique id that is different for each execution requested from executor and the message name. When <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstance.IsSubscriberReturnValueAccepted</codeEntityReference> is <codeInline>true / True</codeInline>, the instance contains the id and the returned value (if available) from the subscriber which generated the accepted return value.</para>
       </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
       <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
+          <section address="GetMessageInstance">
+              <title>Get Message Instance</title>
               <content>
-                  <para>Sub-section content.</para>
+                <para>Subscribers can get the instance of <codeInline>MessageInstance</codeInline> through the parameter. When required, defines the method with the right signature. See <link xlink:href="ffa0c276-7f2a-4a36-8689-656502d5a9b4#Register">Subscriber Register</link> for details.</para>
+                <para>After publisher executed, the instance of <codeInline>MessageInstance</codeInline> can be returned in 3 ways:</para>
+                <list class ="bullet">
+                  <listItem>
+                    <para>After <codeInline>ExecuteAndGetMessageInstance</codeInline> (<codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`1.ExecuteAndGetMessageInstance(`0,SecretNest.MessageBus.MessageInstance@)</codeEntityReference> and <codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`2.ExecuteAndGetMessageInstance(`0,SecretNest.MessageBus.MessageInstance@)</codeEntityReference>) called, the instance of <codeInline>MessageInstance</codeInline> is placed as the 2nd parameter.</para>
+                  </listItem>
+                  <listItem>
+                    <para>After <codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`1.ExecuteAndGetMessageInstanceAsync(`0,System.Nullable{System.Threading.CancellationToken})</codeEntityReference> called, the instance of <codeInline>MessageInstance</codeInline> is wrapped in the task returned.</para>
+                  </listItem>
+                  <listItem>
+                    <para>After <codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageExecutorBase`2.ExecuteAndGetMessageInstanceAsync(`0,System.Nullable{System.Threading.CancellationToken})</codeEntityReference> called, the instance of <codeInline>MessageInstance</codeInline> is placed as <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstanceWithExecutorResult`1.MessageInstance</codeEntityReference>, which is wrapped in the task returned.</para>
+                  </listItem>
+                </list>
               </content>
           </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
+          <section address="GetMessageInstanceValue">
+              <title>Get Return Value from Message Instance</title>
               <content>
-                  <para>Sub-section content.</para>
+                <list class="bullet">
+                  <listItem>
+                    <para>When <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstance.IsSubscriberReturnValueAccepted</codeEntityReference> is <codeInline>true / True</codeInline>, the instance contains the id and the returned value (if available) from the subscriber which generated the accepted return value. Converts the instance into <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageInstanceWithReturnValueBase</codeEntityReference> for further checking:</para>
+                  </listItem>
+                  <listItem>
+                    <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstanceWithReturnValueBase.SubscriberReturnValueType</codeEntityReference> is <codeInline>void</codeInline>, the type of the instance is <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstanceWithVoidReturnValue.SubscriberReturnValueType</codeEntityReference>. There is no value included due to void returned.</para>
+                  </listItem>
+                  <listItem>
+                    <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstanceWithReturnValueBase.SubscriberReturnValueType</codeEntityReference> is <codeInline>null / Nothing</codeInline>, the type of the instance is <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstanceWithReturnValue.SubscriberReturnValueType</codeEntityReference>. The return value is included but the type is unclear because it is converted by <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`2.ReturnValueConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
+                  </listItem>
+                  <listItem>
+                    <para>Otherwise, the type of the instance is <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.MessageInstanceWithReturnValue`1.SubscriberReturnValueType</codeEntityReference>, including the value generated from the subscriber.</para>
+                  </listItem>
+                </list>
+                <para>Otherwise, </para>
+                <alert class="note">
+                  <para>The value stored in the instance of <codeInline>MessageInstance</codeInline> is from the subscriber. The value is not converted by the <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2.ReturnValueConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusPublisherOptions</codeInline>.</para>
+                  <para>When the default value is returned, the instance of <codeInline>MessageInstance</codeInline> does not contains any return value.</para>
+                </alert>
               </content>
           </section>
-      </sections> -->
+      </sections>
     </section>
 
     <relatedTopics>
