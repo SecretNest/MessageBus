@@ -37,7 +37,7 @@
         <section address="MatchingString">
           <title>String Matching</title>
           <content>
-            <para>When subscriber is registered with an instance of<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithStringComparison</codeEntityReference>, <codeEntityReference qualifyHint="false">T:System.StringComparison</codeEntityReference> can be specified to be used in comparison. The default value is <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>.</para>
+            <para>When subscriber is registered with an instance of <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithStringComparison</codeEntityReference>, <codeEntityReference qualifyHint="false">T:System.StringComparison</codeEntityReference> can be specified to be used in comparison. The default value is <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>.</para>
             <para>In this case, <quoteInline>HELLO</quoteInline> is matched with <quoteInline>Hello</quoteInline>, which is indicated with publisher registering, based on <codeEntityReference qualifyHint="false">F:System.StringComparison.OrdinalIgnoreCase</codeEntityReference>. This subscriber will be executed.</para>
             <codeReference>Naming#IgnoreCase</codeReference>
           </content>
@@ -46,7 +46,7 @@
           <title>All Matching</title>
           <content>
             <para>When an instance of <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingAll</codeEntityReference> is provided, the subscriber hooks all publishers, including existing and to be registered later.</para>
-            <codeReference>Naming#All</codeReference>
+            <codeReference>Naming#MatchAll</codeReference>
           </content>
         </section>
         <section address="MatchingRegEx">

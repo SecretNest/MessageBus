@@ -4,55 +4,142 @@
     xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-
     <introduction>
-      <!-- Uncomment this to generate an outline of the section and sub-section
-           titles.  Specify a numeric value as the inner text to limit it to
-           a specific number of sub-topics when creating the outline.  Specify
-           zero (0) to limit it to top-level sections only.  -->
-      <!-- <autoOutline /> -->
-
-      <para>Required introduction</para>
+      <para>Publisher is the component (delegate) which to be run when publisher requests.</para>
     </introduction>
 
-    <!-- Add one or more top-level section elements.  These are collapsible.
-         If using <autoOutline />, add an address attribute to identify it
-         and specify a title so that it can be jumped to with a hyperlink. -->
-    <section address="Section1">
-      <title>Optional section title</title>
+    <section address="Register">
+      <title>Register</title>
       <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Add one or more sections with content</para>
+        <para>Uses <codeInline>RegisterSubscriber</codeInline> method of the <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageBus</codeEntityReference> instance to register a subscriber.</para>
+        <para><codeInline>RegisterSubscriber</codeInline> method requires 3 arguments.</para>
+        <list class="ordered">
+          <listItem>
+            <para>Message name matcher: Choose from a string for matching exactly, or an instance of derived class of <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatcherBase</codeEntityReference>. There are 3 built-in matcher classes:</para>
+            <list class="bullet">
+              <listItem>
+                <para><codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithStringComparison</codeEntityReference>: Matching using the comparer specified by <codeEntityReference qualifyHint="false">T:System.StringComparison</codeEntityReference>.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingAll</codeEntityReference>: Matching all publishers.</para>
+              </listItem>
+              <listItem>
+                <para><codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageNameMatching.MessageNameMatchingWithRegularExpression</codeEntityReference>: Matching based on regular expression specified.</para>
+              </listItem>
+            </list>
+            <para>See <link xlink:href="d7081600-72be-4eac-928d-6bd753efab2f#Matching">Matching Method</link> for details.</para>
+          </listItem>
+          <listItem>
+            <para>A method callback: The method is run when publisher requests.</para>
+            <para>The method can be in synchronous or asynchronous model.
+            </para>
+            <list class="bullet">
+              <listItem>
+                <para>Synchronous model:</para>
+                <!-- ReSharper disable once MarkupAttributeTypo -->
+                <list class="nobullet">
+                  <listItem>
+                    <para>The 1st parameter: The method must have one parameter for receiving argument passed from publisher.</para>
+                    <para>The 2nd parameter: The method can have an optional parameter in <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageInstance</codeEntityReference> type to receive the information of the current executing. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#MessageInstance">Message Instance</link> for details.</para>
+                    <para>Return: The method can have return type or not.</para>
+                  </listItem>
+                </list>
+              </listItem>
+              <listItem>
+                <para>Asynchronous model:</para>
+                <!-- ReSharper disable once MarkupAttributeTypo -->
+                <list class="nobullet">
+                  <listItem>
+                    <para>The 1st parameter: The method must have one parameter for receiving argument passed from publisher.</para>
+                    <para>The 2nd parameter: The method can have an optional parameter in <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageInstance</codeEntityReference> type to receive the information of the current executing. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#MessageInstance">Message Instance</link> for details.</para>
+                    <para>The last parameter: The method must have one parameter in <codeInline>System.Threading.CancellationToken</codeInline> type.</para>
+                    <para>Return: The method can have return type as <codeInline>Task</codeInline> or a generic of Task (<codeInline>Task&lt;T&gt; / Task(Of T)</codeInline>).</para>
+                  </listItem>
+                </list>
+              </listItem>
+            </list>
+            <para></para>
+          </listItem>
+        </list>
+        <para>To modify the behaviour of the subscriber, an instance of <codeInline>MessageBusSubscriberOptions</codeInline>(<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`2</codeEntityReference>) can be specified. Default behavior is used when no option supplied. See <link xlink:href="#Option">Option</link> block for details.</para>
+        <para>An instance of <codeInline>SubscriberTicket</codeInline> (<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.SubscriberTicket`2</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.SubscriberTicket`3</codeEntityReference>) is returned after <codeInline>RegisterSubscriber</codeInline> called, containing an id for identity, parameter and return types, name matcher, whether the callback is in asynchronous mode, the callback and the instance of the option provided with registering if presents.</para>
+        <!-- ReSharper disable MarkupTextTypo -->
+        <para>Subscriber can be unregistered when no longer needed. Calls <codeInline>UnregisterSubscriber</codeInline> method to unregister the subscriber by the ticket or id specified.</para>
+        <!-- ReSharper enable MarkupTextTypo -->
       </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
-      <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-      </sections> -->
     </section>
 
     <section address="AcceptedResult">
-      <title>Optional section title</title>
+      <title>Accepted Result</title>
       <content>
-        <para>Add one or more sections with content</para>
+        <alert class="important">
+          <para>MessageBus has different behaviour in this than many other publishing subscription model frameworks by default.</para>
+        </alert>
+        <para>By default, the executing is stopped after one subscriber is called every time when publisher requests unless the <link xlink:href="5df5be11-e1c0-4f83-9607-134a06f727ec#OptionIsAlwaysExecuteAll">IsAlwaysExecuteAll</link> is set as the option while the publisher registering. This behaviour can be modified by setting <codeInline>MessageBusSubscriberOptions</codeInline>. Setting it makes MessageBus behave like most publishing subscription model frameworks.</para>
+        <para>For the subscriber without return value, if the <link xlink:href="#OptionalIsFinal">IsFinal</link> is set to <codeInline>false / False</codeInline>, the result (void) from this subscriber is not treated as accepted. For the subscriber with return value, the <link xlink:href="#OptionalResultCheckingCallback">ResultCheckingCallback</link> could mark the return value not accepted as well. Therefore the next subscriber is called next.</para>
+        <para>For all subscribers marked by <link xlink:href="#OptionIsAlwaysExecution">IsAlwaysExecution</link> are always executed no matter the result is generated by previous ones or not.</para>
+        <para>When the accepted result is generated by previous subscribers, all return value from the followings which need to be executed is ignored. Therefore, no <link xlink:href="#OptionalResultCheckingCallback">ResultCheckingCallback</link> or <link xlink:href="#OptionalResultCheckingCallback">ReturnValueConvertingCallback</link> is invoked.</para>
       </content>
+    </section>
+
+    <section address="Option">
+      <title>Option</title>
+      <content>
+        <para>To modify the behaviour of the publisher, specifies an instance of <codeInline>MessageBusSubscriberOptions</codeInline>(<codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`1</codeEntityReference> or <codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`2</codeEntityReference>) while <link xlink:href="#Register">registering</link>.</para>
+      </content>
+      <sections>
+        <section address="OptionSequence">
+          <title>Sequence</title>
+          <content>
+            <para>Subscribers are ordered by sequence set by <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.Sequence</codeEntityReference>. The default value is 0. Sequences with lower sequence number run earlier. The executing order of sequences with the same sequence number is indeterminate.</para>
+            <codeReference>ArgumentMatching#All</codeReference>
+          </content>
+        </section>
+        <section address="OptionIsAlwaysExecution">
+          <title>IsAlwaysExecution</title>
+          <content>
+            <para>Subscribers set with <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.IsAlwaysExecution</codeEntityReference> are always executed no matter the result is generated by previous ones or not. When the accepted result is generated by previous subscribers, all return value from the followings which need to be executed is ignored. Therefore, no <link xlink:href="#OptionalResultCheckingCallback">ResultCheckingCallback</link> or <link xlink:href="#OptionalResultCheckingCallback">ReturnValueConvertingCallback</link> is invoked.</para>
+            <codeReference>SubscriberForceExecuting#All</codeReference>
+            <para>In the demo above, the subscriber registered as <codeInline>subscriberForceTicket</codeInline> is marked to be run always.</para>
+            <codeReference>SubscriberForceExecuting#Subscriber</codeReference>
+          </content>
+        </section>
+        <section address="OptionalIsFinal">
+          <title>IsFinal</title>
+          <content>
+            <alert class="note"><para>This option is available only for the subscriber without return value.</para></alert>
+            <para>When the <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.IsFinal</codeEntityReference> is set to <codeInline>false / False</codeInline>, the return value (void) from this saubscriber is not treated as acceptable.</para>
+          </content>
+        </section>
+        <section address="OptionalArgumentConvertingCallback">
+          <title>ArgumentConvertingCallback</title>
+          <content>
+            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`1.ArgumentConvertingCallback</codeEntityReference> is specified, the callback is invoked to convert the argument the before subscriber executing.</para>
+            <codeReference>ArgumentMatchingWithSubscriberConverter#All</codeReference>
+            <para>In the demo above, the subscriber registered as <codeInline>subscriber1000Ticket</codeInline> is set with this conversion function.</para>
+            <codeReference>ArgumentMatchingWithSubscriberConverter#Subscriber</codeReference>
+          </content>
+        </section>
+        <section address="OptionalResultCheckingCallback">
+          <title>ResultCheckingCallback</title>
+          <content>
+            <alert class="note"><para>This option is available only for the subscriber with return value.</para></alert>
+            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`2.ResultCheckingCallback</codeEntityReference> is specified, the callback is invoked to check whether message should be returned instead of executing subsequent subscribers. See <link xlink:href="#AcceptedResult">Accepted Result</link> for details.</para>
+            <codeReference>ArgumentMatching#All</codeReference>
+            <para>In the demo above, the subscribers registered as <codeInline>subscriber1000Ticket</codeInline> and <codeInline>subscriber100Ticket</codeInline> is set with a checker callback to check whether the return value is larger than 0. Therefore, when these methods return 0, the return value is not treated as accepatable and the following subscribers continue to be executed.</para>
+          </content>
+        </section>
+        <section address="OptionalReturnValueConvertingCallback">
+          <title>ReturnValueConvertingCallback</title>
+          <content>
+            <alert class="note"><para>This option is available only for the subscriber with return value.</para></alert>
+            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`2.ReturnValueConvertingCallback</codeEntityReference> is specified, the callback is invoked to convert the return value before returning to publisher.</para>
+            <codeReference>ArgumentMatchingWithSubscriberConverter#All</codeReference>
+            <para>In the demo above, the subscriber registered as <codeInline>subscriber1000Ticket</codeInline> is set with this conversion function.</para>
+            <codeReference>ArgumentMatchingWithSubscriberConverter#Subscriber</codeReference>
+          </content>
+        </section>
+      </sections>
     </section>
 
     <relatedTopics>

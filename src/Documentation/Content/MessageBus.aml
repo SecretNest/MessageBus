@@ -5,6 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <introduction>
+      <!-- ReSharper disable once MarkupTextTypo -->
       <para><codeEntityReference qualifyHint="false">T:SecretNest.MessageBus.MessageBus</codeEntityReference> instance handles publishers and subscribers registering and unregistering, hosts sequences for each message name and executes message when publisher requests.</para>
     </introduction>
 

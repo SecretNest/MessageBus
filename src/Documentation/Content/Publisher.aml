@@ -100,7 +100,7 @@
         <section address="OptionArgumentConvertingCallback">
           <title>ArgumentConvertingCallback</title>
           <content>
-            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1.ArgumentConvertingCallback</codeEntityReference> is specified, the callback is called to convert the argument the when publisher executing. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#ExecutingSequence">executing sequence</link> for details.</para>
+            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`1.ArgumentConvertingCallback</codeEntityReference> is specified, the callback is invoked to convert the argument the when publisher executing. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#ExecutingSequence">executing sequence</link> for details.</para>
             <codeReference>ArgumentMatchingWithPublisherConverter#All</codeReference>
             <para>In the demo above, the publisher is registered with <codeInline>ArgumentConvertingCallback</codeInline> specified.</para>
             <codeReference>ArgumentMatchingWithPublisherConverter#Publisher</codeReference>
@@ -110,7 +110,7 @@
           <title>ReturnValueConvertingCallback</title>
           <content>
             <alert class="note"><para>This option is available only for the publisher with return value.</para></alert>
-            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2.ReturnValueConvertingCallback</codeEntityReference> is specified, the callback is called to convert the return value before publisher returning. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#ExecutingSequence">executing sequence</link> for details.</para>
+            <para>If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptions`2.ReturnValueConvertingCallback</codeEntityReference> is specified, the callback is invoked to convert the return value before publisher returning. See <link xlink:href="f3337e00-1217-4b91-be9d-a85e6afdb105#ExecutingSequence">executing sequence</link> for details.</para>
             <codeReference>ArgumentMatchingWithPublisherConverter#All</codeReference>
             <para>In the demo above, the publisher is registered with <codeInline>ReturnValueConvertingCallback</codeInline> specified.</para>
             <codeReference>ArgumentMatchingWithPublisherConverter#Publisher</codeReference>
