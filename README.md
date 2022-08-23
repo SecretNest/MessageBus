@@ -13,4 +13,5 @@ netstandard 1.3
 ## Nuget Packages
 
 [MessageBus](https://www.nuget.org/packages/SecretNest.MessageBus)
+
 [SecretNest.MessageBus.Abstractions](https://www.nuget.org/packages/SecretNest.MessageBus.Abstractions)
