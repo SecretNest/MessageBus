@@ -18,7 +18,7 @@
           <listItem><para>Async and sync methods calling.</para></listItem>
           <listItem><para>Getting result value and source of current executing in subscribers and publisher.</para></listItem>
         </list>
-				<para>Message Bus also support generics when registering but does not use type for matching. Publishers and subscribers are grouped by message name only.</para>
+				<para>Message Bus supports generics when registering but does not use type for matching. Publishers and subscribers are grouped by message name only. Explicit conversions are taken while calling subscribers and returning to publisher.</para>
       </content>
     </section>
 
