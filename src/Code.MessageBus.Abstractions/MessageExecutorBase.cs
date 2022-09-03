@@ -20,7 +20,7 @@ namespace SecretNest.MessageBus
         /// Executes with the argument provided.
         /// </summary>
         /// <param name="argument">Argument.</param>
-        public abstract void Execute(TParameter argument);
+        public abstract void Execute(TParameter? argument);
 
         /// <summary>
         /// Asynchronously executes with the argument provided.
@@ -43,7 +43,7 @@ namespace SecretNest.MessageBus
         /// <param name="argument">Argument.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see langword="null"/>.</param>
         /// <returns>A task that represents the asynchronous operation, which wraps the instance information of this executing.</returns>
-        public abstract Task<MessageInstance> ExecuteAndGetMessageInstanceAsync(TParameter argument, CancellationToken? cancellationToken = default);
+        public abstract Task<MessageInstance> ExecuteAndGetMessageInstanceAsync(TParameter? argument, CancellationToken? cancellationToken = default);
     }
 
     /// <summary>

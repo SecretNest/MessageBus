@@ -9,6 +9,9 @@
     <Import_RootNamespace>SecretNest.MessageBus</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Publisher.ExecuteOnce.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Publisher.ExecuteOnce.Return.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Publisher.ExecuteOnce.NoReturn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Core.Sequencer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageBus.Core.Subscriber.Pool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageBus.cs" />

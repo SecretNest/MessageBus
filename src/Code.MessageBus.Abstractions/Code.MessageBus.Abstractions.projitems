@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Delegates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Publisher.ExecuteOnce.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Publisher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageBusBase.Subscriber.Async.NoReturn.cs" />

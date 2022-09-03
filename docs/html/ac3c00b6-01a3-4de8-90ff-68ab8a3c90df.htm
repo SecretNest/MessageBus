@@ -43,6 +43,7 @@ publisherTicket.Executor.Execute(text)</code></pre></div></div><p>When <a href="
 
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> publisherTicket = bus.RegisterPublisher&lt;<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>, <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">int</span>&gt;(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"Hello"</span>); 
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> returnValue = publisherTicket.Executor.Execute(text);
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: returnValue == 100</span>
 
     bus.UnregisterPublisher(publisherTicket);
     bus.UnregisterSubscriber(subscriberTicket);
@@ -60,6 +61,7 @@ publisherTicket.Executor.Execute(text)</code></pre></div></div><p>When <a href="
 
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> publisherTicket = bus.RegisterPublisher(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Of</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">String</span>, <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Integer</span>)(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"Hello"</span>)
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> returnValue = publisherTicket.Executor.Execute(text)
+<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">    'after being executed: returnValue = 100</span>
 
     bus.UnregisterPublisher(publisherTicket)
     bus.UnregisterSubscriber(subscriberTicket)

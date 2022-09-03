@@ -83,6 +83,41 @@
       </sections>
     </section>
 
+    <section address="ExecuteOnce">
+      <title>Execute Once</title>
+      <content>
+        <para>By creating publisher ticket and run from the executor, reusable information is saved for multiple calling but saving the costs time and memory. <codeInline>ExecuteOnce</codeInline> methods provide easier and more effective way to run the message which only need to be run once by design.</para>
+        <para><codeInline>ExecuteOnce</codeInline> methods includes:</para>
+        <list class="bullet">
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnceWithReturn``2(System.String,``0,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0,``1})</codeEntityReference></para>
+          </listItem>
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnceAndGetMessageInstanceWithReturn``2(System.String,``0,SecretNest.MessageBus.MessageInstance@,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0,``1})</codeEntityReference></para>
+          </listItem>
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnceWithReturnAsync``2(System.String,``0,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0,``1},System.Nullable{System.Threading.CancellationToken})</codeEntityReference></para>
+          </listItem>
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnceAndGetMessageInstanceWithReturnAsync``2(System.String,``0,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0,``1},System.Nullable{System.Threading.CancellationToken})</codeEntityReference></para>
+          </listItem>
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnce``1(System.String,``0,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0})</codeEntityReference></para>
+          </listItem>
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnceAndGetMessageInstance``1(System.String,``0,SecretNest.MessageBus.MessageInstance@,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0})</codeEntityReference></para>
+          </listItem>
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnceAsync``1(System.String,``0,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0},System.Nullable{System.Threading.CancellationToken})</codeEntityReference></para>
+          </listItem>
+          <listItem>
+            <para><codeEntityReference qualifyHint="false" autoUpgrade="true">M:SecretNest.MessageBus.MessageBus.ExecuteOnceAndGetMessageInstanceAsync``1(System.String,``0,SecretNest.MessageBus.Options.MessageBusPublisherOptions{``0},System.Nullable{System.Threading.CancellationToken})</codeEntityReference></para>
+          </listItem>
+        </list>
+        <para>These methods are similar to ones defined in <link xlink:href="#Executor">Executor</link> with message name specified.</para>
+      </content>
+    </section>
+
     <section address="Option">
       <title>Option</title>
       <content>

@@ -24,9 +24,10 @@
     {
         e100Async = e;
     }
-    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after execute: e100Async is OperationCanceledException</span>
 
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> result5BAsync = await publisherTicket.Executor.ExecuteAsync(80);
+
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: result1000 == 1000, result100 == 100, result5 == 5, e100Async is OperationCanceledException, result5BAsync == 5</span>
 
     bus.UnregisterPublisher(publisherTicket);
     bus.UnregisterSubscriber(subscriber1000Ticket);
@@ -70,8 +71,9 @@
                 e100Async = ex
             <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Try</span>
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Using</span>
-<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">        'after execute: e100Async is OperationCanceledException</span>
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result5BAsync = Await publisherTicket.Executor.ExecuteAsync(80)
+<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+        'after being executed: result1000 = 1000, result100 = 100, result5 = 5, e100Async is OperationCanceledException, result5BAsync = 5</span>
 
         bus.UnregisterPublisher(publisherTicket)
         bus.UnregisterSubscriber(subscriber1000Ticket)
@@ -94,14 +96,13 @@
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Else</span>
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Return</span> 0
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">If</span>
-<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Function</span></code></pre></div></div></div><h2 id="Option" class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Option</h2><div id="IDDABSection"><p>To modify the behaviour of the publisher, specifies an instance of <span class="code">MessageBusPublisherOptions</span>(<a href="T_SecretNest_MessageBus_Options_MessageBusPublisherOptions_1.htm">MessageBusPublisherOptions<span id="LST60E631DC_8" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>TParameter<span id="LST60E631DC_9" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a> or <a href="T_SecretNest_MessageBus_Options_MessageBusPublisherOptions_2.htm">MessageBusPublisherOptions<span id="LST60E631DC_10" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>TParameter, TReturn<span id="LST60E631DC_11" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a>) while <a href="#Register">registering</a>.</p><h4 id="OptionIsAlwaysExecuteAll" class="quickLinkHeader">IsAlwaysExecuteAll</h4><p>When <a href="P_SecretNest_MessageBus_Options_MessageBusPublisherOptionsBase_IsAlwaysExecuteAll.htm">IsAlwaysExecuteAll</a> is set, all subscribers linked with this message name should be executed regardless of the result of the subscribers those have been executed by this instance.</p><div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-CSharp"><span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">public</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">void</span> TestMethod()
+<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Function</span></code></pre></div></div></div><h2 id="ExecuteOnce" class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Execute Once</h2><div id="IDDABSection"><p>By creating publisher ticket and run from the executor, reusable information is saved for multiple calling but saving the costs time and memory. <span class="code">ExecuteOnce</span> methods provide easier and more effective way to run the message which only need to be run once by design.</p><p><span class="code">ExecuteOnce</span> methods includes:</p><ul><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnceWithReturn.htm">ExecuteOnceWithReturn</a></p></li><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnceAndGetMessageInstanceWithReturn.htm">ExecuteOnceAndGetMessageInstanceWithReturn</a></p></li><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnceWithReturnAsync.htm">ExecuteOnceWithReturnAsync</a></p></li><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnceAndGetMessageInstanceWithReturnAsync.htm">ExecuteOnceAndGetMessageInstanceWithReturnAsync</a></p></li><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnce.htm">ExecuteOnce</a></p></li><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnceAndGetMessageInstance.htm">ExecuteOnceAndGetMessageInstance</a></p></li><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnceAsync.htm">ExecuteOnceAsync</a></p></li><li><p><a href="Overload_SecretNest_MessageBus_MessageBus_ExecuteOnceAndGetMessageInstanceAsync.htm">ExecuteOnceAndGetMessageInstanceAsync</a></p></li></ul><p>These methods are similar to ones defined in <a href="#Executor">Executor</a> with message name specified.</p></div><h2 id="Option" class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Option</h2><div id="IDEABSection"><p>To modify the behaviour of the publisher, specifies an instance of <span class="code">MessageBusPublisherOptions</span>(<a href="T_SecretNest_MessageBus_Options_MessageBusPublisherOptions_1.htm">MessageBusPublisherOptions<span id="LST60E631DC_8" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>TParameter<span id="LST60E631DC_9" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a> or <a href="T_SecretNest_MessageBus_Options_MessageBusPublisherOptions_2.htm">MessageBusPublisherOptions<span id="LST60E631DC_10" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>TParameter, TReturn<span id="LST60E631DC_11" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a>) while <a href="#Register">registering</a>.</p><h4 id="OptionIsAlwaysExecuteAll" class="quickLinkHeader">IsAlwaysExecuteAll</h4><p>When <a href="P_SecretNest_MessageBus_Options_MessageBusPublisherOptionsBase_IsAlwaysExecuteAll.htm">IsAlwaysExecuteAll</a> is set, all subscribers linked with this message name should be executed regardless of the result of the subscribers those have been executed by this instance.</p><div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-CSharp"><span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">public</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">void</span> TestMethod()
 {
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">using</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> bus = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">new</span> MessageBus();
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> subscriberExact1Ticket = bus.RegisterSubscriber&lt;<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>&gt;(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"Hello"</span>, SubscriberExact1);
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> subscriberExact2Ticket = bus.RegisterSubscriber&lt;<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>&gt;(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"hello"</span>, SubscriberExact2);
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> subscriberIgnoreCaseTicket = bus.RegisterSubscriber&lt;<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>&gt;(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">new</span> MessageNameMatchingWithStringComparison(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"HELLO"</span>, StringComparison.OrdinalIgnoreCase), SubscriberIgnoreCase);
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> subscriberAllTicket = bus.RegisterSubscriber&lt;<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>&gt;(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">new</span> MessageNameMatchingAll(), SubscriberAll);
-    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">// ReSharper disable once StringLiteralTypo</span>
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> subscriberRegEx1Ticket = bus.RegisterSubscriber&lt;<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>&gt;(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">new</span> MessageNameMatchingWithRegularExpression(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"[Hh]ello"</span>), SubscriberRegEx1);
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> subscriberRegEx2Ticket = bus.RegisterSubscriber&lt;<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>&gt;(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">new</span> MessageNameMatchingWithRegularExpression(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"hello"</span>), SubscriberRegEx2);
 
@@ -118,7 +119,7 @@
     bus.UnregisterSubscriber(subscriberRegEx1Ticket);
     bus.UnregisterSubscriber(subscriberRegEx2Ticket);
 
-    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after execute: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.</span>
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.</span>
 }
 
 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">private</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">string</span>? _exact1, _exact2, _ignoreCase, _all, _regex1 , _regex2;
@@ -157,7 +158,6 @@
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> subscriberExact2Ticket = bus.RegisterSubscriber(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Of</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">String</span>)(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"hello"</span>, <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">AddressOf</span> SubscriberExact2)
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> subscriberIgnoreCaseTicket = bus.RegisterSubscriber(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Of</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">String</span>)(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">New</span> MessageNameMatchingWithStringComparison(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"HELLO"</span>, StringComparison.OrdinalIgnoreCase), <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">AddressOf</span> SubscriberIgnoreCase)
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> subscriberAllTicket = bus.RegisterSubscriber(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Of</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">String</span>)(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">New</span> MessageNameMatchingAll, <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">AddressOf</span> SubscriberAll)
-<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">        ' ReSharper disable once StringLiteralTypo</span>
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> subscriberRegEx1Ticket = bus.RegisterSubscriber(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Of</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">String</span>)(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">New</span> MessageNameMatchingWithRegularExpression(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"[Hh]ello"</span>), <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">AddressOf</span> SubscriberRegEx1)
         <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> subscriberRegEx2Ticket = bus.RegisterSubscriber(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Of</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">String</span>)(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">New</span> MessageNameMatchingWithRegularExpression(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"hello"</span>), <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">AddressOf</span> SubscriberRegEx2)
 
@@ -174,7 +174,7 @@
         bus.UnregisterSubscriber(subscriberRegEx1Ticket)
         bus.UnregisterSubscriber(subscriberRegEx2Ticket)
 <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
-        'after execute: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.</span>
+        'after being executed: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.</span>
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Using</span>
 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Sub</span>
 
@@ -220,13 +220,12 @@
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> result100 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"300"</span>);
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> result5 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"80"</span>);
 
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: result1000 == 1000, result 100 == 100, result5 == 5</span>
+
+
     bus.UnregisterPublisher(publisherTicket);
     bus.UnregisterSubscriber(subscriber1000Ticket);
     bus.UnregisterSubscriber(subscriber100Ticket);
-
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"1000"</span>, result1000);
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"100"</span>, result100);
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"5"</span>, result5);
 }
 
 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">public</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">int</span> Subscriber1000(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">int</span> argument)
@@ -253,14 +252,12 @@
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result1000 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"1500"</span>)
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result100 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"300"</span>)
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result5 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"80"</span>)
+<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+    'after being executed: result1000 = 1000, result100 = 100, result5 = 5</span>
 
     bus.UnregisterPublisher(publisherTicket)
     bus.UnregisterSubscriber(subscriber1000Ticket)
     bus.UnregisterSubscriber(subscriber100Ticket)
-
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"1000"</span>, result1000)
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"100"</span>, result100)
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"5"</span>, result5)
   <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Using</span>
 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Sub</span>
 
@@ -300,13 +297,12 @@
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> result100 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"300"</span>);
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> result5 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"80"</span>);
 
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: result1000 == 1000, result 100 == 100, result5 == 5</span>
+
+
     bus.UnregisterPublisher(publisherTicket);
     bus.UnregisterSubscriber(subscriber1000Ticket);
     bus.UnregisterSubscriber(subscriber100Ticket);
-
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"1000"</span>, result1000);
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"100"</span>, result100);
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"5"</span>, result5);
 }
 
 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">public</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">int</span> Subscriber1000(<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">int</span> argument)
@@ -333,14 +329,12 @@
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result1000 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"1500"</span>)
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result100 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"300"</span>)
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result5 = publisherTicket.Executor.Execute(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"80"</span>)
+<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+    'after being executed: result1000 = 1000, result100 = 100, result5 = 5</span>
 
     bus.UnregisterPublisher(publisherTicket)
     bus.UnregisterSubscriber(subscriber1000Ticket)
     bus.UnregisterSubscriber(subscriber100Ticket)
-
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"1000"</span>, result1000)
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"100"</span>, result100)
-    Assert.AreEqual(<span class="literal" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">"5"</span>, result5)
   <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Using</span>
 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Sub</span>
 
@@ -380,17 +374,17 @@
     _haveReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">false</span>;
     _noReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">false</span>;
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> result11 = publisher1Ticket.Executor.Execute(10);
-    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after execute: _haveReturnExecuted == true; _noReturnExecuted == false;</span>
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: _haveReturnExecuted == true; _noReturnExecuted == false;</span>
 
     _haveReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">false</span>;
     _noReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">false</span>;
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> result100 = publisher2Ticket.Executor.ExecuteAndGetMessageInstance(0, <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">out</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> messageInstance1);
-    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after execute: _haveReturnExecuted == false; _noReturnExecuted == true;</span>
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: _haveReturnExecuted == false; _noReturnExecuted == true;</span>
 
     _haveReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">false</span>;
     _noReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">false</span>;
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> resultDefault = publisher3Ticket.Executor.ExecuteAndGetMessageInstance(0, <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">out</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">var</span> messageInstance2);
-    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after execute: _haveReturnExecuted == false; _noReturnExecuted == true;</span>
+    <span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">//after being executed: _haveReturnExecuted == false; _noReturnExecuted == true;</span>
 
     bus.UnregisterSubscriber(subscriberHaveReturnTicket);
     bus.UnregisterSubscriber(subscriberNoReturnNoFinalTicket);
@@ -423,19 +417,19 @@
     _haveReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">False</span>
     _noReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">False</span>
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result11 = publisher1Ticket.Executor.Execute(10)
-<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">    'after execute: _haveReturnExecuted = True, _noReturnExecuted = False</span>
+<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">    'after being executed: _haveReturnExecuted = True, _noReturnExecuted = False</span>
 
     _haveReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">False</span>
     _noReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">False</span>
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> messageInstance1 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">As</span> MessageInstance = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Nothing</span>
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> result100 = publisher2Ticket.Executor.ExecuteAndGetMessageInstance(0, messageInstance1)
-<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">    'after execute: _haveReturnExecuted = False, _noReturnExecuted = True</span>
+<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">    'after being executed: _haveReturnExecuted = False, _noReturnExecuted = True</span>
 
     _haveReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">False</span>
     _noReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">False</span>
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> messageInstance2 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">As</span> MessageInstance = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Nothing</span>
     <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Dim</span> resultDefault = publisher3Ticket.Executor.ExecuteAndGetMessageInstance(0, messageInstance2)
-<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">    'after execute: _haveReturnExecuted = False, _noReturnExecuted = True</span>
+<span class="comment" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">    'after being executed: _haveReturnExecuted = False, _noReturnExecuted = True</span>
 
     bus.UnregisterSubscriber(subscriberHaveReturnTicket)
     bus.UnregisterSubscriber(subscriberNoReturnNoFinalTicket)
@@ -454,7 +448,7 @@
 
 <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Public</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Sub</span> NoReturn(something <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">As</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Integer</span>)
   _noReturnExecuted = <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">True</span>
-<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Sub</span></code></pre></div></div><p>In the demo above, the executing of <span class="code">publisher2Ticket</span> gets the default return value specified.</p><article class="message is-warning"><div class="message-header"><p><span class="icon"><i class="fa fa-warning"></i></span>  Important</p></div><div class="message-body"><p>If any subscriber returned with <a href="ffa0c276-7f2a-4a36-8689-656502d5a9b4.htm#AcceptedResult">accepted result</a>, no matter the value is <span class="code">null / Nothing / default value</span> or not, the <span class="code">DefaultReturnValue</span> is not used.</p><p>In the demo above, the executing of <span class="code">publisher3Ticket</span> gets <span class="code">0</span> as result, which is the default value of the type <span class="code">int / Integer</span>.</p></div></article></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Other Resources</h4><div><a href="4c02af66-f784-4908-8806-39f16ea0591e.htm">Welcome to the Message Bus</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Register</a></li><li><a class="quickLink">Executor</a><ul class="menu"><li><a class="quickLink">With Return Value</a></li><li><a class="quickLink">Without Return Value</a></li><li><a class="quickLink">Sync / Async</a></li></ul></li><li><a class="quickLink">Option</a><ul class="menu"><li><a class="quickLink">IsAlwaysExecuteAll</a></li><li><a class="quickLink">ArgumentConvertingCallback</a></li><li><a class="quickLink">ReturnValueConvertingCallback</a></li><li><a class="quickLink">DefaultReturnValue</a></li></ul></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div><footer id="PageFooter" class="footer border-top py-3 fixedFooter"><div class="columns"><div class="column"> 
+<span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">End</span> <span class="keyword" xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Sub</span></code></pre></div></div><p>In the demo above, the executing of <span class="code">publisher2Ticket</span> gets the default return value specified.</p><article class="message is-warning"><div class="message-header"><p><span class="icon"><i class="fa fa-warning"></i></span>  Important</p></div><div class="message-body"><p>If any subscriber returned with <a href="ffa0c276-7f2a-4a36-8689-656502d5a9b4.htm#AcceptedResult">accepted result</a>, no matter the value is <span class="code">null / Nothing / default value</span> or not, the <span class="code">DefaultReturnValue</span> is not used.</p><p>In the demo above, the executing of <span class="code">publisher3Ticket</span> gets <span class="code">0</span> as result, which is the default value of the type <span class="code">int / Integer</span>.</p></div></article></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Other Resources</h4><div><a href="4c02af66-f784-4908-8806-39f16ea0591e.htm">Welcome to the Message Bus</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Register</a></li><li><a class="quickLink">Executor</a><ul class="menu"><li><a class="quickLink">With Return Value</a></li><li><a class="quickLink">Without Return Value</a></li><li><a class="quickLink">Sync / Async</a></li></ul></li><li><a class="quickLink">Execute Once</a></li><li><a class="quickLink">Option</a><ul class="menu"><li><a class="quickLink">IsAlwaysExecuteAll</a></li><li><a class="quickLink">ArgumentConvertingCallback</a></li><li><a class="quickLink">ReturnValueConvertingCallback</a></li><li><a class="quickLink">DefaultReturnValue</a></li></ul></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div><footer id="PageFooter" class="footer border-top py-3 fixedFooter"><div class="columns"><div class="column"> 
 				</div><div class="column"> 
 				</div></div></footer></div><script>$(function(){
 SetDefaultLanguage("cs");
