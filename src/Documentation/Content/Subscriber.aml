@@ -111,6 +111,15 @@
             <para>When the <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.IsFinal</codeEntityReference> is set to <codeInline>false / False</codeInline>, the return value (void) from this saubscriber is not treated as acceptable.</para>
           </content>
         </section>
+        <section address="OptionalConditionCheckingCallback">
+          <title>ConditionCheckingCallback</title>
+          <content>
+            <para>
+              If <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.ConditionCheckingCallback</codeEntityReference> is specified, the callback is invoked to check whether this subscriber should be executed in this instance with the argument specified.
+            </para>
+            <codeReference>ConditionMatching#All</codeReference>
+          </content>
+        </section>
         <section address="OptionalArgumentConvertingCallback">
           <title>ArgumentConvertingCallback</title>
           <content>

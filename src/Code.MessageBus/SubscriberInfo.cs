@@ -10,13 +10,14 @@ namespace SecretNest.MessageBus
 {
     internal abstract class SubscriberInfoBase
     {
-
         public Guid SubscriberId { get; set; } //set by AddSubscriberToPool
 
         public abstract MessageNameMatcherBase MessageNameMatcher { get; }
 
         public abstract int Sequence { get; }
         public abstract bool IsAlwaysExecution { get; }
+
+        public abstract Func<object?, bool>? ConditionCheckingCallback { get; }
 
         public abstract void Execute(object? argument, MessageInstanceHelper messageInstanceHelper);
         public abstract Task ExecuteAsync(object? argument, MessageInstanceHelper messageInstanceHelper, CancellationToken cancellationToken);
@@ -37,6 +38,7 @@ namespace SecretNest.MessageBus
                 IsAlwaysExecution = options.IsAlwaysExecution;
                 _isFinal = options.IsFinal;
                 _argumentConvertingCallback = options.ArgumentConvertingCallback;
+                ConditionCheckingCallback = options.ConditionCheckingCallback;
             }
             else
             {
@@ -48,6 +50,8 @@ namespace SecretNest.MessageBus
         public override int Sequence { get; }
         public override bool IsAlwaysExecution { get; }
         private readonly bool _isFinal;
+        public override Func<object?, bool>? ConditionCheckingCallback { get; }
+
         private readonly Func<object?, TParameter?>? _argumentConvertingCallback;
 
         public abstract void ExecuteInternal(TParameter? argument, MessageInstanceHelper messageInstanceHelper);
@@ -120,6 +124,7 @@ namespace SecretNest.MessageBus
                 _resultCheckingCallback = options.ResultCheckingCallback;
                 _argumentConvertingCallback = options.ArgumentConvertingCallback;
                 _returnValueConvertingCallback = options.ReturnValueConvertingCallback;
+                ConditionCheckingCallback = options.ConditionCheckingCallback;
             }
             else
             {
@@ -131,6 +136,7 @@ namespace SecretNest.MessageBus
         public override int Sequence { get; }
         public override bool IsAlwaysExecution { get; }
         private bool _isFinal { get; }
+        public override Func<object?, bool>? ConditionCheckingCallback { get; }
         private readonly Func<object?, TParameter?>? _argumentConvertingCallback;
         private readonly Func<TReturn?, object?>? _returnValueConvertingCallback;
         private readonly Func<TReturn?, bool>? _resultCheckingCallback;

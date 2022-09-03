@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿?xml version="1.0" encoding="utf-8" ?>
 <!-- This is an example code snippets file -->
 <!-- ReSharper disable MarkupTextTypo -->
 <examples>
@@ -30,9 +30,10 @@
           {
               e100Async = e;
           }
-          //after execute: e100Async is OperationCanceledException
 
           var result5BAsync = await publisherTicket.Executor.ExecuteAsync(80);
+
+          //after being executed: result1000 == 1000, result100 == 100, result5 == 5, e100Async is OperationCanceledException, result5BAsync == 5
 
           bus.UnregisterPublisher(publisherTicket);
           bus.UnregisterSubscriber(subscriber1000Ticket);
@@ -79,8 +80,9 @@
                     e100Async = ex
                 End Try
             End Using
-            'after execute: e100Async is OperationCanceledException
             Dim result5BAsync = Await publisherTicket.Executor.ExecuteAsync(80)
+
+            'after being executed: result1000 = 1000, result100 = 100, result5 = 5, e100Async is OperationCanceledException, result5BAsync = 5
 
             bus.UnregisterPublisher(publisherTicket)
             bus.UnregisterSubscriber(subscriber1000Ticket)

@@ -22,13 +22,12 @@
           var result100 = publisherTicket.Executor.Execute("300");
           var result5 = publisherTicket.Executor.Execute("80");
 
+          //after being executed: result1000 == 1000, result 100 == 100, result5 == 5
+
+
           bus.UnregisterPublisher(publisherTicket);
           bus.UnregisterSubscriber(subscriber1000Ticket);
           bus.UnregisterSubscriber(subscriber100Ticket);
-
-          Assert.AreEqual("1000", result1000);
-          Assert.AreEqual("100", result100);
-          Assert.AreEqual("5", result5);
       }
 
       public int Subscriber1000(int argument)
@@ -59,13 +58,11 @@
           Dim result100 = publisherTicket.Executor.Execute("300")
           Dim result5 = publisherTicket.Executor.Execute("80")
 
+          'after being executed: result1000 = 1000, result100 = 100, result5 = 5
+
           bus.UnregisterPublisher(publisherTicket)
           bus.UnregisterSubscriber(subscriber1000Ticket)
           bus.UnregisterSubscriber(subscriber100Ticket)
-
-          Assert.AreEqual("1000", result1000)
-          Assert.AreEqual("100", result100)
-          Assert.AreEqual("5", result5)
         End Using
       End Sub
 

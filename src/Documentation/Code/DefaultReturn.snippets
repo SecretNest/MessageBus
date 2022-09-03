@@ -22,17 +22,17 @@
           _haveReturnExecuted = false;
           _noReturnExecuted = false;
           var result11 = publisher1Ticket.Executor.Execute(10);
-          //after execute: _haveReturnExecuted == true; _noReturnExecuted == false;
+          //after being executed: _haveReturnExecuted == true; _noReturnExecuted == false;
       
           _haveReturnExecuted = false;
           _noReturnExecuted = false;
           var result100 = publisher2Ticket.Executor.ExecuteAndGetMessageInstance(0, out var messageInstance1);
-          //after execute: _haveReturnExecuted == false; _noReturnExecuted == true;
+          //after being executed: _haveReturnExecuted == false; _noReturnExecuted == true;
 
           _haveReturnExecuted = false;
           _noReturnExecuted = false;
           var resultDefault = publisher3Ticket.Executor.ExecuteAndGetMessageInstance(0, out var messageInstance2);
-          //after execute: _haveReturnExecuted == false; _noReturnExecuted == true;
+          //after being executed: _haveReturnExecuted == false; _noReturnExecuted == true;
 
           bus.UnregisterSubscriber(subscriberHaveReturnTicket);
           bus.UnregisterSubscriber(subscriberNoReturnNoFinalTicket);
@@ -68,19 +68,19 @@
         _haveReturnExecuted = False
         _noReturnExecuted = False
         Dim result11 = publisher1Ticket.Executor.Execute(10)
-        'after execute: _haveReturnExecuted = True, _noReturnExecuted = False
+        'after being executed: _haveReturnExecuted = True, _noReturnExecuted = False
 
         _haveReturnExecuted = False
         _noReturnExecuted = False
         Dim messageInstance1 As MessageInstance = Nothing
         Dim result100 = publisher2Ticket.Executor.ExecuteAndGetMessageInstance(0, messageInstance1)
-        'after execute: _haveReturnExecuted = False, _noReturnExecuted = True
+        'after being executed: _haveReturnExecuted = False, _noReturnExecuted = True
 
         _haveReturnExecuted = False
         _noReturnExecuted = False
         Dim messageInstance2 As MessageInstance = Nothing
         Dim resultDefault = publisher3Ticket.Executor.ExecuteAndGetMessageInstance(0, messageInstance2)
-        'after execute: _haveReturnExecuted = False, _noReturnExecuted = True
+        'after being executed: _haveReturnExecuted = False, _noReturnExecuted = True
 
         bus.UnregisterSubscriber(subscriberHaveReturnTicket)
         bus.UnregisterSubscriber(subscriberNoReturnNoFinalTicket)

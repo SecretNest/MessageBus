@@ -95,9 +95,18 @@ namespace SecretNest.MessageBus
             var messageInstanceHelper = new MessageInstanceHelper(MessageName);
 
             //get the first result
-            for (; currentSubscriberIndex < subscribersCount; )
+            while (currentSubscriberIndex < subscribersCount)
             {
-                subscribers[currentSubscriberIndex].Execute(argument, messageInstanceHelper);
+                var subscriber = subscribers[currentSubscriberIndex];
+                if (subscriber.ConditionCheckingCallback != null)
+                {
+                    if (!subscriber.ConditionCheckingCallback(argument))
+                    {
+                        currentSubscriberIndex++;
+                        continue;
+                    }
+                }
+                subscriber.Execute(argument, messageInstanceHelper);
                 currentSubscriberIndex++;
                 if (messageInstanceHelper.IsSubscriberResultSet)
                 {
@@ -106,13 +115,22 @@ namespace SecretNest.MessageBus
             }
 
             //others
-            for (; currentSubscriberIndex < subscribersCount; currentSubscriberIndex++)
+            while (currentSubscriberIndex < subscribersCount)
             {
                 var subscriber = subscribers[currentSubscriberIndex];
+                if (subscriber.ConditionCheckingCallback != null)
+                {
+                    if (!subscriber.ConditionCheckingCallback(argument))
+                    {
+                        currentSubscriberIndex++;
+                        continue;
+                    }
+                }
                 if (isAlwaysExecuteAll || subscriber.IsAlwaysExecution)
                 {
                     subscriber.ExecuteForce(argument, messageInstanceHelper);
                 }
+                currentSubscriberIndex++;
             }
 
             return messageInstanceHelper;
@@ -129,10 +147,19 @@ namespace SecretNest.MessageBus
             var messageInstanceHelper = new MessageInstanceHelper(MessageName);
 
             //get the first result
-            for (; currentSubscriberIndex < subscribersCount; )
+            while (currentSubscriberIndex < subscribersCount)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await subscribers[currentSubscriberIndex].ExecuteAsync(argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
+                var subscriber = subscribers[currentSubscriberIndex];
+                if (subscriber.ConditionCheckingCallback != null)
+                {
+                    if (!subscriber.ConditionCheckingCallback(argument))
+                    {
+                        currentSubscriberIndex++;
+                        continue;
+                    }
+                }
+                await subscriber.ExecuteAsync(argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
                 currentSubscriberIndex++;
                 if (messageInstanceHelper.IsSubscriberResultSet)
                 {
@@ -141,14 +168,23 @@ namespace SecretNest.MessageBus
             }
 
             //others
-            for (; currentSubscriberIndex < subscribersCount; currentSubscriberIndex++)
+            while (currentSubscriberIndex < subscribersCount)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var subscriber = subscribers[currentSubscriberIndex];
+                if (subscriber.ConditionCheckingCallback != null)
+                {
+                    if (!subscriber.ConditionCheckingCallback(argument))
+                    {
+                        currentSubscriberIndex++;
+                        continue;
+                    }
+                }
                 if (isAlwaysExecuteAll || subscriber.IsAlwaysExecution)
                 {
                     await subscriber.ExecuteForceAsync(argument, messageInstanceHelper, cancellationToken).ConfigureAwait(false);
                 }
+                currentSubscriberIndex++;
             }
 
             return messageInstanceHelper;

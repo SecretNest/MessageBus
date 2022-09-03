@@ -24,6 +24,8 @@
           var result100 = publisherTicket.Executor.Execute(300);
           var result5 = publisherTicket.Executor.Execute(80);
 
+          //after being executed: result1000 == 1000, result 100 == 100, result5 == 5
+
           bus.UnregisterPublisher(publisherTicket);
           bus.UnregisterSubscriber(subscriber1000Ticket);
           bus.UnregisterSubscriber(subscriber100Ticket);
@@ -56,6 +58,8 @@
           Dim result1000 = publisherTicket.Executor.Execute(1000)
           Dim result100 = publisherTicket.Executor.Execute(300)
           Dim result5 = publisherTicket.Executor.Execute(80)
+
+          'after being executed: result1000 = 1000, result100 = 100, result5 = 5
 
           bus.UnregisterPublisher(publisherTicket)
           bus.UnregisterSubscriber(subscriber1000Ticket)

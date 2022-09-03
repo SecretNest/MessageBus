@@ -105,6 +105,7 @@
     <CodeSnippets Include="Code\ArgumentMatchingWithSubscriberConverter.snippets" />
     <CodeSnippets Include="Code\AsyncCall.snippets" />
     <CodeSnippets Include="Code\Bus.snippets" />
+    <CodeSnippets Include="Code\ConditionMatching.snippets" />
     <CodeSnippets Include="Code\DefaultReturn.snippets" />
     <CodeSnippets Include="Code\Hello.snippets" />
     <CodeSnippets Include="Code\HelloWithReturn.snippets" />

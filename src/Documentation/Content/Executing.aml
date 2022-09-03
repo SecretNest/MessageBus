@@ -25,6 +25,9 @@
             <para>For each sequence:</para>
             <list class="ordered">
               <listItem>
+                <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.ConditionCheckingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>. If presents and <codeInline>false / False</codeInline> returned, the subscriber is skipped.</para>
+              </listItem>
+              <listItem>
                 <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`1.ArgumentConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
               </listItem>
               <listItem>
@@ -56,6 +59,9 @@
           <listItem>
             <para>For each left sequence which need to be execute (<codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusPublisherOptionsBase.IsAlwaysExecuteAll</codeEntityReference> in <codeInline>MessageBusPublisherOptions</codeInline> or <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.IsAlwaysExecution</codeEntityReference> in <codeInline>MessageBusSubscriberOptions</codeInline>):</para>
             <list class="ordered">
+              <listItem>
+                <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.ConditionCheckingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>. If presents and <codeInline>false / False</codeInline> returned, the subscriber is skipped.</para>
+              </listItem>
               <listItem>
                 <para>Invokes <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptions`1.ArgumentConvertingCallback</codeEntityReference> defined in <codeInline>MessageBusSubscriberOptions</codeInline>.</para>
               </listItem>

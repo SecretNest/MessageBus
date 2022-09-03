@@ -12,6 +12,7 @@
 
           var publisherTicket = bus.RegisterPublisher&lt;string, int&gt;("Hello"); 
           var returnValue = publisherTicket.Executor.Execute(text);
+          //after being executed: returnValue == 100
 
           bus.UnregisterPublisher(publisherTicket);
           bus.UnregisterSubscriber(subscriberTicket);
@@ -32,6 +33,7 @@
 
           Dim publisherTicket = bus.RegisterPublisher(Of String, Integer)("Hello")
           Dim returnValue = publisherTicket.Executor.Execute(text)
+          'after being executed: returnValue = 100
 
           bus.UnregisterPublisher(publisherTicket)
           bus.UnregisterSubscriber(subscriberTicket)

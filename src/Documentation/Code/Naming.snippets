@@ -11,7 +11,6 @@
           var subscriberExact2Ticket = bus.RegisterSubscriber&lt;string&gt;("hello", SubscriberExact2);
           var subscriberIgnoreCaseTicket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), SubscriberIgnoreCase);
           var subscriberAllTicket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingAll(), SubscriberAll);
-          // ReSharper disable once StringLiteralTypo
           var subscriberRegEx1Ticket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithRegularExpression("[Hh]ello"), SubscriberRegEx1);
           var subscriberRegEx2Ticket = bus.RegisterSubscriber&lt;string&gt;(new MessageNameMatchingWithRegularExpression("hello"), SubscriberRegEx2);
 
@@ -28,7 +27,7 @@
           bus.UnregisterSubscriber(subscriberRegEx1Ticket);
           bus.UnregisterSubscriber(subscriberRegEx2Ticket);
           
-          //after execute: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.
+          //after being executed: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.
       }
 
       private string? _exact1, _exact2, _ignoreCase, _all, _regex1 , _regex2;
@@ -70,7 +69,6 @@
             Dim subscriberExact2Ticket = bus.RegisterSubscriber(Of String)("hello", AddressOf SubscriberExact2)
             Dim subscriberIgnoreCaseTicket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithStringComparison("HELLO", StringComparison.OrdinalIgnoreCase), AddressOf SubscriberIgnoreCase)
             Dim subscriberAllTicket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingAll, AddressOf SubscriberAll)
-            ' ReSharper disable once StringLiteralTypo
             Dim subscriberRegEx1Ticket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithRegularExpression("[Hh]ello"), AddressOf SubscriberRegEx1)
             Dim subscriberRegEx2Ticket = bus.RegisterSubscriber(Of String)(New MessageNameMatchingWithRegularExpression("hello"), AddressOf SubscriberRegEx2)
 
@@ -87,7 +85,7 @@
             bus.UnregisterSubscriber(subscriberRegEx1Ticket)
             bus.UnregisterSubscriber(subscriberRegEx2Ticket)
 
-            'after execute: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.
+            'after being executed: _exact1, _ignoreCase, _all and _regex1 are equal to text; _exact2 and _regex2 are not.
         End Using
     End Sub
 

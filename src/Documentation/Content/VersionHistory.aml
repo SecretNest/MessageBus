@@ -12,7 +12,11 @@ life of the project.</para>
 				<list class="bullet">
           <listItem>
             <!-- ReSharper disable once MarkupTextTypo -->
-            <para>1.0.2: Fix publisher unregister checking.</para>
+            <para>1.1: Adds <codeEntityReference qualifyHint="false">P:SecretNest.MessageBus.Options.MessageBusSubscriberOptionsBase.ConditionCheckingCallback</codeEntityReference>, </para>
+          </listItem>
+          <listItem>
+            <!-- ReSharper disable once MarkupTextTypo -->
+            <para>1.0.2: Fixes publisher unregister checking.</para>
           </listItem>
           <listItem>
             <para>1.0.1: Initial release.</para>
